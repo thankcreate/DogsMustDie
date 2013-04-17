@@ -30,7 +30,13 @@ public:
     
 	// 目前仅对安卓有效，后退时退出
 	void keyBackClicked();
+
+	CC_SYNTHESIZE(CCSprite*, m_pCatPlanet, CatPlanet);
+	CC_SYNTHESIZE(CCSprite*, m_pDogPlanet, DogPlanet);
+
+	void shakePlanets();
 };
 
 
 #endif /* defined(__DogsMustDie__StartupLayer__) */
+

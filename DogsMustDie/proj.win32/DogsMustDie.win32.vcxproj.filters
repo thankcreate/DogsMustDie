@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{b090b285-a4c4-4c18-ae9a-ad3461f78bc2}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{818f0071-bf28-424c-805f-08c79991fe5b}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{fef9b581-df4a-4434-be8a-0d23b8c41894}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
+    </Filter>
+    <Filter Include="include\Stage">
+      <UniqueIdentifier>{b0768d5f-8f3c-47db-a20e-1cbdc3306453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Stage">
+      <UniqueIdentifier>{db707ff0-e992-409a-8011-81e1756e7804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Misc">
+      <UniqueIdentifier>{dac3364e-9016-481e-b683-84efc11e4c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Misc">
+      <UniqueIdentifier>{67dac6de-3e38-492c-ac9f-696e639ddb98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Stage\Base">
+      <UniqueIdentifier>{f9d314af-84fe-4197-b77d-ffe92172a1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Stage\Base">
+      <UniqueIdentifier>{e8e613c9-9c95-4c08-9560-0bb9e6664930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Stage\Stage1">
+      <UniqueIdentifier>{0c2b560a-296c-4b38-8788-49092902f2e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Stage\Stage1">
+      <UniqueIdentifier>{62ff8f9d-32e4-4611-8022-9bbc8a3c4b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Stage\Others">
+      <UniqueIdentifier>{82833b1f-2917-41ca-953d-34c52b7578a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Stage\Others">
+      <UniqueIdentifier>{12026152-059e-49c7-b994-8ff6e9885e87}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\DogsMustDie.ico">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\CloseSelected.png">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\CloseNormal.png">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\HelloWorld.png">
+      <Filter>resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DogsMustDie.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StartupLayer.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StartupScene.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageSelectScene.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageSelectLayer.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Defines.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AudioManager.h">
+      <Filter>include\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PermissionManager.h">
+      <Filter>include\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MyUseDefaultDef.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageSelectFrameSprite.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SubStageItem.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SettingLayer.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SettingScene.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AboutLayer.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AboutScene.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageBaseScene.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageBaseLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\OptionDelegate.h">
+      <Filter>include\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageMap.h">
+      <Filter>include\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Stage1_1Scene.h">
+      <Filter>include\Stage\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Stage1_1Layer.h">
+      <Filter>include\Stage\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelpLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MyMenu.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StartupLayer.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StartupScene.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageSelectLayer.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageSelectScene.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AudioManager.cpp">
+      <Filter>source\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PermissionManager.cpp">
+      <Filter>source\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageSelectFrameSprite.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SubStageItem.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SettingLayer.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SettingScene.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AboutLayer.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AboutScene.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageBaseScene.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageBaseLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageMap.cpp">
+      <Filter>source\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Stage1_1Layer.cpp">
+      <Filter>source\Stage\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Stage1_1Scene.cpp">
+      <Filter>source\Stage\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelpLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MyMenu.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

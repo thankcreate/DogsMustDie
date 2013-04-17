@@ -42,5 +42,8 @@
 // other
 #define WIN_SIZE (CCDirector::sharedDirector()->getWinSize())
 
+// stage
+#define BIG_STAGE_COUNT 2
+#define SMALL_STAGE_COUNT 12
 
 #endif
