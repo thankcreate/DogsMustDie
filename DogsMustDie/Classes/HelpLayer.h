@@ -21,7 +21,7 @@ public:
 	void show();
 	void restore();
 	void backCallback( CCObject* pSender );
-	void onExit();
+	
 	void onEnterTransitionDidFinish();
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	bool m_bInShow; // 主要是为了防止用户连续点击

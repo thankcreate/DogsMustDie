@@ -79,11 +79,7 @@ void HelpLayer::onEnterTransitionDidFinish()
 }
 
 
-void HelpLayer::onExit()
-{
-	CCLayer::onExit();
-	CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
-}
+
 
 void HelpLayer::show()
 {

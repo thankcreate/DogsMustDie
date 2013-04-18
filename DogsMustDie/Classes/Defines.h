@@ -8,9 +8,34 @@
 
 #ifndef DogsMustDie_Header_h
 #define DogsMustDie_Header_h
-
-
 #include "cocos2d.h"
+
+
+// object type
+enum eGameObjectType
+{	
+	kGameObjectFight,
+	kGameObjectStar
+};
+
+enum eFightType
+{
+	kFightPlanet,
+	kFightTroops
+};
+
+enum eTroopsType
+{
+	kTroopsComomon,
+	kTroopsForStar
+};
+
+enum eForceSide
+{
+	kForceSideCat,
+	kForceSideDog,
+	kForceSideMiddle
+};
 
 // CCUserDefault
 #define SaveStringToXML CCUserDefault::sharedUserDefault()->setStringForKey

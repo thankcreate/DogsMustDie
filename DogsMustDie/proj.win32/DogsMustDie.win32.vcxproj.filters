@@ -43,6 +43,18 @@
     <Filter Include="include\Stage\Others">
       <UniqueIdentifier>{12026152-059e-49c7-b994-8ff6e9885e87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\Sprite">
+      <UniqueIdentifier>{c72cc5ec-1805-4a54-8543-a99aaac72fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Sprite">
+      <UniqueIdentifier>{5b13def9-358e-468a-9493-c6b9bc8b87c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Sprite\Planet">
+      <UniqueIdentifier>{30c07bea-d35d-46ab-973f-c58f8f10dd66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Sprite\Planet">
+      <UniqueIdentifier>{67a61d6b-64cd-449f-a923-37742f7f62dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\DogsMustDie.ico">
@@ -139,6 +151,27 @@
     <ClInclude Include="..\Classes\MyMenu.h">
       <Filter>include\Stage\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameObject.h">
+      <Filter>include\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FightObject.h">
+      <Filter>include\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Planet.h">
+      <Filter>include\Sprite\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CatPlanet.h">
+      <Filter>include\Sprite\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DogPlanet.h">
+      <Filter>include\Sprite\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LineLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StarObject.h">
+      <Filter>include\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -203,6 +236,27 @@
     </ClCompile>
     <ClCompile Include="..\Classes\MyMenu.cpp">
       <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject.cpp">
+      <Filter>source\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\FightObject.cpp">
+      <Filter>source\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Planet.cpp">
+      <Filter>source\Sprite\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CatPlanet.cpp">
+      <Filter>source\Sprite\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\DogPlanet.cpp">
+      <Filter>source\Sprite\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LineLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StarObject.cpp">
+      <Filter>source\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

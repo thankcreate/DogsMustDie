@@ -51,9 +51,6 @@ bool StartupLayer::init()
 		m_pDogPlanet->setPosition(ccp(680,133));
 		this->addChild(m_pDogPlanet, 1);
 
-		
-
-
 		// 菜单
 		CCMenu* pMenu = CCMenu::create(NULL);
 		pMenu->setPosition(CCPointZero);
