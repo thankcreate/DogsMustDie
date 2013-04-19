@@ -133,14 +133,19 @@
   <ItemGroup>
     <ClInclude Include="..\Classes\AboutLayer.h" />
     <ClInclude Include="..\Classes\AboutScene.h" />
+    <ClInclude Include="..\Classes\AdViewManager.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\AudioManager.h" />
     <ClInclude Include="..\Classes\CatPlanet.h" />
+    <ClInclude Include="..\Classes\CatTroops.h" />
+    <ClInclude Include="..\Classes\CCAdView.h" />
     <ClInclude Include="..\Classes\Defines.h" />
     <ClInclude Include="..\Classes\DogPlanet.h" />
+    <ClInclude Include="..\Classes\Face.h" />
     <ClInclude Include="..\Classes\FightObject.h" />
     <ClInclude Include="..\Classes\GameObject.h" />
     <ClInclude Include="..\Classes\HelpLayer.h" />
+    <ClInclude Include="..\Classes\HelpLayerDelegate.h" />
     <ClInclude Include="..\Classes\LineLayer.h" />
     <ClInclude Include="..\Classes\MyMenu.h" />
     <ClInclude Include="..\Classes\MyUseDefaultDef.h" />
@@ -161,16 +166,21 @@
     <ClInclude Include="..\Classes\StartupLayer.h" />
     <ClInclude Include="..\Classes\StartupScene.h" />
     <ClInclude Include="..\Classes\SubStageItem.h" />
+    <ClInclude Include="..\Classes\Troops.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AboutLayer.cpp" />
     <ClCompile Include="..\Classes\AboutScene.cpp" />
+    <ClCompile Include="..\Classes\AdViewManager.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\AudioManager.cpp" />
     <ClCompile Include="..\Classes\CatPlanet.cpp" />
+    <ClCompile Include="..\Classes\CatTroops.cpp" />
+    <ClCompile Include="..\Classes\CCAdView.cpp" />
     <ClCompile Include="..\Classes\DogPlanet.cpp" />
+    <ClCompile Include="..\Classes\Face.cpp" />
     <ClCompile Include="..\Classes\FightObject.cpp" />
     <ClCompile Include="..\Classes\GameObject.cpp" />
     <ClCompile Include="..\Classes\HelpLayer.cpp" />
@@ -192,6 +202,7 @@
     <ClCompile Include="..\Classes\StartupLayer.cpp" />
     <ClCompile Include="..\Classes\StartupScene.cpp" />
     <ClCompile Include="..\Classes\SubStageItem.cpp" />
+    <ClCompile Include="..\Classes\Troops.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

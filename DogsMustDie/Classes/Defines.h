@@ -10,6 +10,8 @@
 #define DogsMustDie_Header_h
 #include "cocos2d.h"
 
+// cocos2d - box2d
+#define PTM_RATIO 24.0f
 
 // object type
 enum eGameObjectType

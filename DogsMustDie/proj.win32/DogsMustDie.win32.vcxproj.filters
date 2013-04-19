@@ -55,6 +55,24 @@
     <Filter Include="source\Sprite\Planet">
       <UniqueIdentifier>{67a61d6b-64cd-449f-a923-37742f7f62dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\Ad">
+      <UniqueIdentifier>{4956c897-7bc1-44d4-9c26-15103913a7ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Ad">
+      <UniqueIdentifier>{20ae7b0d-d5c7-4f87-9cbd-3237e941f0fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Sprite\Troops">
+      <UniqueIdentifier>{d17833a0-4a1c-4fb5-aea1-bff7b0e6add9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Sprite\Troops">
+      <UniqueIdentifier>{a142886e-834d-409d-b268-b3db7afef322}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Sprite\Face">
+      <UniqueIdentifier>{b4a87d16-22c9-434c-87c1-f0e8ae996e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Sprite\Face">
+      <UniqueIdentifier>{715ed12a-fcee-45ec-a13a-afd863cef8c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\DogsMustDie.ico">
@@ -160,9 +178,6 @@
     <ClInclude Include="..\Classes\Planet.h">
       <Filter>include\Sprite\Planet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\CatPlanet.h">
-      <Filter>include\Sprite\Planet</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\DogPlanet.h">
       <Filter>include\Sprite\Planet</Filter>
     </ClInclude>
@@ -171,6 +186,27 @@
     </ClInclude>
     <ClInclude Include="..\Classes\StarObject.h">
       <Filter>include\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AdViewManager.h">
+      <Filter>include\Ad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CCAdView.h">
+      <Filter>include\Ad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Troops.h">
+      <Filter>include\Sprite\Troops</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CatTroops.h">
+      <Filter>include\Sprite\Troops</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelpLayerDelegate.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Face.h">
+      <Filter>include\Sprite\Face</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CatPlanet.h">
+      <Filter>include\Sprite\Planet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +293,21 @@
     </ClCompile>
     <ClCompile Include="..\Classes\StarObject.cpp">
       <Filter>source\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AdViewManager.cpp">
+      <Filter>source\Ad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CCAdView.cpp">
+      <Filter>source\Ad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Troops.cpp">
+      <Filter>source\Sprite\Troops</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CatTroops.cpp">
+      <Filter>source\Sprite\Troops</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Face.cpp">
+      <Filter>source\Sprite\Face</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

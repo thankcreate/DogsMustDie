@@ -22,8 +22,19 @@ public:
 	eGameObjectType getType();
 	void setType(int input);
 
+	virtual void myUpdate(float dt);
+
 	b2Body *m_pBody;
 	b2World *m_pWorld;
+
+	float m_fTime;
+
+
+	virtual CCPoint getBox2dObjectSize();
+	void destroyInNextUpdate();
+	bool isWillBeDestoried(){return m_bWillBeDestroied;}
+private:
+	bool m_bWillBeDestroied;
 };
 
 #endif // GameObject_h__

@@ -4,7 +4,7 @@
 #include "StartupScene.h"
 #include "MyUseDefaultDef.h"
 #include "AudioManager.h"
-//#include "AdViewManager.h"
+#include "AdViewManager.h"
 using namespace cocos2d;
 
 SettingLayer::SettingLayer(void) :

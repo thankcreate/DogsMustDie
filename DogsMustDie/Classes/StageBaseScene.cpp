@@ -86,7 +86,8 @@ void StageBaseScene::showHelpLayer()
 	if(m_pHelpLayer == NULL)
 	{			
 		setHelpLayer(HelpLayer::create());		
-		this->addChild(m_pHelpLayer, 10);
+		this->addChild(m_pHelpLayer, 10);		
 	}
+	m_pHelpLayer->setDelegate(m_pStageLayer);
 	m_pHelpLayer->show();	
 }

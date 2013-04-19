@@ -1,11 +1,13 @@
 #include "HelpLayer.h"
 #include "MyMenu.h"
+#include "HelpLayerDelegate.h"
 
 
 HelpLayer::HelpLayer() :
 	m_bInShow(false),
 	m_pFrame(NULL),
-	m_pMenu(NULL)
+	m_pMenu(NULL),
+	m_pDelegate(NULL)
 {
 
 }
@@ -110,4 +112,7 @@ void HelpLayer::restore()
 	CCMoveTo* pMoveUp = CCMoveTo::create(0.4, ccp(size.width / 2, m_pFrame->boundingBox().size.height / 2 + size.height));
 	m_pColorLayer->setVisible(false);
 	m_pFrame->runAction(pMoveUp);
+
+	if(m_pDelegate)
+		m_pDelegate->helpLayerClosed();
 }

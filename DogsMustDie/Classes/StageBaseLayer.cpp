@@ -6,6 +6,11 @@
 #include "LineLayer.h"
 #include "Planet.h"
 #include "StarObject.h"
+#include "CatTroops.h"
+#include "StarObject.h"
+#include "Box2D/Box2D.h"
+#include "CatPlanet.h"
+#include "DogPlanet.h"
 
 
 StageBaseLayer::StageBaseLayer()  :
@@ -18,16 +23,24 @@ StageBaseLayer::StageBaseLayer()  :
 	m_pFrontSight(NULL),
 	m_pFromObject(NULL),
 	m_pToObject(NULL),
-	m_pStarArray(NULL)
+	m_pStarArray(NULL),
+	m_pWorld(NULL),
+	m_pUpdateArray(NULL),
+	m_bIsUpdateStopped(false),
+	m_pTroopsArray(NULL)
 {
 	setPlanetArray(CCArray::createWithCapacity(30));
 	setStarArray(CCArray::createWithCapacity(10));
+	setUpdateArray(CCArray::createWithCapacity(100));
+	setTroopsArray(CCArray::createWithCapacity(100));
 }
 
 StageBaseLayer::~StageBaseLayer()
 {
 	CC_SAFE_RELEASE(m_pPlanetArray);	
 	CC_SAFE_RELEASE(m_pStarArray);	
+	CC_SAFE_RELEASE(m_pUpdateArray);
+	CC_SAFE_RELEASE(m_pTroopsArray);
 }
 
 bool StageBaseLayer::init()
@@ -37,32 +50,18 @@ bool StageBaseLayer::init()
 	{
 		CC_BREAK_IF(!CCLayer::init());
 
-		// Bkg
-		CCSize size = WIN_SIZE;
-		CCSprite* pBkg = CCSprite::create(getBKGFileName());
-		pBkg->setPosition(ccp(size.width / 2, size.height / 2));
-		this->addChild(pBkg);
 
-		// Back
-		CCMenu* pMenu = CCMenu::create(NULL);
-		pMenu->setPosition(CCPointZero);
-		CC_BREAK_IF(! pMenu);
-		this->addChild(pMenu, kPannelLayerIndex);
-
-		CCMenuItemImage *pGobackItem = CCMenuItemImage::create(
-			"Thumb_back.png",
-			"Thumb_back_pressed.png",
-			this,
-			menu_selector(StageBaseLayer::gobackCallback));
-		CC_BREAK_IF(! pGobackItem);		
-		float iconSize = 40;
-		float margin = 0;
-		pGobackItem->setPosition(ccp(iconSize + margin, size.height - iconSize - margin));		
-		pMenu->addChild(pGobackItem);
+		initBackground();
+		initBackButton();	
 			
+
+		initWorld();
 		initLineLayer();
 		initPannel();
 		initFrontSight();
+		initPlanets();
+		// 启动Update
+		this->scheduleUpdate();
 
 		// 需要支持拖拽
 		this->setTouchEnabled(true);
@@ -71,6 +70,114 @@ bool StageBaseLayer::init()
 	} while (0);
 
 	return bRet;
+}
+
+void StageBaseLayer::initPlanets()
+{
+
+}
+
+void StageBaseLayer::makePlanet(int force, CCPoint position, int fightUnitCount, int level)
+{
+	Planet* pPlanet = NULL;
+
+	if(force == kForceSideCat)
+	{
+		pPlanet = CatPlanet::create();
+	}
+	else if(force == kForceSideDog)
+	{
+		pPlanet = DogPlanet::create();
+	}
+
+	if(!pPlanet)
+		return;
+	pPlanet->setPosition(position);
+	pPlanet->setFightUnitCount(fightUnitCount);
+
+	m_pPlanetArray->addObject(pPlanet);
+	m_pUpdateArray->addObject(pPlanet);
+	pPlanet->createBox2dObject(m_pWorld);
+	this->addChild(pPlanet, kPlanetLayerIndex);
+}
+
+void StageBaseLayer::initBackground()
+{
+	// Bkg
+	CCSize size = WIN_SIZE;
+	CCSprite* pBkg = CCSprite::create(getBKGFileName());
+	pBkg->setPosition(ccp(size.width / 2, size.height / 2));
+	this->addChild(pBkg);
+}
+
+void StageBaseLayer::initBackButton()
+{
+	CCSize size = WIN_SIZE;
+	// Back
+	CCMenu* pMenu = CCMenu::create(NULL);
+	pMenu->setPosition(CCPointZero);
+	
+	this->addChild(pMenu, kPannelLayerIndex);
+
+	CCMenuItemImage *pGobackItem = CCMenuItemImage::create(
+		"Thumb_back.png",
+		"Thumb_back_pressed.png",
+		this,
+		menu_selector(StageBaseLayer::gobackCallback));
+	
+	float iconSize = 40;
+	float margin = 0;
+	pGobackItem->setPosition(ccp(iconSize + margin, size.height - iconSize - margin));		
+	pMenu->addChild(pGobackItem);
+}
+
+void StageBaseLayer::update(float dt)
+{
+	if(m_bIsUpdateStopped)
+		return;
+
+	m_pWorld->Step(dt, 6, 1);
+	updateUpdateArray(dt);
+
+	// Troops是需要每一轮刷新其位置的
+	updateTroopsArray();
+}
+
+
+void StageBaseLayer::updateTroopsArray()
+{
+	CCObject* pObject = NULL;
+	CCARRAY_FOREACH(m_pTroopsArray, pObject)
+	{
+		Troops* pTroops = (Troops*)pObject;
+		if(pTroops->m_pBody)
+		{
+			b2Vec2 b2Pos = pTroops->m_pBody->GetPosition();
+			pTroops->setPosition(ccp(b2Pos.x * PTM_RATIO, b2Pos.y * PTM_RATIO));
+		}
+	}
+}
+
+void StageBaseLayer::updateUpdateArray(float dt)
+{
+	int i = m_pUpdateArray->count();
+	if(!m_pUpdateArray || m_pUpdateArray->count() == 0)
+		return;
+	CCObject* pObject = NULL;
+	CCARRAY_FOREACH(m_pUpdateArray, pObject)
+	{
+		GameObject* go = (GameObject*)pObject;		
+		go->myUpdate(dt);
+	}
+}
+
+void StageBaseLayer::initWorld()
+{
+	b2Vec2 gravity = b2Vec2(0.0f, -0.0f);
+	m_pWorld = new b2World(gravity);
+	m_pWorld->SetAutoClearForces(true);
+
+	m_pWorld->SetContactListener(this);
 }
 
 void StageBaseLayer::initLineLayer()
@@ -189,6 +296,11 @@ void StageBaseLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 
 void StageBaseLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
+	if(m_pFromObject && m_pToObject)
+	{
+		handleFromAndTo(m_pFromObject, m_pToObject);
+	}
+
 	if (m_pLineLayer)
 	{
 		m_pLineLayer->setStart(CCPointZero);
@@ -200,6 +312,76 @@ void StageBaseLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 		m_pFrontSight->setVisible(false);
 	setFromObject(NULL);
 	setToObject(NULL);
+}
+
+void StageBaseLayer::handleFromAndTo(CCSprite* pFrom, CCSprite* pTo)
+{
+	int startType = GET_TYPE(pFrom);
+	int endType = GET_TYPE(pTo);
+	if(startType == kGameObjectFight)
+	{
+		FightObject* pFightObject = (FightObject*) pFrom;
+		int fightType = pFightObject->getFightType();
+		int force = pFightObject->getForceSide();
+		if(fightType == kFightPlanet && force == kForceSideCat)
+		{
+			Planet* pCatPlanet = (Planet*) pFightObject;
+			if(endType == kGameObjectFight)
+			{
+				FightObject* pToFightObject = (FightObject*) pTo;
+				if(pToFightObject->getFightType() == kFightPlanet)
+				{
+					Planet* pToPlanet = (Planet*) pToFightObject;
+					sendCatTroopsToPlanet(pCatPlanet, pToPlanet);
+				}
+			}
+			else if(endType == kGameObjectStar)
+			{
+				StarObject* pStar = (StarObject*) pTo;
+				sendCatTroopsToStar(pCatPlanet, pStar);
+			}
+		}
+	}
+}
+
+void StageBaseLayer::sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
+{
+	int unitCount = fromPlanet->getFightUnitCount();
+	
+	// 每次送出一半，如果当前为1，则不送
+	if(unitCount < 2)
+		return;
+
+	// 
+	int sendCount = unitCount / 2;
+	int remainCount = unitCount - sendCount;
+
+	// 设置from
+	fromPlanet->setFightUnitCount(remainCount);
+
+	// 设置出发喵星人军团
+	CatTroops* pCatTroops = CatTroops::create();	
+	pCatTroops->setPosition(fromPlanet->getPosition());
+	pCatTroops->setFightUnitCount(sendCount);
+	pCatTroops->setHomePort(fromPlanet);
+	pCatTroops->setTargetObject(toPlanet);
+	pCatTroops->createBox2dObject(m_pWorld);
+	this->addChild(pCatTroops, kTroopsLayerIndex);
+	m_pTroopsArray->addObject(pCatTroops);
+	m_pUpdateArray->addObject(pCatTroops);
+	
+	float distance = ccpDistance(toPlanet->getPosition(), fromPlanet->getPosition());
+	CCPoint distanceVector = ccpSub(toPlanet->getPosition(), fromPlanet->getPosition());
+	
+	float absoluteSpeed = pCatTroops->getAbsoluteSpeed();
+	float b2SpeedX = absoluteSpeed / distance * distanceVector.x / PTM_RATIO;
+	float b2SpeedY = absoluteSpeed / distance * distanceVector.y / PTM_RATIO;
+	pCatTroops->m_pBody->SetLinearVelocity(b2Vec2(b2SpeedX, b2SpeedY));
+}
+
+void StageBaseLayer::sendCatTroopsToStar(Planet* fromPlanet, StarObject* toStar)
+{
+
 }
 
 void StageBaseLayer::onEnterTransitionDidFinish()
@@ -387,4 +569,132 @@ void StageBaseLayer::helpCallback( CCObject* pSender )
 {
 	if(m_pParentScene)
 		m_pParentScene->showHelpLayer();
+	m_bIsUpdateStopped = true;
+}
+
+void StageBaseLayer::helpLayerClosed()
+{
+	m_bIsUpdateStopped = false;
+}
+
+void StageBaseLayer::BeginContact( b2Contact* contact )
+{
+	void* pRawA = contact->GetFixtureA()->GetBody()->GetUserData();
+	void* pRawB = contact->GetFixtureB()->GetBody()->GetUserData();
+	if(!pRawA || !pRawB)
+		return;
+
+	GameObject* goA = (GameObject*) pRawA;
+	GameObject* goB = (GameObject*) pRawB;
+
+	if(goA->isWillBeDestoried() || goB->isWillBeDestoried())
+	{
+		return;
+	}
+
+	int goTypeA = GET_TYPE(goA);
+	int goTypeB = GET_TYPE(goB);
+	// 总共可能的几种组合
+	// 1. troops and troops
+	// 2. troops and planet    或者是反过来
+	// 3. troops and star   或者是反过来
+	// 注意: troop又分为追星和不追星两种情况
+
+	if(goTypeA == kGameObjectFight && goTypeB == kGameObjectFight)
+	{
+		// 此分支里可能的组合
+		// 1. troops and troops
+		// 2. troops and planet  或者是反过来
+		FightObject* fightA = (FightObject*) goA;
+		FightObject* fightB = (FightObject*) goB;
+		
+		int fightTypeA = fightA->getFightType();
+		int fightTypeB = fightB->getFightType();
+
+		// troops and troops
+		if(fightTypeA == kFightTroops && fightTypeB == kFightTroops)
+		{
+			handleContactTroopsAndTroops((Troops*) fightA, (Troops*) fightB);
+		}
+		// troops and planet
+		else if(fightTypeA == kFightTroops && fightTypeB == kFightPlanet)
+		{
+			handleContactTroopsAndPlanet((Troops*) fightA, (Planet*) fightB);
+		}
+		// planet and troops
+		else if(fightTypeA == kFightPlanet && fightTypeB == kFightTroops)
+		{
+			handleContactTroopsAndPlanet((Troops*) fightB, (Planet*) fightA);
+		}
+	}
+	else if(  (goTypeA == kGameObjectFight || goTypeB == kGameObjectFight)
+		&& (goTypeA == kGameObjectStar || goTypeB == kGameObjectStar))
+	{
+		// 此分支里可能的组合
+		// 1. troops and star  或者是反过来
+		FightObject* pFight = NULL;
+		StarObject* pStar = NULL;
+		if(goTypeA == kGameObjectFight)
+		{
+			pFight = (FightObject*) goA;
+			pStar = (StarObject*) goB;
+		}
+		else 
+		{
+			pFight = (FightObject*) goB;
+			pStar = (StarObject*) goA;
+		}
+
+		int fightType = pFight->getFightType();
+		if(fightType == kFightTroops)
+		{
+			handleContactTroopsAndStar((Troops*) pFight, pStar);
+		}
+	}
+}
+
+void StageBaseLayer::handleContactTroopsAndTroops(Troops* pTroopsA, Troops* pTroopsB)
+{
+	if(!pTroopsA || !pTroopsB)
+		return;
+
+
+}
+
+void StageBaseLayer::handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlanet)
+{
+	if(!pTroops || !pPlanet)
+		return;
+
+	if(pTroops->getTargetObject() == pPlanet)
+	{
+		// 友星
+		if(pTroops->getForceSide() == pPlanet->getForceSide())
+		{
+			pPlanet->increaseFightUnitCount(pTroops->getFightUnitCount());
+		}
+		// 敌星
+		else 
+		{
+			int enemyCount= pPlanet->getFightUnitCount();
+			int myCount = pTroops->getFightUnitCount();
+			if(myCount >= enemyCount)
+			{
+				int left = myCount = enemyCount;
+				pPlanet->initWithForceSide(pTroops->getForceSide());
+				pPlanet->setFightUnitCount(left);
+			}
+			else
+			{
+				pPlanet->setFightUnitCount(enemyCount - myCount);
+			}			
+		}
+		pTroops->destroyInNextUpdate();
+	}
+}
+
+void StageBaseLayer::handleContactTroopsAndStar(Troops* pTroops, StarObject* pStar)
+{
+	if(!pTroops || !pStar)
+		return;
 }

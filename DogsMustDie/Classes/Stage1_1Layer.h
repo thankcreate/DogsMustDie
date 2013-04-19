@@ -14,6 +14,7 @@ public:
 	CREATE_FUNC(Stage1_1Layer);
 
 	bool init();
+	void initPlanets();
 };
 
 #endif // Stage1_1Layer_h__

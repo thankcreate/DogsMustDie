@@ -2,13 +2,18 @@
 #define StageBaseLayer_h__
 
 #include "cocos2d.h"
+#include "HelpLayerDelegate.h"
+#include "Box2D/Box2D.h"
 
 using namespace cocos2d;
 
 class StageBaseScene;
 class LineLayer;
-
-class StageBaseLayer : public CCLayer
+class b2World;
+class Planet;
+class StarObject;
+class Troops;
+class StageBaseLayer : public CCLayer, public HelpLayerDelegate, public b2ContactListener
 {
 public:
 	StageBaseLayer();
@@ -25,34 +30,67 @@ public:
 
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pPlanetArray, PlanetArray);
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pStarArray, StarArray);
-
+	CC_SYNTHESIZE_RETAIN(CCArray*, m_pTroopsArray, TroopsArray);
+	CC_SYNTHESIZE_RETAIN(CCArray*, m_pUpdateArray, UpdateArray);
+	
 	bool m_bIsSpeakerEnabled;
+	bool m_bIsUpdateStopped;
 	int m_nStarCount;
 	bool m_bIsHelpLayerInShow;
 
-	virtual const char* getBKGFileName();
-	void gobackCallback(CCObject* pSender);
-	void initPannel();
+	b2World* m_pWorld;
 
+	virtual const char* getBKGFileName();
+	
+	// btn call back
+	void gobackCallback(CCObject* pSender);
 	virtual void skillUpCallback(CCObject* pSender);
 	virtual void skillSpeedCallback(CCObject* pSender);
 	virtual void skillDownCallback(CCObject* pSender);
 	virtual void speakerCallback(CCObject* pSender);
 	virtual void helpCallback(CCObject* pSender);
 	
-	void onEnterTransitionDidFinish();
 
+	// HelpLayerDelegate
+	void helpLayerClosed();
+
+	// b2ContactListener
+	void BeginContact(b2Contact* contact);
+
+	// touch
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+
+	// inherit
+	void update(float dt);
+	void onEnterTransitionDidFinish();
+
+	// member
 	void initFrontSight();
-	void initLineLayer();
+	void initLineLayer();	
+	void initWorld();	
+	void initPannel();
+	void initBackground();
+	void initBackButton();
 
+	void updateUpdateArray(float dt);
+	void handleFromAndTo(CCSprite *pStart, CCSprite *pEnd);
+	void sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet);
+	void sendCatTroopsToStar(Planet* fromPlanet, StarObject* toStar);
+	virtual void initPlanets();	
+	void makePlanet(int force, CCPoint position, int fightUnitCount, int level);
+	void updateTroopsArray();
 
+	// contact handle
+	void handleContactTroopsAndTroops(Troops* troopsA, Troops* troopsB);
+	void handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlanet);
+	void handleContactTroopsAndStar(Troops* pTroops, StarObject* pStar);
 	enum
 	{
 		kPlanetLayerIndex = 5,
 		kFrontSightLayerIndex = 6,
+		kTroopsLayerIndex = 7,
 		kPannelLayerIndex = 10
 	};
 };

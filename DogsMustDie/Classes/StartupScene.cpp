@@ -7,7 +7,7 @@
 //
 
 #include "StartupScene.h"
-//#include "AudioManager.h"
+#include "AudioManager.h"
 #include "Defines.h"
 using namespace cocos2d;
 

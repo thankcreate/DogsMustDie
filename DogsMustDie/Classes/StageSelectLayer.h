@@ -1,10 +1,9 @@
 #ifndef Stage1Layer_h__
 #define Stage1Layer_h__
 
-
-
 #include "cocos2d.h"
 #include "IAPCallback.h"
+
 using namespace cocos2d;
 
 class StageSelectLayer : public CCLayer, public iOSBridge::Callbacks::IAPCallback

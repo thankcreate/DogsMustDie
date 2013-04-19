@@ -4,7 +4,7 @@
 #include "StartupScene.h"
 #include "MyUseDefaultDef.h"
 #include "AudioManager.h"
-//#include "AdViewManager.h"
+#include "AdViewManager.h"
 
 using namespace cocos2d;
 
@@ -52,13 +52,11 @@ bool AboutLayer::init()
 		pGobackItem->setPosition(ccp(iconSize + margin, size.height - iconSize - margin));		
 		pMenu->addChild(pGobackItem);
 
-
-		
 		setKeypadEnabled(true);
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		AdViewManager::sharedInstance()->show(this);	
-#endif
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//		AdViewManager::sharedInstance()->show(this);	
+//#endif
 
 		bRet = true;
 	} while (0);
@@ -83,7 +81,7 @@ void AboutLayer::keyBackClicked()
 void AboutLayer::onExit()
 {
 	CCLayer::onExit();
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	AdViewManager::sharedInstance()->hide();
-#endif
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//	AdViewManager::sharedInstance()->hide();
+//#endif
 }

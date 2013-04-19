@@ -5,6 +5,8 @@
 
 using namespace cocos2d;
 
+class HelpLayerDelegate;
+
 class HelpLayer : public CCLayer
 {
 public:
@@ -18,6 +20,8 @@ public:
 	CC_SYNTHESIZE(CCLayerColor*, m_pColorLayer, ColorLayer);
 	CC_SYNTHESIZE(CCSprite*, m_pFrame, Frame);
 	CC_SYNTHESIZE(CCMenu*, m_pMenu, Menu);
+	CC_SYNTHESIZE(HelpLayerDelegate*, m_pDelegate, Delegate);
+
 	void show();
 	void restore();
 	void backCallback( CCObject* pSender );

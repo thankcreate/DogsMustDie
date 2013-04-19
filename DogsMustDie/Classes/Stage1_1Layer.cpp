@@ -22,18 +22,20 @@ bool Stage1_1Layer::init()
 		CC_BREAK_IF(!StageBaseLayer::init());
 		CCSize size = WIN_SIZE;
 			
-		CCSprite* pTest = CatPlanet::create();
-		pTest->setPosition(ccp(size.width / 2 - 200, size.height / 2 - 100));
+		/*	CCSprite* pTest = CatPlanet::create();
+		pTest->setPosition(ccp);
 		this->addChild(pTest, kPlanetLayerIndex);
 		getPlanetArray()->addObject(pTest);
-		
+		getUpdateArray()->addObject(pTest);
+
 
 		pTest = DogPlanet::create();
 		pTest->setPosition(ccp(size.width / 2 + 200, size.height / 2 + 100));
 		this->addChild(pTest, kPlanetLayerIndex);
 		getPlanetArray()->addObject(pTest);
-
-		pTest = StarObject::create();
+		getUpdateArray()->addObject(pTest);
+		*/
+		CCSprite* pTest = StarObject::create();
 		pTest->setPosition(ccp(200, 400));
 		this->addChild(pTest, kPlanetLayerIndex);
 		getStarArray()->addObject(pTest);
@@ -42,5 +44,12 @@ bool Stage1_1Layer::init()
 	} while (0);
 
 	return bRet;
+}
+
+void Stage1_1Layer::initPlanets()
+{
+	CCSize size = WIN_SIZE;
+	makePlanet(kForceSideCat, ccp(size.width / 2 - 200, size.height / 2 - 100), 50, 0);
+	makePlanet(kForceSideDog, ccp(size.width / 2 + 200, size.height / 2 + 100), 50, 0);
 }
 
