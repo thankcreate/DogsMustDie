@@ -208,6 +208,9 @@
     <ClInclude Include="..\Classes\CatPlanet.h">
       <Filter>include\Sprite\Planet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Rank.h">
+      <Filter>include\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -308,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Face.cpp">
       <Filter>source\Sprite\Face</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Rank.cpp">
+      <Filter>source\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

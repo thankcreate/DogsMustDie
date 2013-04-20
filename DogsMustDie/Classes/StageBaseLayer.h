@@ -13,6 +13,8 @@ class b2World;
 class Planet;
 class StarObject;
 class Troops;
+class GameObject;
+
 class StageBaseLayer : public CCLayer, public HelpLayerDelegate, public b2ContactListener
 {
 public:
@@ -20,23 +22,27 @@ public:
 	~StageBaseLayer();
 	bool init();
 
-	CC_SYNTHESIZE(StageBaseScene*, m_pParentScene, ParentScene);	
+	CC_SYNTHESIZE(StageBaseScene*, m_pParentScene, ParentScene);
+
+	CC_SYNTHESIZE(CCMenuItemImage*, m_pSkillUpgradeBtn, SkillUpgradeBtn);
+	CC_SYNTHESIZE(CCMenuItemImage*, m_pSkillSpeedBtn, SkillSpeedBtn);
+	CC_SYNTHESIZE(CCMenuItemImage*, m_pSkillDownBtn, SkillDownBtn);
 	CC_SYNTHESIZE(CCMenuItemImage*, m_pSpeakerBtn, SpeakerBtn);
 	CC_SYNTHESIZE(LineLayer*, m_pLineLayer, LineLayer);
-	CC_SYNTHESIZE(CCSprite*, m_pFrontSight, FrontSight);
+	CC_SYNTHESIZE(CCSprite*, m_pFrontSight, FrontSight); // target的瞄准框
+	CC_SYNTHESIZE(CCSprite*, m_pFocusMark, FocusMark);  // 当前的被选中的星球
+	CC_SYNTHESIZE(CCLabelTTF*, m_pStarCountLabel, StarCountLabel);
 
 	CC_SYNTHESIZE(CCSprite*, m_pFromObject, FromObject);
 	CC_SYNTHESIZE(CCSprite*, m_pToObject, ToObject);
+	CC_SYNTHESIZE(Planet*, m_pFocusedPlanet, FocusedPlanet);
 
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pPlanetArray, PlanetArray);
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pStarArray, StarArray);
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pTroopsArray, TroopsArray);
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pUpdateArray, UpdateArray);
 	
-	bool m_bIsSpeakerEnabled;
-	bool m_bIsUpdateStopped;
-	int m_nStarCount;
-	bool m_bIsHelpLayerInShow;
+
 
 	b2World* m_pWorld;
 
@@ -81,18 +87,35 @@ public:
 	virtual void initPlanets();	
 	void makePlanet(int force, CCPoint position, int fightUnitCount, int level);
 	void updateTroopsArray();
+	void updateSkillButtonState();
 
 	// contact handle
 	void handleContactTroopsAndTroops(Troops* troopsA, Troops* troopsB);
 	void handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlanet);
 	void handleContactTroopsAndStar(Troops* pTroops, StarObject* pStar);
+	Troops* makeTroops(int forceSide, int fightUnitCount, Planet* pHomePort, GameObject* pTarget);
+
+
 	enum
 	{
-		kPlanetLayerIndex = 5,
-		kFrontSightLayerIndex = 6,
+		kPlanetLayerIndex = 5,		
+		kFocuseMarkIndex = 6,
 		kTroopsLayerIndex = 7,
+		kFrontSightLayerIndex = 8,
 		kPannelLayerIndex = 10
 	};
+
+	// set and get
+	void setStarCount(int count);
+	int getStarCount() { return m_nStarCount; }
+	void initFocusMark();
+	Planet* getPlanetByLocation(CCPoint location);
+	void showFocusedMarkOnFocusedPlanet();
+private:
+	bool m_bIsSpeakerEnabled;
+	bool m_bIsUpdateStopped;
+	int m_nStarCount;
+	bool m_bIsHelpLayerInShow;
 };
 
 #endif // StageBaseLayer_h__

@@ -12,6 +12,10 @@
 #include "CatPlanet.h"
 #include "DogPlanet.h"
 
+#define SKILL_UPGRADE_COUNT 2
+#define SKILL_SPEED 2
+#define SKILL_DOWN 3
+
 
 StageBaseLayer::StageBaseLayer()  :
 	m_pParentScene(NULL),
@@ -27,7 +31,13 @@ StageBaseLayer::StageBaseLayer()  :
 	m_pWorld(NULL),
 	m_pUpdateArray(NULL),
 	m_bIsUpdateStopped(false),
-	m_pTroopsArray(NULL)
+	m_pTroopsArray(NULL),
+	m_pStarCountLabel(NULL),
+	m_pFocusMark(NULL),
+	m_pSkillUpgradeBtn(NULL),
+	m_pSkillSpeedBtn(NULL),
+	m_pSkillDownBtn(NULL),
+	m_pFocusedPlanet(NULL)
 {
 	setPlanetArray(CCArray::createWithCapacity(30));
 	setStarArray(CCArray::createWithCapacity(10));
@@ -50,15 +60,14 @@ bool StageBaseLayer::init()
 	{
 		CC_BREAK_IF(!CCLayer::init());
 
-
 		initBackground();
 		initBackButton();	
-			
-
-		initWorld();
 		initLineLayer();
 		initPannel();
 		initFrontSight();
+		initFocusMark();
+
+		initWorld();
 		initPlanets();
 		// 启动Update
 		this->scheduleUpdate();
@@ -94,6 +103,7 @@ void StageBaseLayer::makePlanet(int force, CCPoint position, int fightUnitCount,
 		return;
 	pPlanet->setPosition(position);
 	pPlanet->setFightUnitCount(fightUnitCount);
+	pPlanet->setLevel(level);
 
 	m_pPlanetArray->addObject(pPlanet);
 	m_pUpdateArray->addObject(pPlanet);
@@ -141,6 +151,24 @@ void StageBaseLayer::update(float dt)
 
 	// Troops是需要每一轮刷新其位置的
 	updateTroopsArray();
+	updateSkillButtonState();
+}
+
+void StageBaseLayer::updateSkillButtonState()
+{
+
+	// 升级按钮
+	if(m_pFocusedPlanet == NULL
+		|| m_nStarCount < SKILL_UPGRADE_COUNT
+		|| !m_pFocusedPlanet->canLevelUp())
+	{
+		m_pSkillUpgradeBtn->setEnabled(false);
+	}
+	else 
+	{
+		m_pSkillUpgradeBtn->setEnabled(true);
+	}
+	
 }
 
 
@@ -200,6 +228,13 @@ void StageBaseLayer::initFrontSight()
 	m_pFrontSight->runAction(CCRepeatForever::create(animate));
 }
 
+void StageBaseLayer::initFocusMark()
+{
+	setFocusMark(CCSprite::create("FocusedMark.png"));
+	this->addChild(m_pFocusMark, kFocuseMarkIndex);
+	m_pFocusMark->setVisible(false);
+}
+
 bool StageBaseLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 {
 	CCObject* pOb = NULL;		
@@ -245,14 +280,15 @@ void StageBaseLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 	{
 		Planet* pPlanet = (Planet*) pOb;	
 		CCPoint planetPosition = pPlanet->getPosition();
-		if( pPlanet != m_pFromObject
-			&& pPlanet->boundingBox().containsPoint(touchPoint))
-		{		
-			if(m_pFrontSight)
-			{
+		if( pPlanet->boundingBox().containsPoint(touchPoint)
+			&&  !pPlanet->isDirty())
+		{	
+			if(pPlanet != m_pFromObject && m_pFrontSight)
+			{	
 				m_pFrontSight->setPosition(ccp(planetPosition.x + 3, planetPosition.y  + 3));
-				m_pFrontSight->setVisible(true);
-			}			
+				m_pFrontSight->setVisible(true);				
+				
+			}
 			m_pToObject = pPlanet;
 		}
 	}
@@ -262,7 +298,8 @@ void StageBaseLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 	{
 		StarObject* pStar = (StarObject*) pOb;
 		CCPoint starPosition = pStar->getPosition();
-		if(pStar->boundingBox().containsPoint(touchPoint))
+		if(!pStar->isDirty() && 
+			pStar->boundingBox().containsPoint(touchPoint))
 		{
 			if(m_pFrontSight)
 			{
@@ -291,16 +328,58 @@ void StageBaseLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 		else
 			m_pLineLayer->setEnd(pTouch->getLocation());		
 	}
+}
 
+Planet* StageBaseLayer::getPlanetByLocation(CCPoint location)
+{
+	CCObject* pOb = NULL;			
+	CCARRAY_FOREACH(m_pPlanetArray, pOb)
+	{
+		Planet* pPlanet = (Planet*) pOb;	
+		CCPoint planetPosition = pPlanet->getPosition();
+		if( pPlanet->boundingBox().containsPoint(location)
+			&& !pPlanet->isDirty())
+		{	
+			return pPlanet;
+		}
+	}
 }
 
 void StageBaseLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 {
 	if(m_pFromObject && m_pToObject)
 	{
-		handleFromAndTo(m_pFromObject, m_pToObject);
+		if(m_pFromObject != m_pToObject)
+		{
+			handleFromAndTo(m_pFromObject, m_pToObject);
+		}
 	}
 
+	bool hasInvokeClickOnCatPlanet = false;
+	if(m_pFromObject != NULL 
+		&& m_pFromObject == getPlanetByLocation(pTouch->getLocation()))
+	{
+		int startType = GET_TYPE(m_pFromObject);
+		if(startType == kGameObjectFight)
+		{
+			FightObject* pFightObject = (FightObject*) m_pFromObject;
+			if(pFightObject->getFightType() == kFightPlanet 
+				&& pFightObject->getForceSide() == kForceSideCat)
+			{
+				m_pFocusedPlanet = (Planet*) pFightObject;
+				hasInvokeClickOnCatPlanet = true;
+			}
+		}
+	}
+
+	if(!hasInvokeClickOnCatPlanet)
+	{
+		m_pFocusedPlanet = NULL;
+	}
+
+	showFocusedMarkOnFocusedPlanet();
+
+	// 收尾工作，大部分状态清0
 	if (m_pLineLayer)
 	{
 		m_pLineLayer->setStart(CCPointZero);
@@ -344,8 +423,38 @@ void StageBaseLayer::handleFromAndTo(CCSprite* pFrom, CCSprite* pTo)
 	}
 }
 
+void StageBaseLayer::showFocusedMarkOnFocusedPlanet()
+{
+	if(m_pFocusedPlanet == NULL)
+	{
+		m_pFocusMark->setVisible(false);
+		m_pFocusMark->stopAllActions();
+	}
+	else
+	{
+		m_pFocusMark->setVisible(true);
+		m_pFocusMark->setPosition(ccp(
+			m_pFocusedPlanet->getPositionX(),
+			m_pFocusedPlanet->getPositionY() + 62));
+
+		CCMoveBy* pMoveUp = CCMoveBy::create(0.5, ccp(0, 15));
+		CCMoveBy* pMoveDown = CCMoveBy::create(0.5, ccp(0, -15));
+		CCSequence* pSeq = CCSequence::createWithTwoActions(pMoveUp, pMoveDown);
+		m_pFocusMark->stopAllActions();
+		m_pFocusMark->runAction(CCRepeatForever::create(pSeq));
+	}
+
+	
+}
+
 void StageBaseLayer::sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
 {
+	if(!fromPlanet || !toPlanet) 
+		return;
+
+	if(toPlanet->isDirty())
+		return;
+
 	int unitCount = fromPlanet->getFightUnitCount();
 	
 	// 每次送出一半，如果当前为1，则不送
@@ -359,29 +468,54 @@ void StageBaseLayer::sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
 	// 设置from
 	fromPlanet->setFightUnitCount(remainCount);
 
-	// 设置出发喵星人军团
-	CatTroops* pCatTroops = CatTroops::create();	
-	pCatTroops->setPosition(fromPlanet->getPosition());
-	pCatTroops->setFightUnitCount(sendCount);
-	pCatTroops->setHomePort(fromPlanet);
-	pCatTroops->setTargetObject(toPlanet);
-	pCatTroops->createBox2dObject(m_pWorld);
-	this->addChild(pCatTroops, kTroopsLayerIndex);
-	m_pTroopsArray->addObject(pCatTroops);
-	m_pUpdateArray->addObject(pCatTroops);
-	
-	float distance = ccpDistance(toPlanet->getPosition(), fromPlanet->getPosition());
-	CCPoint distanceVector = ccpSub(toPlanet->getPosition(), fromPlanet->getPosition());
-	
-	float absoluteSpeed = pCatTroops->getAbsoluteSpeed();
-	float b2SpeedX = absoluteSpeed / distance * distanceVector.x / PTM_RATIO;
-	float b2SpeedY = absoluteSpeed / distance * distanceVector.y / PTM_RATIO;
-	pCatTroops->m_pBody->SetLinearVelocity(b2Vec2(b2SpeedX, b2SpeedY));
+	// 喵星人军团, 行きます！
+	Troops* pTroops = makeTroops(kForceSideCat, sendCount, fromPlanet, toPlanet);
+	pTroops->gotoTarget();
 }
+
+
 
 void StageBaseLayer::sendCatTroopsToStar(Planet* fromPlanet, StarObject* toStar)
 {
+	if(!fromPlanet || !toStar) 
+		return;
+	
+	if(toStar->isDirty())
+		return;
 
+	int unitCount = fromPlanet->getFightUnitCount();
+
+	// 如果当前为1，不送出追星部队
+	// 因为如若送出会导致当前星球部队数量为0，可能会影响占领事件的判断
+	if(unitCount < 2)
+		return;
+
+	// 追星部队只出动1个喵
+	int sendCount = 1;
+
+	// 设置from
+	fromPlanet->decreaseFightUnitCount(sendCount);
+
+	// 喵星人追星部队, 行きます！
+	Troops* pTroops = makeTroops(kForceSideCat, sendCount, fromPlanet, toStar);	
+	pTroops->setTroopsType(kTroopsForStar);	
+	pTroops->gotoTarget();
+}
+
+// 注意：目前的逻辑假定Troops必然从母港出发
+Troops* StageBaseLayer::makeTroops(int forceSide, int fightUnitCount, Planet* pHomePort, GameObject* pTarget)
+{
+	Troops* pTroops = Troops::createWithForceSide(forceSide);
+	pTroops->setPosition(pHomePort->getPosition());
+	pTroops->setFightUnitCount(fightUnitCount);
+	pTroops->setHomePort(pHomePort);
+	pTroops->setTargetObject(pTarget);
+	pTroops->createBox2dObject(m_pWorld);
+	this->addChild(pTroops, kTroopsLayerIndex);
+	m_pTroopsArray->addObject(pTroops);
+	m_pUpdateArray->addObject(pTroops);	
+
+	return pTroops;
 }
 
 void StageBaseLayer::onEnterTransitionDidFinish()
@@ -417,50 +551,50 @@ void StageBaseLayer::initPannel()
 	pMenu->setPosition(CCPointZero);	
 	pPanel->addChild(pMenu, 1);
 
-	CCMenuItemImage *pUp = new CCMenuItemImage();
+	setSkillUpgradeBtn(new CCMenuItemImage());
 	CCSprite* pUpNormal = CCSprite::create("StageBase_btn_up_normal.png");
 	CCSprite* pUpSeleted = CCSprite::create("StageBase_btn_up_pressed.png");
 	CCSprite* pUpDisabled = CCSprite::create("StageBase_btn_up_normal.png");
 	pUpDisabled->setOpacity(50);
-	pUp->initWithNormalSprite(
+	m_pSkillUpgradeBtn->initWithNormalSprite(
 		pUpNormal,
 		pUpSeleted,
 		pUpDisabled,
 		this,
 		menu_selector(StageBaseLayer::skillUpCallback));	
 	
-	pUp->setPosition(ccp(commonX, 438));	
-	pMenu->addChild(pUp);
+	m_pSkillUpgradeBtn->setPosition(ccp(commonX, 438));	
+	pMenu->addChild(m_pSkillUpgradeBtn);
 
-	CCMenuItemImage *pSpeed = new CCMenuItemImage();
+	setSkillSpeedBtn(new CCMenuItemImage());
 	CCSprite* pSpeedNormal = CCSprite::create("StageBase_btn_speed_normal.png");
 	CCSprite* pSpeedSeleted = CCSprite::create("StageBase_btn_speed_pressed.png");
 	CCSprite* pSpeedDisabled = CCSprite::create("StageBase_btn_speed_normal.png");
 	pSpeedDisabled->setOpacity(50);
-	pSpeed->initWithNormalSprite(
+	m_pSkillSpeedBtn->initWithNormalSprite(
 		pSpeedNormal,
 		pSpeedSeleted,
 		pSpeedDisabled,
 		this,
 		menu_selector(StageBaseLayer::skillSpeedCallback));	
 
-	pSpeed->setPosition(ccp(commonX, 354));		
-	pMenu->addChild(pSpeed);
+	m_pSkillSpeedBtn->setPosition(ccp(commonX, 354));		
+	pMenu->addChild(m_pSkillSpeedBtn);
 
-	CCMenuItemImage *pDown = new CCMenuItemImage();
+	setSkillDownBtn(new CCMenuItemImage());
 	CCSprite* pDownNormal = CCSprite::create("StageBase_btn_down_normal.png");
 	CCSprite* pDownSeleted = CCSprite::create("StageBase_btn_down_pressed.png");
 	CCSprite* pDownDisabled = CCSprite::create("StageBase_btn_down_normal.png");
 	pDownDisabled->setOpacity(50);
-	pDown->initWithNormalSprite(
+	m_pSkillDownBtn->initWithNormalSprite(
 		pDownNormal,
 		pDownSeleted,
 		pDownDisabled,
 		this,
 		menu_selector(StageBaseLayer::skillDownCallback));	
 
-	pDown->setPosition(ccp(commonX, 270));		
-	pMenu->addChild(pDown);
+	m_pSkillDownBtn->setPosition(ccp(commonX, 270));		
+	pMenu->addChild(m_pSkillDownBtn);
 
 	// star
 	CCSprite* pPanelStar = CCSprite::create("StageBase_panel_star.png");
@@ -468,11 +602,11 @@ void StageBaseLayer::initPannel()
 	pPanel->addChild(pPanelStar);
 
 	CCString* pStrCount = CCString::createWithFormat("%d", m_nStarCount);
-	CCLabelTTF* pLabelStarCount = CCLabelTTF::create(pStrCount->getCString(), "8bitoperator JVE.ttf", 40);
+	setStarCountLabel(CCLabelTTF::create(pStrCount->getCString(), "8bitoperator JVE.ttf", 40));
 	ccColor3B ccMyYellow={250, 203, 13};
-	pLabelStarCount->setColor(ccMyYellow);
-	pLabelStarCount->setPosition(ccp(56 , 160));
-	pPanel->addChild(pLabelStarCount);
+	m_pStarCountLabel->setColor(ccMyYellow);
+	m_pStarCountLabel->setPosition(ccp(56 , 160));
+	pPanel->addChild(m_pStarCountLabel);
 
 	// Speaker
 	setSpeakerBtn(new CCMenuItemImage());
@@ -530,7 +664,12 @@ void StageBaseLayer::initPannel()
 
 void StageBaseLayer::skillUpCallback( CCObject* pSender )
 {
-
+	if(m_pFocusedPlanet)
+	{
+		int remain = m_nStarCount - SKILL_UPGRADE_COUNT;
+		setStarCount(remain);
+		m_pFocusedPlanet->levelUp();
+	}
 }
 
 void StageBaseLayer::skillSpeedCallback( CCObject* pSender )
@@ -587,7 +726,7 @@ void StageBaseLayer::BeginContact( b2Contact* contact )
 	GameObject* goA = (GameObject*) pRawA;
 	GameObject* goB = (GameObject*) pRawB;
 
-	if(goA->isWillBeDestoried() || goB->isWillBeDestoried())
+	if(goA->willBeDestoried() || goB->willBeDestoried())
 	{
 		return;
 	}
@@ -691,10 +830,71 @@ void StageBaseLayer::handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlan
 		}
 		pTroops->destroyInNextUpdate();
 	}
+
+	if(pTroops->getHomePort() == pPlanet 
+		&& pTroops->isInReturn()
+		&& pTroops->getTroopsType() == kTroopsForStar)
+	{
+		// 友星
+		if(pTroops->getForceSide() == pPlanet->getForceSide()
+			&& pTroops->hasGotStar() == true)
+		{
+			pPlanet->increaseFightUnitCount(pTroops->getFightUnitCount());
+			setStarCount(++m_nStarCount);
+		}
+		// 敌星
+		else 
+		{
+			int enemyCount= pPlanet->getFightUnitCount();
+			int myCount = pTroops->getFightUnitCount();
+			if(myCount >= enemyCount)
+			{
+				int left = myCount = enemyCount;
+				pPlanet->initWithForceSide(pTroops->getForceSide());
+				pPlanet->setFightUnitCount(left);
+			}
+			else
+			{
+				pPlanet->setFightUnitCount(enemyCount - myCount);
+			}			
+		}
+		pTroops->destroyInNextUpdate();
+
+	}
 }
 
 void StageBaseLayer::handleContactTroopsAndStar(Troops* pTroops, StarObject* pStar)
 {
 	if(!pTroops || !pStar)
 		return;
+
+	// 注意追星部队存在 1.去  2.回  这两个过程
+
+	// 1.去
+	if(!pTroops->isInReturn() && pTroops->getTargetObject() == pStar)
+	{
+		// 分两种情况
+		// 1.星星还在那儿		
+		if(!pStar->hasBeenGotBySomeOne())
+		{
+			pTroops->setHasGotStar(true);			
+			pStar->setHasBeenGotBySomeOne(true);
+		}
+		// 2.星星已经被别的部队抢走了,只是m_pBody还在那里
+		else
+		{
+
+		}
+		pTroops->goHome();
+	}
+}
+
+void StageBaseLayer::setStarCount( int count )
+{
+	m_nStarCount = count;
+	if(m_pStarCountLabel)
+	{
+		CCString* pStrCount = CCString::createWithFormat("%d", m_nStarCount);
+		m_pStarCountLabel->setString(pStrCount->getCString());
+	}
 }

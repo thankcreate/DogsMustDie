@@ -35,10 +35,20 @@ bool Stage1_1Layer::init()
 		getPlanetArray()->addObject(pTest);
 		getUpdateArray()->addObject(pTest);
 		*/
-		CCSprite* pTest = StarObject::create();
+		StarObject* pTest = StarObject::create();
 		pTest->setPosition(ccp(200, 400));
 		this->addChild(pTest, kPlanetLayerIndex);
 		getStarArray()->addObject(pTest);
+		pTest->createBox2dObject(m_pWorld);
+		getUpdateArray()->addObject(pTest);
+
+
+		pTest = StarObject::create();
+		pTest->setPosition(ccp(300, 400));
+		this->addChild(pTest, kPlanetLayerIndex);
+		getStarArray()->addObject(pTest);
+		pTest->createBox2dObject(m_pWorld);
+		getUpdateArray()->addObject(pTest);
 
 		bRet = true;
 	} while (0);
@@ -49,7 +59,7 @@ bool Stage1_1Layer::init()
 void Stage1_1Layer::initPlanets()
 {
 	CCSize size = WIN_SIZE;
-	makePlanet(kForceSideCat, ccp(size.width / 2 - 200, size.height / 2 - 100), 50, 0);
-	makePlanet(kForceSideDog, ccp(size.width / 2 + 200, size.height / 2 + 100), 50, 0);
+	makePlanet(kForceSideCat, ccp(size.width / 2 - 200, size.height / 2 - 100), 50, 2);
+	makePlanet(kForceSideDog, ccp(size.width / 2 + 200, size.height / 2 + 100), 50, 1);
 }
 

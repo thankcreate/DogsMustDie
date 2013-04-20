@@ -5,7 +5,8 @@ GameObject::GameObject() :
 	m_pBody(NULL),
 	m_pWorld(NULL),
 	m_fTime(0),
-	m_bWillBeDestroied(false)
+	m_bWillBeDestroied(false),
+	m_bHasBeenDestroied(false)
 {
 
 }
@@ -80,6 +81,7 @@ void GameObject::myUpdate( float dt )
 			m_pBody = NULL;
 		}
 		this->setVisible(false);
+		m_bHasBeenDestroied = true;
 	}
 	// To be implemented in inherit class
 }

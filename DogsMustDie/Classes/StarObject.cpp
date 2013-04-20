@@ -1,6 +1,8 @@
 #include "StarObject.h"
+#include "GameObject.h"
 
-StarObject::StarObject()
+StarObject::StarObject() :
+	m_bHasBeenGotBySomeOne(false)
 {
 
 }
@@ -25,3 +27,28 @@ bool StarObject::init()
 	return bRet;
 }
 
+CCPoint StarObject::getBox2dObjectSize()
+{
+	return ccp(38, 38);
+}
+
+
+
+void StarObject::destroyInNextUpdate()
+{
+	// 什么都不干，仅仅为了把这个函数设为private
+}
+
+void StarObject::setHasBeenGotBySomeOne( bool isGot )
+{
+	m_bHasBeenDestroied = true;
+	m_bHasBeenGotBySomeOne = true;
+	this->stopAllActions();
+	setVisible(false);
+}
+
+bool StarObject::isDirty()
+{
+	bool superIsDirty = GameObject::isDirty();
+	return (superIsDirty || m_bHasBeenGotBySomeOne);
+}

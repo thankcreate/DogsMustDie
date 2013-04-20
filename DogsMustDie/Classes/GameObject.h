@@ -31,10 +31,21 @@ public:
 
 
 	virtual CCPoint getBox2dObjectSize();
-	void destroyInNextUpdate();
-	bool isWillBeDestoried(){return m_bWillBeDestroied;}
-private:
+	virtual void destroyInNextUpdate();
+
+	bool willBeDestoried(){return m_bWillBeDestroied;}
+	bool hasBeenDestroied(){return m_bHasBeenDestroied;}
+
+	// 这里借用下isDirty这个名字，但是表达的意思与MVC模式中常见的那个isDirty没什么关系
+	// 本处isDirty指该GameObject已经被删除，或者即将在下一轮update中被删除	
+	// 注意: 星星的isDirty比较特殊
+	virtual bool isDirty() {return (m_bWillBeDestroied || m_bHasBeenDestroied); }
+
+protected:
+	// 目前的GameObject使用的是标记删除，而不是从内存上析构掉
+	// 这样虽然引起一些额外的内存消耗，但是可以减少潜在的崩溃
 	bool m_bWillBeDestroied;
+	bool m_bHasBeenDestroied;
 };
 
 #endif // GameObject_h__

@@ -2,6 +2,7 @@
 #include "Defines.h"
 #include "Face.h"
 #include "FightObject.h"
+#include "Rank.h"
 
 #define  DEFAULT_COUNT 50
 
@@ -12,7 +13,9 @@ Planet::Planet() :
 	m_pFace(NULL),
 	m_pFightUnitLabel(NULL),
 	m_nLevel(0),
-	m_fLastTimeIncreased(0)
+	m_fLastTimeIncreased(0),
+	m_pRank(NULL),
+	m_bSpeedUped(false)
 {
 	m_nFightUnitCount = DEFAULT_COUNT;
 }
@@ -130,4 +133,33 @@ void Planet::myUpdate(float dt)
 CCPoint Planet::getBox2dObjectSize()
 {
 	return ccp(60, 60);
+}
+
+void Planet::levelUp()
+{
+	setLevel(m_nLevel + 1);
+}
+
+void Planet::setLevel(int level)
+{
+	if(level < 0 || level > MAX_PLANET_LEVEL)
+		return;
+	m_nLevel = level;
+
+	if(!m_pRank)
+	{
+		setRank(Rank::createWithCount(level));
+		m_pRank->setPosition(ccp(106,8));
+		this->addChild(m_pRank);
+	}
+	else
+	{
+		m_pRank->initWithCount(level);
+	}
+	
+}
+
+void Planet::speedUp()
+{
+	m_bSpeedUped = true;	
 }

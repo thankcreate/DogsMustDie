@@ -7,6 +7,10 @@
 using namespace cocos2d;
 
 class Face;
+class Rank;
+
+#define MAX_PLANET_LEVEL 3
+
 class Planet : public FightObject
 {
 public:	
@@ -21,6 +25,9 @@ public:
 		
 	CC_SYNTHESIZE(Face*, m_pFace, Face);	// 星球中心的占领势力头像
 	CC_SYNTHESIZE(CCLabelTTF*, m_pFightUnitLabel, FightUnitLabel );
+	CC_SYNTHESIZE(Rank*, m_pRank, Rank);
+	
+	
 
 	void setFightUnitCount(int input);	
 	int getMaximumUnitCount();
@@ -34,8 +41,19 @@ public:
 	// 初始默认为0级星球，UI上没有任何显示
 	// 后来每升一级，UI上在右下角加一个军衔杠杠
 	// 最高为3级星球，也就是3道杠
+
+	void setLevel(int level);
+	int getLevel() { return m_nLevel; }
+
+	void levelUp();
+	bool canLevelUp() { return m_nLevel != MAX_PLANET_LEVEL;}
+
+	void speedUp();
+	bool canSpeedUp() { return !m_bSpeedUped; }
+	
 private:
 	int m_nLevel;
+	bool m_bSpeedUped;
 	float m_fLastTimeIncreased;
 };
 

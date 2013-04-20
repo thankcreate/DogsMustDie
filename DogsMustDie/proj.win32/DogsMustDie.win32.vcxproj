@@ -152,6 +152,7 @@
     <ClInclude Include="..\Classes\OptionDelegate.h" />
     <ClInclude Include="..\Classes\PermissionManager.h" />
     <ClInclude Include="..\Classes\Planet.h" />
+    <ClInclude Include="..\Classes\Rank.h" />
     <ClInclude Include="..\Classes\SettingLayer.h" />
     <ClInclude Include="..\Classes\SettingScene.h" />
     <ClInclude Include="..\Classes\Stage1_1Layer.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="..\Classes\MyMenu.cpp" />
     <ClCompile Include="..\Classes\PermissionManager.cpp" />
     <ClCompile Include="..\Classes\Planet.cpp" />
+    <ClCompile Include="..\Classes\Rank.cpp" />
     <ClCompile Include="..\Classes\SettingLayer.cpp" />
     <ClCompile Include="..\Classes\SettingScene.cpp" />
     <ClCompile Include="..\Classes\Stage1_1Layer.cpp" />
