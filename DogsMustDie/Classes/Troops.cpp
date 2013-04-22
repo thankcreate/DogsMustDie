@@ -8,12 +8,12 @@ Troops::Troops() :
 	m_pBubble(NULL),
 	m_pFightUnitLabel(NULL),
 	m_pHomePort(NULL),
-	m_pTargetObject(NULL),
-	speedCoefficient(1.0f),
+	m_pTargetObject(NULL),	
 	m_nTroopsType(kTroopsComomon),
 	m_pCarriedStar(NULL),
 	m_bIsInReturn(false),
 	m_bHasGotStar(false),
+	m_bIsHighSpeed(false),
 	m_pFace(NULL)
 {
 }
@@ -53,21 +53,9 @@ void Troops::initWithForceSide( int force )
 	Troops::init();
 
 	m_nForceSide = force;
-	//// ÐÇÇò
-	//if(force == kForceSideCat)
-	//{
-	//	initWithFile("Cat_normal.png");
-	//}
-	//else if(force == kForceSideDog)
-	//{
-	//	initWithFile("Dog_normal.png");
-	//}
-	//else
-	//{
-	//	return;
-	//}
+
 	setFace(Face::createWithForceSide(force));
-	m_pFace->setPosition(CCPointZero);
+	m_pFace->setPosition(CCPointZero);	
 	this->addChild(m_pFace);
 
 	setBubble(CCSprite::create("Bubble.png"));
@@ -99,7 +87,11 @@ CCPoint Troops::getBox2dObjectSize()
 
 float Troops::getAbsoluteSpeed()
 {
-	return DEFAULT_SPPED * speedCoefficient;
+	if(m_bIsHighSpeed)
+	{
+		return DEFAULT_SPPED * 2;
+	}
+	return DEFAULT_SPPED;
 }
 
 
@@ -159,5 +151,24 @@ void Troops::setHasGotStar( bool got )
 		{
 			m_pCarriedStar->setVisible(false);
 		}		
+	}
+}
+
+void Troops::setHighSpeed( bool isHighSpeed )
+{
+	m_bIsHighSpeed = isHighSpeed;
+	if(isHighSpeed)
+	{
+		if(m_pFace)
+		{
+			m_pFace->setWingsVisiable(true);
+		}
+	}
+	else 
+	{
+		if(m_pFace)
+		{
+			m_pFace->setWingsVisiable(false);
+		}
 	}
 }

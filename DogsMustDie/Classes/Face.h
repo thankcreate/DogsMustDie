@@ -19,7 +19,7 @@ public:
 	static Face* createWithForceSide(int force);
 	void initWithForceSide(int force);
 
-
+	void setWingsVisiable(bool visible);
 };
 
 #endif // Face_h__

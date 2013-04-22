@@ -13,15 +13,15 @@
 #include "DogPlanet.h"
 
 #define SKILL_UPGRADE_COUNT 2
-#define SKILL_SPEED 2
-#define SKILL_DOWN 3
+#define SKILL_SPEED_COUNT 1
+#define SKILL_DOWN_COUNT 2
 
 
 StageBaseLayer::StageBaseLayer()  :
 	m_pParentScene(NULL),
 	m_bIsSpeakerEnabled(false),
 	m_pSpeakerBtn(NULL),
-	m_nStarCount(0),
+	m_nStarCount(2),
 	m_pLineLayer(NULL),
 	m_pPlanetArray(NULL),
 	m_pFrontSight(NULL),
@@ -37,7 +37,7 @@ StageBaseLayer::StageBaseLayer()  :
 	m_pSkillUpgradeBtn(NULL),
 	m_pSkillSpeedBtn(NULL),
 	m_pSkillDownBtn(NULL),
-	m_pFocusedPlanet(NULL)
+	m_pFocusedPlanet(NULL)	
 {
 	setPlanetArray(CCArray::createWithCapacity(30));
 	setStarArray(CCArray::createWithCapacity(10));
@@ -169,6 +169,43 @@ void StageBaseLayer::updateSkillButtonState()
 		m_pSkillUpgradeBtn->setEnabled(true);
 	}
 	
+	// 加速按钮
+	if(m_pFocusedPlanet == NULL
+		|| m_nStarCount < SKILL_SPEED_COUNT
+		|| !m_pFocusedPlanet->canSpeedUp())
+	{
+		m_pSkillSpeedBtn->setEnabled(false);
+	}
+	else
+	{
+		m_pSkillSpeedBtn->setEnabled(true);
+	}
+
+	// 减速按钮
+	// 减速技能是使所有非己方星球升产速率降低
+	CCObject* pOb = NULL;
+	bool bCanSlowDown = false;
+	CCARRAY_FOREACH(m_pPlanetArray, pOb)
+	{
+		Planet* pPlanet = (Planet*) pOb;	
+		if(!pPlanet->isDirty() 
+			&& !pPlanet->getForceSide() == kForceSideCat
+			&& pPlanet->canSlowDown())
+		{			
+			bCanSlowDown = true;
+			break;			
+		}
+	}
+
+	if(  m_nStarCount < SKILL_DOWN_COUNT
+		|| !bCanSlowDown)
+	{
+		m_pSkillDownBtn->setEnabled(false);
+	}
+	else
+	{
+		m_pSkillDownBtn->setEnabled(true);
+	}
 }
 
 
@@ -432,6 +469,7 @@ void StageBaseLayer::showFocusedMarkOnFocusedPlanet()
 	}
 	else
 	{
+		// 走到这个分支里了，说明确实有一个喵星人星球刚刚被选中了
 		m_pFocusMark->setVisible(true);
 		m_pFocusMark->setPosition(ccp(
 			m_pFocusedPlanet->getPositionX(),
@@ -442,9 +480,13 @@ void StageBaseLayer::showFocusedMarkOnFocusedPlanet()
 		CCSequence* pSeq = CCSequence::createWithTwoActions(pMoveUp, pMoveDown);
 		m_pFocusMark->stopAllActions();
 		m_pFocusMark->runAction(CCRepeatForever::create(pSeq));
-	}
 
-	
+		CCScaleTo* pScaleBig = CCScaleTo::create(0.09, 1.3);
+		CCScaleTo* pScaleRestore = CCScaleTo::create(0.09, 1);
+		CCSequence* pShake = CCSequence::createWithTwoActions(pScaleBig, pScaleRestore);
+		m_pFocusedPlanet->stopAllActions();
+		m_pFocusedPlanet->runAction(pShake);
+	}	
 }
 
 void StageBaseLayer::sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
@@ -514,6 +556,11 @@ Troops* StageBaseLayer::makeTroops(int forceSide, int fightUnitCount, Planet* pH
 	this->addChild(pTroops, kTroopsLayerIndex);
 	m_pTroopsArray->addObject(pTroops);
 	m_pUpdateArray->addObject(pTroops);	
+
+	if(pHomePort->isSpeedUped())
+	{
+		pTroops->setHighSpeed(true);
+	}
 
 	return pTroops;
 }
@@ -674,12 +721,25 @@ void StageBaseLayer::skillUpCallback( CCObject* pSender )
 
 void StageBaseLayer::skillSpeedCallback( CCObject* pSender )
 {
-
+	if(m_pFocusedPlanet)
+	{
+		int remain = m_nStarCount - SKILL_SPEED_COUNT;
+		setStarCount(remain);
+		m_pFocusedPlanet->speedUp();
+	}
 }
 
 void StageBaseLayer::skillDownCallback( CCObject* pSender )
 {
-
+	CCObject* pOb = NULL;
+	CCARRAY_FOREACH(m_pPlanetArray, pOb)
+	{
+		Planet* pPlanet = (Planet*) pOb;	
+		if(!pPlanet->isDirty() && pPlanet->getForceSide() != kForceSideCat)
+		{
+			pPlanet->slowDown();
+		}
+	}
 }
 
 void StageBaseLayer::speakerCallback( CCObject* pSender )

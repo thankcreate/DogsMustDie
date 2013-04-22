@@ -41,12 +41,14 @@ public:
 	int getTroopsType() { return m_nTroopsType; }
 	void setHasGotStar(bool got);
 	bool hasGotStar() {return m_bHasGotStar;}
+	void setHighSpeed(bool isHighSpeed);
+	bool isHighSpeed() { return m_bIsHighSpeed; }
 
 private:
 	int m_nTroopsType; // 是否是追星星的Troop
 	bool m_bHasGotStar;  // 是否带着星星，因为回来时不一定带着星星，可能已经被别人抢走了
 	bool m_bIsInReturn;
-	float speedCoefficient;
+	bool m_bIsHighSpeed;
 };
 
 #endif // Troops_h__

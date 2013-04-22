@@ -26,7 +26,7 @@ public:
 	CC_SYNTHESIZE(Face*, m_pFace, Face);	// 星球中心的占领势力头像
 	CC_SYNTHESIZE(CCLabelTTF*, m_pFightUnitLabel, FightUnitLabel );
 	CC_SYNTHESIZE(Rank*, m_pRank, Rank);
-	
+	CC_SYNTHESIZE(CCSprite*, m_pSlowDownMark, SlowDownMark);
 	
 
 	void setFightUnitCount(int input);	
@@ -50,10 +50,17 @@ public:
 
 	void speedUp();
 	bool canSpeedUp() { return !m_bSpeedUped; }
-	
+	bool isSpeedUped() { return m_bSpeedUped; }
+
+	void slowDown();
+	bool canSlowDown() { return !m_bSlowDowned; }
+	bool isSlowDowned() { return m_bSlowDowned; }
+	void slowDownRestore(float dt);
+
 private:
 	int m_nLevel;
 	bool m_bSpeedUped;
+	bool m_bSlowDowned;
 	float m_fLastTimeIncreased;
 };
 

@@ -7,7 +7,9 @@
 #define  DEFAULT_COUNT 50
 
 #define BASE_INCREASE_INTERVAL 2.0f
-#define LEVEL_COEFFICIENT 0.2
+#define LEVEL_COEFFICIENT 0.15f
+#define SLOW_DOWN_COEFIICIENT 0.2f
+#define SLOW_DOWN_DURATION 12.0f
 
 Planet::Planet() :	
 	m_pFace(NULL),
@@ -15,7 +17,9 @@ Planet::Planet() :
 	m_nLevel(0),
 	m_fLastTimeIncreased(0),
 	m_pRank(NULL),
-	m_bSpeedUped(false)
+	m_bSpeedUped(false),
+	m_pSlowDownMark(NULL),
+	m_bSlowDowned(false)
 {
 	m_nFightUnitCount = DEFAULT_COUNT;
 }
@@ -116,6 +120,12 @@ float Planet::getIncreaseInterval()
 	{
 		coe *= (1 - LEVEL_COEFFICIENT);
 	}
+
+	if(m_bSlowDowned)
+	{
+		coe *= (1 / (1 - SLOW_DOWN_COEFIICIENT));
+	}
+
 	return BASE_INCREASE_INTERVAL * coe;
 }
 
@@ -161,5 +171,54 @@ void Planet::setLevel(int level)
 
 void Planet::speedUp()
 {
-	m_bSpeedUped = true;	
+	m_bSpeedUped = true;
+	
+	if(m_pFace)
+	{
+		m_pFace->setWingsVisiable(true);
+	}
+}
+
+void Planet::slowDown()
+{
+	// 当前的逻辑禁止在一个减速期间叠加另一个减速
+	if(m_bSlowDowned)
+		return;
+
+	m_bSlowDowned = true;	
+
+	if(!m_pSlowDownMark)
+	{
+		setSlowDownMark(CCSprite::create());
+		m_pSlowDownMark->setPosition(ccp(106,65));
+		this->addChild(m_pSlowDownMark);
+	}
+
+	m_pSlowDownMark->setVisible(true);	
+
+	CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile("SlowDownMark.plist");
+	CCAnimation* animation = CCAnimation::create();
+	animation->addSpriteFrame(cache->spriteFrameByName("SlowDownMark_0.png"));	
+	animation->addSpriteFrame(cache->spriteFrameByName("SlowDownMark_1.png"));	
+	animation->addSpriteFrame(cache->spriteFrameByName("SlowDownMark_2.png"));	
+	animation->addSpriteFrame(cache->spriteFrameByName("SlowDownMark_3.png"));	
+	animation->addSpriteFrame(cache->spriteFrameByName("SlowDownMark_4.png"));	
+	animation->addSpriteFrame(cache->spriteFrameByName("SlowDownMark_4.png"));
+	animation->setDelayPerUnit(0.2f);
+	CCAnimate* animate = CCAnimate::create(animation);
+	m_pSlowDownMark->runAction(CCRepeatForever::create(animate));
+	
+
+	this->scheduleOnce(schedule_selector(Planet::slowDownRestore) , SLOW_DOWN_DURATION);
+}
+
+void Planet::slowDownRestore(float dt)
+{
+	if(!m_pSlowDownMark || !m_bSlowDowned)
+		return;
+
+	m_pSlowDownMark->setVisible(false);
+	m_bSlowDowned = false;
+	m_pSlowDownMark->stopAllActions();
 }
