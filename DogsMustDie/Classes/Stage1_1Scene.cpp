@@ -13,3 +13,8 @@ void gotoNext()
 {
 	StageMap::sharedInstance()->gotoStage(1,2);
 }
+
+const char* Stage1_1Scene::getBGMFileName()
+{	
+	return "Audio_bgm_stage_1.mp3";
+}

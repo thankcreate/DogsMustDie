@@ -53,9 +53,10 @@ bool AboutLayer::init()
 		pMenu->addChild(pGobackItem);
 
 		setKeypadEnabled(true);
+		PreloadEffect("Audio_button.mp3");
 
 //#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//		AdViewManager::sharedInstance()->show(this);	
+//		AdViewManager::sharedInstance()->show();	
 //#endif
 
 		bRet = true;
@@ -67,14 +68,14 @@ bool AboutLayer::init()
 void AboutLayer::gobackCallback(CCObject* pSender)
 {
 	CCScene* stage = StartupScene::create();
-	CCDirector::sharedDirector()->replaceScene(stage);    
+	CCDirector::sharedDirector()->replaceScene(stage);
+	PlayEffect("Audio_button.mp3");
 }
 
 
 void AboutLayer::keyBackClicked()
 {
-    gobackCallback(NULL);
-    
+    gobackCallback(NULL);    
 }
 
 

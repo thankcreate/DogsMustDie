@@ -6,6 +6,7 @@
 #include "StartupScene.h"
 #include "StageSelectFrameSprite.h"
 #include "MyUseDefaultDef.h"
+#include "AudioManager.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "IAPWrapper.h"
@@ -132,6 +133,8 @@ bool StageSelectLayer::init()
 			m_pRightThumb->setEnabled(false);
 		}
 
+		setKeypadEnabled(true);
+		PreloadEffect("Audio_button.mp3");
 		bRet = true;
 	} while (0);
 
@@ -157,7 +160,8 @@ void StageSelectLayer::gotoStageCallback(CCObject* pSender)
 	if(pSender == NULL)
 		return;
 
-	SubStageItem* item = (SubStageItem*)pSender;	
+	PlayEffect("Audio_button.mp3");
+	SubStageItem* item = (SubStageItem*)pSender;
 	StageMap::sharedInstance()->gotoStage(item->m_bigIndex, item->m_smallIndex);
 }
 
@@ -167,6 +171,7 @@ void StageSelectLayer::slideCallback(CCObject* pSender)
 	CCMenuItemImage* item = (CCMenuItemImage*)pSender;
 	int nTag = item->getTag();	
 
+	PlayEffect("Audio_button.mp3");
 	if(nTag == SLIDER_LEFT)
 	{
 		if(sCurrentIndex > 0)
@@ -219,6 +224,7 @@ void StageSelectLayer::slideCallback(CCObject* pSender)
 
 void StageSelectLayer::menuBackCallback(CCObject* pSender)
 {
+	PlayEffect("Audio_button.mp3");
 	CCScene* stage = StartupScene::create();						
 	CCDirector::sharedDirector()->replaceScene(stage);
 }
@@ -306,6 +312,6 @@ void StageSelectLayer::onEnterTransitionDidFinish()
 {
 	CCLayer::onEnterTransitionDidFinish();
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-	AdViewManager::sharedInstance()->show(this);	
+	AdViewManager::sharedInstance()->show();	
 #endif
 }

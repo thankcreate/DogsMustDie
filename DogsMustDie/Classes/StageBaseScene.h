@@ -25,7 +25,7 @@ public:
 	bool init();	
 	void setLevel(int big, int small1);
 	void playBGM();
-	const char* getBGMFileName();
+	virtual const char* getBGMFileName();
 
 	void opGoBack();
 	void opReStart();

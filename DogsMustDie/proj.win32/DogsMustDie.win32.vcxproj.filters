@@ -190,9 +190,6 @@
     <ClInclude Include="..\Classes\AdViewManager.h">
       <Filter>include\Ad</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\CCAdView.h">
-      <Filter>include\Ad</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Troops.h">
       <Filter>include\Sprite\Troops</Filter>
     </ClInclude>
@@ -298,9 +295,6 @@
       <Filter>source\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AdViewManager.cpp">
-      <Filter>source\Ad</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\CCAdView.cpp">
       <Filter>source\Ad</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Troops.cpp">

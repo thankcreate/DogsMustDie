@@ -2,7 +2,7 @@
 #define AdViewManager_h__
 
 #include "cocos2d.h"
-#include "CCAdView.h"
+
 
 using namespace cocos2d;
 
@@ -11,17 +11,18 @@ class AdViewManager
 {
 public:
 	static AdViewManager* sharedInstance();
-	~AdViewManager();
-	
 
-	void show(CCNode* parent);
+	void show();
 	void hide();
 
-	CC_SYNTHESIZE_RETAIN(CCAdView*, m_pAdView, AdView);
+	enum
+	{
+		VIEW_VISIBLE = 1,
+		VIEW_INVISIBLE = 2
+	};
 
 private:
 	AdViewManager();
-
 	static AdViewManager* m_pInstance;
 };
 

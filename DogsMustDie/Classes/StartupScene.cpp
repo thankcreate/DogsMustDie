@@ -30,7 +30,7 @@ bool StartupScene::init()
 		_startupLayer = StartupLayer::create();
 		this->addChild(_startupLayer, 0);
 		bRet = true;
-		//PlayBGM("Audio_bgm_home.mp3");
+		PlayBGM("Audio_bgm_home.mp3");
 	} while (0);
 	return bRet;
 }

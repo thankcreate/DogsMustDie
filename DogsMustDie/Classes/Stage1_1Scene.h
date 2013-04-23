@@ -14,6 +14,7 @@ public:
 	CREATE_FUNC(Stage1_1Scene);
 	virtual StageBaseLayer* getMainStageLayer();
 	void gotoNext();
+	const char* getBGMFileName();
 };
 
 #endif // Stage1_1Scene_h__

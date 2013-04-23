@@ -24,7 +24,9 @@ Rank* Rank::createWithCount( int count )
 {
 	if(count <= 0)
 	{
-		return new Rank();
+		Rank* pResult = new Rank();
+		pResult->init();
+		return pResult;
 	}
 	Rank* pResult = new Rank();
 	pResult->initWithCount(count);

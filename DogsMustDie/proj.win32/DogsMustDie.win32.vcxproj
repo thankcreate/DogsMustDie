@@ -138,7 +138,6 @@
     <ClInclude Include="..\Classes\AudioManager.h" />
     <ClInclude Include="..\Classes\CatPlanet.h" />
     <ClInclude Include="..\Classes\CatTroops.h" />
-    <ClInclude Include="..\Classes\CCAdView.h" />
     <ClInclude Include="..\Classes\Defines.h" />
     <ClInclude Include="..\Classes\DogPlanet.h" />
     <ClInclude Include="..\Classes\Face.h" />
@@ -179,7 +178,6 @@
     <ClCompile Include="..\Classes\AudioManager.cpp" />
     <ClCompile Include="..\Classes\CatPlanet.cpp" />
     <ClCompile Include="..\Classes\CatTroops.cpp" />
-    <ClCompile Include="..\Classes\CCAdView.cpp" />
     <ClCompile Include="..\Classes\DogPlanet.cpp" />
     <ClCompile Include="..\Classes\Face.cpp" />
     <ClCompile Include="..\Classes\FightObject.cpp" />

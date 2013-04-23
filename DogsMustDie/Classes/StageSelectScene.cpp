@@ -1,5 +1,5 @@
 #include "StageSelectScene.h"
-//#include "AudioManager.h"
+#include "AudioManager.h"
 #include "Defines.h"
 using namespace cocos2d;
 
@@ -21,7 +21,7 @@ bool StageSelectScene::init()
 		_stage1Layer = StageSelectLayer::create();
 		this->addChild(_stage1Layer, 0);
 
-		//PlayBGM("Audio_bgm_home.mp3");
+		PlayBGM("Audio_bgm_home.mp3");
 		bRet = true;
 	} while (0);
 	return bRet;

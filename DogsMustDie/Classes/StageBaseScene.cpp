@@ -44,9 +44,8 @@ void StageBaseScene::playBGM()
 }
 
 const char* StageBaseScene::getBGMFileName()
-{
-	return NULL;
-	//return "Audio_bgm_1.mp3";
+{	
+	return "Audio_bgm_stage_2.mp3";
 }
 
 

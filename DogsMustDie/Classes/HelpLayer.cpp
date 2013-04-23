@@ -1,7 +1,8 @@
 #include "HelpLayer.h"
 #include "MyMenu.h"
 #include "HelpLayerDelegate.h"
-
+#include "AudioManager.h"
+#include "Defines.h"
 
 HelpLayer::HelpLayer() :
 	m_bInShow(false),
@@ -98,12 +99,13 @@ void HelpLayer::show()
 }
 
 void HelpLayer::backCallback( CCObject* pSender )
-{
+{	
 	restore();
 }
 
 void HelpLayer::restore()
 {
+	PlayEffect("Audio_button.mp3");
 	if(!m_bInShow)
 		return;
 

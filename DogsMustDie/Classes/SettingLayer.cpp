@@ -79,9 +79,10 @@ bool SettingLayer::init()
 		musicToggle->setSelectedIndex(musicIndex);
 
 		setKeypadEnabled(true);
+		PreloadEffect("Audio_button.mp3");
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-		AdViewManager::sharedInstance()->show(this);	
+		AdViewManager::sharedInstance()->show();
 #endif
 
 		bRet = true;
@@ -106,6 +107,7 @@ bool SettingLayer::fromIndexToBool(int index)
 
 void SettingLayer::onSoundCallback(CCObject* pSender)
 {
+	PlayEffect("Audio_button.mp3");
 	CCMenuItemToggle *toggleItem = (CCMenuItemToggle *)pSender;
 	int index = toggleItem->getSelectedIndex();
 	bool enable = fromIndexToBool(index);
@@ -122,6 +124,7 @@ void SettingLayer::onSoundCallback(CCObject* pSender)
 }
 void SettingLayer::onMusicCallback(CCObject* pSender)
 {
+	PlayEffect("Audio_button.mp3");
 	CCMenuItemToggle *toggleItem = (CCMenuItemToggle *)pSender;
 	int index = toggleItem->getSelectedIndex();
 	bool enable = fromIndexToBool(index);
@@ -141,6 +144,7 @@ void SettingLayer::onMusicCallback(CCObject* pSender)
 
 void SettingLayer::gobackCallback(CCObject* pSender)
 {
+	PlayEffect("Audio_button.mp3");
 	CCScene* stage = StartupScene::create();
 	CCDirector::sharedDirector()->replaceScene(stage);	
 }

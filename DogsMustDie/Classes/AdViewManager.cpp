@@ -1,8 +1,11 @@
 #include "AdViewManager.h"
 #include "Defines.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include "platform/android/jni/JniHelper.h"
+#include <jni.h>
+#endif
 
-AdViewManager::AdViewManager() :
-m_pAdView(NULL)
+AdViewManager::AdViewManager()
 {
 
 }
@@ -16,31 +19,32 @@ AdViewManager* AdViewManager::sharedInstance()
 	return m_pInstance;
 }
 
-void AdViewManager::show(CCNode* parent )
+void AdViewManager::show()
 {
-	if(m_pAdView == NULL)
-	{
-		CCSize size = WIN_SIZE;
-		setAdView(CCAdView::create(kCCAdSizeBanner, "a15159a123e53f4"));		
-		m_pAdView->setAlignment(kCCHorizontalAlignmentCenter, kCCVerticalAlignmentBottom);
-		m_pAdView->useLocation(kCCLocationCoarse);
-		parent->addChild(m_pAdView, 20);		
-	}
-	m_pAdView->loadAd();
-	m_pAdView->setVisible(true);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	JniMethodInfo minfo; 
+	jobject jobj; 
+	jint _int = 1;
+
+	bool b = JniHelper::getStaticMethodInfo(minfo,  
+		"com/thankcreate/tool/AdViewHelper",  //类路径 
+		"nativeSendMsg",   //静态方法名 
+		"(I)V");   //括号里的是参数，后面的是返回值。 
+	jobj = minfo.env->CallStaticObjectMethod(minfo.classID, minfo.methodID, VIEW_VISIBLE );  
+#endif
 }
 
 void AdViewManager::hide()
 {
-	if(m_pAdView)
-	{
-		m_pAdView->setVisible(false);
-	}
-}
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	JniMethodInfo minfo; 
+	jobject jobj; 
+	jint _int = 1;
 
-AdViewManager::~AdViewManager()
-{
-	CC_SAFE_RELEASE(m_pAdView);
-}
-
-
+	bool b = JniHelper::getStaticMethodInfo(minfo,  
+		"com/thankcreate/tool/AdViewHelper",  //类路径 
+		"nativeSendMsg",   //静态方法名 
+		"(I)V");   //括号里的是参数，后面的是返回值。 
+	jobj = minfo.env->CallStaticObjectMethod(minfo.classID, minfo.methodID, VIEW_INVISIBLE );  
+#endif
+};

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 
 using namespace cocos2d;
+#define CRY_DURATION 1.0f
 
 class Face : public CCSprite
 {
@@ -20,6 +21,13 @@ public:
 	void initWithForceSide(int force);
 
 	void setWingsVisiable(bool visible);
+
+	void cry();
+	void restore(float dt);
+
+private:
+	bool m_bIsInCry;
+
 };
 
 #endif // Face_h__

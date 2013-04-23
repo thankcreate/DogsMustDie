@@ -11,6 +11,7 @@
 #include "Box2D/Box2D.h"
 #include "CatPlanet.h"
 #include "DogPlanet.h"
+#include "AudioManager.h"
 
 #define SKILL_UPGRADE_COUNT 2
 #define SKILL_SPEED_COUNT 1
@@ -75,6 +76,11 @@ bool StageBaseLayer::init()
 		// 需要支持拖拽
 		this->setTouchEnabled(true);
 
+
+		PreloadEffect("Audio_fight.mp3");
+		PreloadEffect("Audio_button.mp3");
+		PreloadEffect("Audio_skill_down.mp3");
+
 		bRet = true;
 	} while (0);
 
@@ -86,7 +92,7 @@ void StageBaseLayer::initPlanets()
 
 }
 
-void StageBaseLayer::makePlanet(int force, CCPoint position, int fightUnitCount, int level)
+Planet* StageBaseLayer::makePlanet(int force, CCPoint position, int fightUnitCount, int level)
 {
 	Planet* pPlanet = NULL;
 
@@ -98,9 +104,7 @@ void StageBaseLayer::makePlanet(int force, CCPoint position, int fightUnitCount,
 	{
 		pPlanet = DogPlanet::create();
 	}
-
-	if(!pPlanet)
-		return;
+		
 	pPlanet->setPosition(position);
 	pPlanet->setFightUnitCount(fightUnitCount);
 	pPlanet->setLevel(level);
@@ -109,6 +113,8 @@ void StageBaseLayer::makePlanet(int force, CCPoint position, int fightUnitCount,
 	m_pUpdateArray->addObject(pPlanet);
 	pPlanet->createBox2dObject(m_pWorld);
 	this->addChild(pPlanet, kPlanetLayerIndex);
+
+	return pPlanet;
 }
 
 void StageBaseLayer::initBackground()
@@ -448,13 +454,13 @@ void StageBaseLayer::handleFromAndTo(CCSprite* pFrom, CCSprite* pTo)
 				if(pToFightObject->getFightType() == kFightPlanet)
 				{
 					Planet* pToPlanet = (Planet*) pToFightObject;
-					sendCatTroopsToPlanet(pCatPlanet, pToPlanet);
+					sendTroopsToPlanet(kForceSideCat, pCatPlanet, pToPlanet);
 				}
 			}
 			else if(endType == kGameObjectStar)
 			{
 				StarObject* pStar = (StarObject*) pTo;
-				sendCatTroopsToStar(pCatPlanet, pStar);
+				sendTroopsToStar(kForceSideCat, pCatPlanet, pStar);
 			}
 		}
 	}
@@ -489,7 +495,7 @@ void StageBaseLayer::showFocusedMarkOnFocusedPlanet()
 	}	
 }
 
-void StageBaseLayer::sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
+void StageBaseLayer::sendTroopsToPlanet(int force, Planet* fromPlanet, Planet* toPlanet)
 {
 	if(!fromPlanet || !toPlanet) 
 		return;
@@ -498,7 +504,7 @@ void StageBaseLayer::sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
 		return;
 
 	int unitCount = fromPlanet->getFightUnitCount();
-	
+
 	// 每次送出一半，如果当前为1，则不送
 	if(unitCount < 2)
 		return;
@@ -510,14 +516,12 @@ void StageBaseLayer::sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
 	// 设置from
 	fromPlanet->setFightUnitCount(remainCount);
 
-	// 喵星人军团, 行きます！
-	Troops* pTroops = makeTroops(kForceSideCat, sendCount, fromPlanet, toPlanet);
+	// 行きます！
+	Troops* pTroops = makeTroops(force, sendCount, fromPlanet, toPlanet);
 	pTroops->gotoTarget();
 }
 
-
-
-void StageBaseLayer::sendCatTroopsToStar(Planet* fromPlanet, StarObject* toStar)
+void StageBaseLayer::sendTroopsToStar(int force, Planet* fromPlanet, StarObject* toStar)
 {
 	if(!fromPlanet || !toStar) 
 		return;
@@ -539,7 +543,7 @@ void StageBaseLayer::sendCatTroopsToStar(Planet* fromPlanet, StarObject* toStar)
 	fromPlanet->decreaseFightUnitCount(sendCount);
 
 	// 喵星人追星部队, 行きます！
-	Troops* pTroops = makeTroops(kForceSideCat, sendCount, fromPlanet, toStar);	
+	Troops* pTroops = makeTroops(force, sendCount, fromPlanet, toStar);	
 	pTroops->setTroopsType(kTroopsForStar);	
 	pTroops->gotoTarget();
 }
@@ -716,6 +720,8 @@ void StageBaseLayer::skillUpCallback( CCObject* pSender )
 		int remain = m_nStarCount - SKILL_UPGRADE_COUNT;
 		setStarCount(remain);
 		m_pFocusedPlanet->levelUp();
+
+		PlayEffect("Audio_button.mp3");
 	}
 }
 
@@ -726,11 +732,16 @@ void StageBaseLayer::skillSpeedCallback( CCObject* pSender )
 		int remain = m_nStarCount - SKILL_SPEED_COUNT;
 		setStarCount(remain);
 		m_pFocusedPlanet->speedUp();
+
+		PlayEffect("Audio_button.mp3");
 	}
 }
 
 void StageBaseLayer::skillDownCallback( CCObject* pSender )
 {
+	int remain = m_nStarCount - SKILL_DOWN_COUNT;
+	setStarCount(remain);
+
 	CCObject* pOb = NULL;
 	CCARRAY_FOREACH(m_pPlanetArray, pOb)
 	{
@@ -740,6 +751,9 @@ void StageBaseLayer::skillDownCallback( CCObject* pSender )
 			pPlanet->slowDown();
 		}
 	}
+	
+	PlayEffect("Audio_button.mp3");
+	PlayEffect("Audio_skill_down.mp3");
 }
 
 void StageBaseLayer::speakerCallback( CCObject* pSender )
@@ -762,6 +776,8 @@ void StageBaseLayer::speakerCallback( CCObject* pSender )
 		if(m_pParentScene)
 			m_pParentScene->opSound(true);
 	}
+
+	PlayEffect("Audio_button.mp3");
 }
 
 void StageBaseLayer::helpCallback( CCObject* pSender )
@@ -769,6 +785,8 @@ void StageBaseLayer::helpCallback( CCObject* pSender )
 	if(m_pParentScene)
 		m_pParentScene->showHelpLayer();
 	m_bIsUpdateStopped = true;
+
+	PlayEffect("Audio_button.mp3");
 }
 
 void StageBaseLayer::helpLayerClosed()
@@ -856,8 +874,6 @@ void StageBaseLayer::handleContactTroopsAndTroops(Troops* pTroopsA, Troops* pTro
 {
 	if(!pTroopsA || !pTroopsB)
 		return;
-
-
 }
 
 void StageBaseLayer::handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlanet)
@@ -877,16 +893,22 @@ void StageBaseLayer::handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlan
 		{
 			int enemyCount= pPlanet->getFightUnitCount();
 			int myCount = pTroops->getFightUnitCount();
+			// 占领
 			if(myCount >= enemyCount)
 			{
-				int left = myCount = enemyCount;
+				int left = myCount - enemyCount;
 				pPlanet->initWithForceSide(pTroops->getForceSide());
-				pPlanet->setFightUnitCount(left);
+				pPlanet->setFightUnitCount(left);		
+				playOccupySoundEffect(pTroops->getForceSide());
+				planetOccupied(pPlanet);
 			}
+			// 打酱油
 			else
 			{
 				pPlanet->setFightUnitCount(enemyCount - myCount);
-			}			
+				pPlanet->cry();
+				PlayEffect("Audio_fight.mp3");
+			}
 		}
 		pTroops->destroyInNextUpdate();
 	}
@@ -957,4 +979,23 @@ void StageBaseLayer::setStarCount( int count )
 		CCString* pStrCount = CCString::createWithFormat("%d", m_nStarCount);
 		m_pStarCountLabel->setString(pStrCount->getCString());
 	}
+}
+
+
+// 占领音效
+void StageBaseLayer::playOccupySoundEffect(int force)
+{
+	if(force == kForceSideCat)
+	{
+		PlayEffect("Audio_cat_occupy.mp3");
+	}
+	else if(force == kForceSideDog)
+	{
+		PlayEffect("Audio_dog_occupy.mp3");
+	}
+}
+
+void StageBaseLayer::planetOccupied(Planet* pPlanet)
+{
+	// TODO
 }

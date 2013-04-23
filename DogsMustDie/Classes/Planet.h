@@ -57,11 +57,16 @@ public:
 	bool isSlowDowned() { return m_bSlowDowned; }
 	void slowDownRestore(float dt);
 
+	void cry();
+
+	void stopIncrease();
+	void stopIncreaseRestore();
 private:
 	int m_nLevel;
 	bool m_bSpeedUped;
 	bool m_bSlowDowned;
 	float m_fLastTimeIncreased;
+	bool m_bIncreaseStopped;
 };
 
 #endif // Planet_h__

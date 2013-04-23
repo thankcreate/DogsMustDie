@@ -1,10 +1,13 @@
 #include "Face.h"
 #include "Defines.h"
 
+
+
 Face::Face() :
 	m_nForceSide(kForceSideCat),
 	m_pLeftWing(NULL),
-	m_pRightWing(NULL)
+	m_pRightWing(NULL),
+	m_bIsInCry(false)
 {
 
 }
@@ -60,6 +63,44 @@ void Face::setWingsVisiable( bool visible )
 	m_pRightWing->setVisible(visible);
 
 
+}
+
+void Face::restore(float dt)
+{	
+	m_bIsInCry = false;
+	if(m_nForceSide == kForceSideCat)
+	{
+		this->initWithFile("Cat_normal.png");
+	}
+	else if(m_nForceSide == kForceSideDog)
+	{
+		this->initWithFile("Dog_normal.png");
+	}
+}
+
+// 由于会出现一个cry过程尚未restore的期间又触发了另一个cry
+// 需要在后一个cry中将前一个restore从队列中取出
+// 并以当前为时间点，重新schedule一个restore
+void Face::cry()
+{
+	if(!m_bIsInCry)
+	{
+		if(m_nForceSide == kForceSideCat)
+		{
+			this->initWithFile("Cat_cry.png");
+		}
+		else if(m_nForceSide == kForceSideDog)
+		{
+			this->initWithFile("Dog_cry.png");
+		}
+		m_bIsInCry = true;
+	}
+	else
+	{
+		this->unschedule(schedule_selector(Face::restore));
+	}
+
+	this->scheduleOnce(schedule_selector(Face::restore), CRY_DURATION);
 }
 
 

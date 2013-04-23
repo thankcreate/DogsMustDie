@@ -12,6 +12,7 @@
 #include "StageSelectScene.h"
 #include "SettingScene.h"
 #include "AboutScene.h"
+#include "AudioManager.h"
 using namespace cocos2d;
 
 StartupLayer::StartupLayer(void) :
@@ -89,10 +90,13 @@ bool StartupLayer::init()
 		CC_BREAK_IF(! pAboutItem);		
 
 		pAboutItem->setPosition(ccp(400, 70));
-		pMenu->addChild(pAboutItem);
+		pMenu->addChild(pAboutItem);		
 
-		
 		shakePlanets();
+
+		this->setKeypadEnabled(true);
+
+		PreloadEffect("Audio_button.mp3");
 		bRet = true;
 	} while (0);
 
@@ -122,17 +126,20 @@ void StartupLayer::shakePlanets()
 
 void StartupLayer::startCallback(CCObject* pSender)
 {
+	PlayEffect("Audio_button.mp3");
 	CCScene* stage = StageSelectScene::create();
 	CCDirector::sharedDirector()->replaceScene(stage);	
 }
 void StartupLayer::optionCallback(CCObject* pSender)
 {
+	PlayEffect("Audio_button.mp3");
 	CCScene* stage = SettingScene::create();
 	CCDirector::sharedDirector()->replaceScene(stage);
 }
 
 void StartupLayer::aboutCallback(CCObject* pSender)
 {
+	PlayEffect("Audio_button.mp3");
 	CCScene* stage = AboutScene::create();
 	CCDirector::sharedDirector()->replaceScene(stage);
 }
@@ -146,5 +153,5 @@ void StartupLayer::rateusCallback(CCObject* pSender)
 // 目前仅对安卓有效，后退时退出
 void StartupLayer::keyBackClicked()
 {
-    
+   CCDirector::sharedDirector()->end(); 
 }

@@ -4,8 +4,7 @@
 #include "FightObject.h"
 #include "Rank.h"
 
-#define  DEFAULT_COUNT 50
-
+#define DEFAULT_COUNT 50
 #define BASE_INCREASE_INTERVAL 2.0f
 #define LEVEL_COEFFICIENT 0.15f
 #define SLOW_DOWN_COEFIICIENT 0.2f
@@ -19,7 +18,8 @@ Planet::Planet() :
 	m_pRank(NULL),
 	m_bSpeedUped(false),
 	m_pSlowDownMark(NULL),
-	m_bSlowDowned(false)
+	m_bSlowDowned(false),
+	m_bIncreaseStopped(false)
 {
 	m_nFightUnitCount = DEFAULT_COUNT;
 }
@@ -51,7 +51,7 @@ void Planet::setFightUnitCount( int input )
 
 int Planet::getMaximumUnitCount()
 {
-	return 50;
+	return 30 + 10 * m_nLevel;
 }
 
 void Planet::initWithForceSide( int force )
@@ -133,7 +133,7 @@ float Planet::getIncreaseInterval()
 void Planet::myUpdate(float dt)
 {
 	FightObject::myUpdate(dt);
-	if(m_fTime - m_fLastTimeIncreased > getIncreaseInterval())
+	if(!m_bIncreaseStopped && m_fTime - m_fLastTimeIncreased > getIncreaseInterval())
 	{
 		m_fLastTimeIncreased = m_fTime;
 		increaseFightUnitCount(1);
@@ -207,10 +207,12 @@ void Planet::slowDown()
 	animation->addSpriteFrame(cache->spriteFrameByName("SlowDownMark_4.png"));
 	animation->setDelayPerUnit(0.2f);
 	CCAnimate* animate = CCAnimate::create(animation);
-	m_pSlowDownMark->runAction(CCRepeatForever::create(animate));
-	
+	m_pSlowDownMark->runAction(CCRepeatForever::create(animate));	
 
 	this->scheduleOnce(schedule_selector(Planet::slowDownRestore) , SLOW_DOWN_DURATION);
+
+	if(m_pFace)
+		m_pFace->cry();
 }
 
 void Planet::slowDownRestore(float dt)
@@ -221,4 +223,21 @@ void Planet::slowDownRestore(float dt)
 	m_pSlowDownMark->setVisible(false);
 	m_bSlowDowned = false;
 	m_pSlowDownMark->stopAllActions();
+}
+
+void Planet::cry()
+{
+	if(m_pFace)
+		m_pFace->cry();
+}
+
+void Planet::stopIncrease()
+{
+	m_bIncreaseStopped = true;
+}
+
+
+void Planet::stopIncreaseRestore()
+{
+	m_bIncreaseStopped = false;
 }

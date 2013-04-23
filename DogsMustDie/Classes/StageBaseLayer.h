@@ -82,10 +82,8 @@ public:
 
 	void updateUpdateArray(float dt);
 	void handleFromAndTo(CCSprite *pStart, CCSprite *pEnd);
-	void sendCatTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet);
-	void sendCatTroopsToStar(Planet* fromPlanet, StarObject* toStar);
 	virtual void initPlanets();	
-	void makePlanet(int force, CCPoint position, int fightUnitCount, int level);
+	Planet* makePlanet(int force, CCPoint position, int fightUnitCount, int level);
 	void updateTroopsArray();
 	void updateSkillButtonState();
 
@@ -111,6 +109,13 @@ public:
 	void initFocusMark();
 	Planet* getPlanetByLocation(CCPoint location);
 	void showFocusedMarkOnFocusedPlanet();
+	void playOccupySoundEffect(int force);
+	void playOccupySoundEffectInDelay(float dt);
+	virtual void sendTroopsToPlanet(int force, Planet* fromPlanet, Planet* toPlanet);
+	virtual void sendTroopsToStar(int force, Planet* fromPlanet, StarObject* toStar);
+
+	// listener for sub class
+	virtual void planetOccupied(Planet* pPlanet);
 private:
 	bool m_bIsSpeakerEnabled;
 	bool m_bIsUpdateStopped;
