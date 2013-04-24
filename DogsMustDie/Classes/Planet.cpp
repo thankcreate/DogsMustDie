@@ -70,6 +70,10 @@ void Planet::initWithForceSide( int force )
 	{
 		initWithFile("Planet_dog.png");
 	}
+	else if(force == kForceSideMiddle)
+	{
+		initWithFile("Planet_middle.png");
+	}
 	else
 	{
 		return;
@@ -81,7 +85,7 @@ void Planet::initWithForceSide( int force )
 	{
 		Face* pFace = Face::createWithForceSide(force);
 		setFace(pFace);
-		m_pFace->setPosition(ccp(planetSize.width / 2 - 2, planetSize.height / 2 - 3));
+		m_pFace->setPosition(ccp(planetSize.width / 2 + 3, planetSize.height / 2 - 3));
 		this->addChild(m_pFace);
 	}
 	else
@@ -92,16 +96,27 @@ void Planet::initWithForceSide( int force )
 	CCString* pStr = CCString::createWithFormat("%d",  getFightUnitCount());
 	if(!m_pFightUnitLabel)
 	{
-		setFightUnitLabel(CCLabelTTF::create(pStr->getCString(), "00 Starmap Truetype.ttf", 19));
-		ccColor3B ccMyOrange={255, 104, 0};
-		m_pFightUnitLabel->setColor(ccMyOrange);
-		m_pFightUnitLabel->setPosition(ccp(planetSize.width - 14 , planetSize.height - 16));
+		setFightUnitLabel(CCLabelTTF::create(" ", "00 Starmap Truetype.ttf", 19));		
+		m_pFightUnitLabel->setPosition(ccp(planetSize.width - 16 , planetSize.height - 16));
 		this->addChild(m_pFightUnitLabel);
 	}
+
+	if(m_nForceSide != kForceSideMiddle)
+	{
+		ccColor3B ccMyOrange={255, 104, 0};
+		m_pFightUnitLabel->setColor(ccMyOrange);
+	}
 	else
-		m_pFightUnitLabel->setString(pStr->getCString());
+	{	
+		ccColor3B ccMyGray={72, 72, 72};
+		m_pFightUnitLabel->setColor(ccMyGray);
+	}
+	m_pFightUnitLabel->setString(pStr->getCString());
 
 
+	// 每次init之后stopped都会被置为false
+	// 主要是因为当把一个middel星设为stop后，被另一方占领需要自动恢复成正常增加
+	m_bIncreaseStopped =false;
 	// b2Body创建	
 }
 
@@ -161,7 +176,7 @@ void Planet::setLevel(int level)
 	if(!m_pRank)
 	{
 		setRank(Rank::createWithCount(level));
-		m_pRank->setPosition(ccp(106,8));
+		m_pRank->setPosition(ccp(113,8));
 		this->addChild(m_pRank);
 	}
 	else
@@ -192,7 +207,7 @@ void Planet::slowDown()
 	if(!m_pSlowDownMark)
 	{
 		setSlowDownMark(CCSprite::create());
-		m_pSlowDownMark->setPosition(ccp(106,65));
+		m_pSlowDownMark->setPosition(ccp(113,65));
 		this->addChild(m_pSlowDownMark);
 	}
 

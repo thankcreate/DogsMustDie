@@ -7,6 +7,7 @@
 #include "WinLayer.h"
 #include "MyUseDefaultDef.h"
 #include "StageSelectScene.h"
+#include "MiscTool.h"
 
 StageBaseScene::StageBaseScene() :
 	m_pStageLayer(NULL),
@@ -32,9 +33,13 @@ bool StageBaseScene::init()
 		CC_BREAK_IF(!CCScene::init());
 
 		m_pStageLayer = getMainStageLayer();
-		m_pStageLayer->setParentScene(this);			
+		m_pStageLayer->setParentScene(this);		
 		this->addChild(m_pStageLayer);
 		
+		if(m_nBigLevel > 0 && m_nSmallLevel > 0)
+		{
+			m_pStageLayer->setLevel(m_nBigLevel, m_nSmallLevel);
+		}
 		
 		playBGM();
 		bRet = true;
@@ -96,35 +101,13 @@ void StageBaseScene::setLevel(int big, int small1)
 {
 	m_nBigLevel = big;
 	m_nSmallLevel = small1;
-	//m_pOptionLayer->setLevelLabel(big,small1);
+	m_pStageLayer->setLevel(big, small1);
 }
 
 void StageBaseScene::showNavigator(bool isWin, int time, int unitLost)
 {
 	if(isWin)
 	{
-		int toBig = LoadIntegerFromXML(KEY_PLAYED_TO_BIG, 1);
-		int toSmall =  LoadIntegerFromXML(KEY_PLAYED_TO_SMALL, 1);
-
-		int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1;
-		int toZeroBasedIndex = zeroBasedIndex + 1;
-		int bigIndex = toZeroBasedIndex / SMALL_STAGE_COUNT + 1;
-		int smallIndex = toZeroBasedIndex % SMALL_STAGE_COUNT + 1;
-
-		if(bigIndex > toBig )
-		{
-			SaveIntegerToXML(KEY_PLAYED_TO_BIG, bigIndex);
-			SaveIntegerToXML(KEY_PLAYED_TO_SMALL, smallIndex);
-			SaveUserDefault();
-		}
-		else if(bigIndex == toBig &&  smallIndex > toSmall)
-		{
-			SaveIntegerToXML(KEY_PLAYED_TO_BIG, bigIndex);
-			SaveIntegerToXML(KEY_PLAYED_TO_SMALL, smallIndex);
-			SaveUserDefault();
-		}
-
-
 		showNavigatorWin(time, unitLost);
 	}
 	else
@@ -137,6 +120,30 @@ void StageBaseScene::showNavigator(bool isWin, int time, int unitLost)
 
 void StageBaseScene::showNavigatorWin(int time, int unitLost)
 {
+	int toBig = LoadIntegerFromXML(KEY_PLAYED_TO_BIG, 1);
+	int toSmall =  LoadIntegerFromXML(KEY_PLAYED_TO_SMALL, 1);
+
+	int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1;
+	int toZeroBasedIndex = zeroBasedIndex + 1;
+	int bigIndex = toZeroBasedIndex / SMALL_STAGE_COUNT + 1;
+	int smallIndex = toZeroBasedIndex % SMALL_STAGE_COUNT + 1;
+
+	if(bigIndex > toBig )
+	{
+		SaveIntegerToXML(KEY_PLAYED_TO_BIG, bigIndex);
+		SaveIntegerToXML(KEY_PLAYED_TO_SMALL, smallIndex);
+		SaveUserDefault();
+	}
+	else if(bigIndex == toBig &&  smallIndex > toSmall)
+	{
+		SaveIntegerToXML(KEY_PLAYED_TO_BIG, bigIndex);
+		SaveIntegerToXML(KEY_PLAYED_TO_SMALL, smallIndex);
+		SaveUserDefault();	
+	}
+
+	int scoreStarCount= getScoreStartCount(time, unitLost);
+	MiscTool::saveScoreForLevel(m_nBigLevel, m_nSmallLevel, scoreStarCount);
+
 	if(m_pWinLayer == NULL)
 	{			
 		setWinLayer(WinLayer::create());
@@ -144,8 +151,10 @@ void StageBaseScene::showNavigatorWin(int time, int unitLost)
 		this->addChild(m_pWinLayer, 10);
 	}
 	
+	
 	m_pWinLayer->setTime(time);
 	m_pWinLayer->setLostUnit(unitLost);
+	m_pWinLayer->setScoreStarCount(scoreStarCount);
 	m_pWinLayer->show();	
 }
 
@@ -161,4 +170,11 @@ void StageBaseScene::showNavigatorLose(int time, int unitLost)
 	m_pRestartLayer->setTime(time);
 	m_pRestartLayer->setLostUnit(unitLost);
 	m_pRestartLayer->show();
+}
+
+// 1 ~ 3
+// 只要赢了至少给个1星吧
+int StageBaseScene::getScoreStartCount(int time , int unitLost)
+{
+	return 3;
 }

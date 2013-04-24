@@ -22,6 +22,7 @@ public:
 	CC_SYNTHESIZE(CCSprite*, m_pSkillPrompt, SkillPrompt);
 	CC_SYNTHESIZE(CCSprite*, m_pStar, Star);
 
+
 	CC_SYNTHESIZE(Planet*, m_pDogPlanet1, DogPlanet1);
 	CC_SYNTHESIZE(Planet*, m_pDogPlanet2, DogPlanet2);
 
@@ -30,8 +31,8 @@ public:
 	void initGuideLayer();
 	void guideDragToOccupy(float dt);
 
-	virtual void sendTroopsToPlanet(int force, Planet* fromPlanet, Planet* toPlanet);
-	virtual void sendTroopsToStar(int force, Planet* fromPlanet, StarObject* toStar);
+	virtual void sendTroopsToPlanet( Planet* fromPlanet, Planet* toPlanet);
+	virtual void sendTroopsToStar( Planet* fromPlanet, StarObject* toStar);
 	void planetOccupied(Planet* pPlanet);
 	void guideDragToStar(float dt);
 	void starFinallyLandedOnMyPlanet( Planet* pPlanet );
@@ -49,6 +50,10 @@ public:
 	void callFunc1();
 	void guideWin();
 	void skipCallback(CCObject* pObject);
+	void showWinInDelay(float dt);
+
+	virtual int getInitStarCount() {return 4;}
+	virtual void updateAI();
 private:
 	bool m_bAskedToFocusAPlanet;
 	bool m_bAskedToClickSkillUpgrade;

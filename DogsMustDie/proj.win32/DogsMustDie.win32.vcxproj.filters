@@ -217,6 +217,18 @@
     <ClInclude Include="..\Classes\WinLayer.h">
       <Filter>include\Stage\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\MiscTool.h">
+      <Filter>include\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Stage1_2Layer.h">
+      <Filter>include\Stage\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Stage1_2Scene.h">
+      <Filter>include\Stage\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MiddlePlanet.h">
+      <Filter>include\Sprite\Planet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -326,6 +338,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\RestartLayer.cpp">
       <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MiscTool.cpp">
+      <Filter>source\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Stage1_2Layer.cpp">
+      <Filter>source\Stage\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Stage1_2Scene.cpp">
+      <Filter>source\Stage\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MiddlePlanet.cpp">
+      <Filter>source\Sprite\Planet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

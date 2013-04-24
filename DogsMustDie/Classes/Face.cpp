@@ -25,6 +25,18 @@ void Face::initWithForceSide( int force )
 	{
 		this->initWithFile("Dog_normal.png");
 	}
+	else if(m_nForceSide == kForceSideMiddle)
+	{
+		int index = CCRANDOM_0_1() * 3;
+		//  上一步是在0 - 3之间的整数，所以要去掉3
+		if(index == 3)
+			index = 2;
+		CCString* pLogoFileName = CCString::createWithFormat("Middle_logo_%d.png", index);
+		this->initWithFile(pLogoFileName->getCString());
+	}
+
+	if(m_pLeftWing)
+		setWingsVisiable(m_pLeftWing->isVisible());
 }
 
 Face* Face::createWithForceSide( int force )
@@ -38,6 +50,9 @@ Face* Face::createWithForceSide( int force )
 
 void Face::setWingsVisiable( bool visible )
 {
+	if(m_nForceSide == kForceSideMiddle)
+		return;
+
 	if(!m_pLeftWing)
 	{
 		if(m_nForceSide == kForceSideCat)
@@ -83,6 +98,9 @@ void Face::restore(float dt)
 // 并以当前为时间点，重新schedule一个restore
 void Face::cry()
 {
+	if(m_nForceSide == kForceSideMiddle)
+		return;
+
 	if(!m_bIsInCry)
 	{
 		if(m_nForceSide == kForceSideCat)

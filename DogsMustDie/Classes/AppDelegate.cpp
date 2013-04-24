@@ -42,6 +42,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     // run
     pDirector->runWithScene(pScene);
 
+	// 调试参数开关
+	pDirector->setDisplayStats(false);
+
     return true;
 }
 

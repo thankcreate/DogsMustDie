@@ -10,7 +10,6 @@ class SubStageItem : public CCMenuItemImage
 public:
 	SubStageItem();
 	static SubStageItem* create(int bigIndex, int smallIndex, CCObject* target, SEL_MenuHandler selector);
-
 	int m_bigIndex;
 	int m_smallIndex;
 };

@@ -4,6 +4,7 @@
 #include "MyUseDefaultDef.h"
 
 #include "Stage1_1Scene.h"
+#include "Stage1_2Scene.h"
 
 StageMap* StageMap::m_pInstance = NULL;
 
@@ -43,6 +44,12 @@ void StageMap::gotoStage( int bigIndex, int smallIndex )
 		case 1:
 			{				
 				stage = Stage1_1Scene::create();				
+				CCDirector::sharedDirector()->replaceScene(stage);				
+				break;
+			}
+		case 2:
+			{				
+				stage = Stage1_2Scene::create();				
 				CCDirector::sharedDirector()->replaceScene(stage);				
 				break;
 			}

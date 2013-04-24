@@ -1,5 +1,6 @@
 #include "SubStageItem.h"
 #include "PermissionManager.h"
+#include "MiscTool.h"
 
 SubStageItem::SubStageItem() :
 m_smallIndex(0),
@@ -14,7 +15,7 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 	pRet->m_bigIndex = bigIndex;
 	pRet->m_smallIndex = smallIndex;
 
-
+	// normal
 	CCSprite* normal = CCSprite::create("StageSelect_tinyblock.png");
 
 	CCString* pStr = CCString::createWithFormat("%d", smallIndex);
@@ -23,7 +24,40 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 	pLabel->setPosition(ccp(42 , 36));
 	normal->addChild(pLabel);
 
+	int score = MiscTool::getScoreForLevel(bigIndex, smallIndex);
+	float xInterval = 22;
+	if(score >=1)
+	{
+		// 这里从1开始算i会直观一点
+		for(int i = 1 ; i <= 3; i ++)
+		{
+			CCSprite* pScore = CCSprite::create();
+			if(i <= score)			
+				pScore->initWithFile("StageSelect_item_score_fill.png");
+			else
+				pScore->initWithFile("StageSelect_item_score_empty.png");
+			pScore->setPosition(ccp(18 + (i - 1) * xInterval, 9));
+			normal->addChild(pScore);
+		}
+	}
+
+	// seleted
 	CCSprite* selected = CCSprite::create("StageSelect_tinyblock_pressed.png");
+	xInterval = 22;
+	if(score >=1)
+	{
+		// 这里从1开始算i会直观一点
+		for(int i = 1 ; i <= 3; i ++)
+		{
+			CCSprite* pScore = CCSprite::create();
+			if(i <= score)			
+				pScore->initWithFile("StageSelect_item_score_fill.png");
+			else
+				pScore->initWithFile("StageSelect_item_score_empty.png");
+			pScore->setPosition(ccp(18 + (i - 1) * xInterval, 9));
+			selected->addChild(pScore);
+		}
+	}
 
 	CCLabelTTF* pLabel2 = CCLabelTTF::create(pStr->getCString(), "8bitoperator JVE.ttf", 55);
 	pLabel2->setColor(ccWHITE);

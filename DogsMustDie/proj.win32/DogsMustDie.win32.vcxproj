@@ -146,6 +146,8 @@
     <ClInclude Include="..\Classes\HelpLayer.h" />
     <ClInclude Include="..\Classes\HelpLayerDelegate.h" />
     <ClInclude Include="..\Classes\LineLayer.h" />
+    <ClInclude Include="..\Classes\MiddlePlanet.h" />
+    <ClInclude Include="..\Classes\MiscTool.h" />
     <ClInclude Include="..\Classes\MyMenu.h" />
     <ClInclude Include="..\Classes\MyUseDefaultDef.h" />
     <ClInclude Include="..\Classes\NavigatorLayer.h" />
@@ -158,6 +160,8 @@
     <ClInclude Include="..\Classes\SettingScene.h" />
     <ClInclude Include="..\Classes\Stage1_1Layer.h" />
     <ClInclude Include="..\Classes\Stage1_1Scene.h" />
+    <ClInclude Include="..\Classes\Stage1_2Layer.h" />
+    <ClInclude Include="..\Classes\Stage1_2Scene.h" />
     <ClInclude Include="..\Classes\StageBaseLayer.h" />
     <ClInclude Include="..\Classes\StageBaseScene.h" />
     <ClInclude Include="..\Classes\StageMap.h" />
@@ -187,6 +191,8 @@
     <ClCompile Include="..\Classes\GameObject.cpp" />
     <ClCompile Include="..\Classes\HelpLayer.cpp" />
     <ClCompile Include="..\Classes\LineLayer.cpp" />
+    <ClCompile Include="..\Classes\MiddlePlanet.cpp" />
+    <ClCompile Include="..\Classes\MiscTool.cpp" />
     <ClCompile Include="..\Classes\MyMenu.cpp" />
     <ClCompile Include="..\Classes\NavigatorLayer.cpp" />
     <ClCompile Include="..\Classes\PermissionManager.cpp" />
@@ -197,6 +203,8 @@
     <ClCompile Include="..\Classes\SettingScene.cpp" />
     <ClCompile Include="..\Classes\Stage1_1Layer.cpp" />
     <ClCompile Include="..\Classes\Stage1_1Scene.cpp" />
+    <ClCompile Include="..\Classes\Stage1_2Layer.cpp" />
+    <ClCompile Include="..\Classes\Stage1_2Scene.cpp" />
     <ClCompile Include="..\Classes\StageBaseLayer.cpp" />
     <ClCompile Include="..\Classes\StageBaseScene.cpp" />
     <ClCompile Include="..\Classes\StageMap.cpp" />

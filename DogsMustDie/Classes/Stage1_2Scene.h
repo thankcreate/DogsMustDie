@@ -1,5 +1,5 @@
-#ifndef Stage1_1Scene_h__
-#define Stage1_1Scene_h__
+#ifndef Stage1_2Scene_h__
+#define Stage1_2Scene_h__
 
 
 
@@ -8,10 +8,10 @@
 using namespace cocos2d;
 
 
-class Stage1_1Scene : public StageBaseScene
+class Stage1_2Scene : public StageBaseScene
 {
 public:	
-	CREATE_FUNC(Stage1_1Scene);
+	CREATE_FUNC(Stage1_2Scene);
 	virtual StageBaseLayer* getMainStageLayer();
 
 	void gotoNext();
@@ -22,4 +22,4 @@ public:
 	int getScoreStartCount(int time , int unitLost) {return 3;}
 };
 
-#endif // Stage1_1Scene_h__
+#endif // Stage1_2Scene_h__

@@ -152,7 +152,7 @@ void NavigatorLayer::setTime(int nTime)
 	m_nTime = nTime;
 	if(!m_pTimeLabel)
 	{		
-		setTimeLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 25));		
+		setTimeLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
 		m_pTimeLabel->setDimensions(CCSizeMake(220, 25));
 		m_pTimeLabel->setPosition(ccp(255, 201));
 		ccColor3B ccMyOrange={255, 104, 0};
@@ -171,7 +171,7 @@ void NavigatorLayer::setLostUnit(int nLost)
 	m_nLostUnit = nLost;
 	if(!m_pLostUnitLabel)
 	{		
-		setLostUnitLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 25));		
+		setLostUnitLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
 		m_pLostUnitLabel->setDimensions(CCSizeMake(220, 25));
 		m_pLostUnitLabel->setPosition(ccp(255, 170));
 		m_pLostUnitLabel->getTexture()->setAliasTexParameters();

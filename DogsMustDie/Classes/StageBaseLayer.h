@@ -38,7 +38,9 @@ public:
 	CC_SYNTHESIZE(CCSprite*, m_pFrontSight, FrontSight); // target的瞄准框
 	CC_SYNTHESIZE(CCSprite*, m_pFocusMark, FocusMark);  // 当前的被选中的星球
 	CC_SYNTHESIZE(CCLabelTTF*, m_pStarCountLabel, StarCountLabel);
-
+	CC_SYNTHESIZE(CCSprite*, m_pLevelBorder, LevelBorder);
+	CC_SYNTHESIZE(CCLabelTTF*, m_pLevelLabel, LevelLabel);
+	void setLevel(int big, int small1);
 	CC_SYNTHESIZE(CCSprite*, m_pFromObject, FromObject);
 	CC_SYNTHESIZE(CCSprite*, m_pToObject, ToObject);
 	CC_SYNTHESIZE(Planet*, m_pFocusedPlanet, FocusedPlanet);
@@ -74,31 +76,41 @@ public:
 	void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 
+	void handleFromAndTo(CCSprite *pStart, CCSprite *pEnd);
+
 	// inherit
 	void update(float dt);
 	void onEnterTransitionDidFinish();
 
-	// member
+	// init
 	void initFrontSight();
 	void initLineLayer();	
 	void initWorld();	
 	void initPannel();
 	void initBackground();
+	virtual void initPlanets();	
 	void initBackButton();
 
-	void updateUpdateArray(float dt);
-	void handleFromAndTo(CCSprite *pStart, CCSprite *pEnd);
-	virtual void initPlanets();	
-	Planet* makePlanet(int force, CCPoint position, int fightUnitCount, int level);
-	void updateTroopsArray();
+	// update cycle
+	virtual void updateTime(float dt);
+	virtual void updateUpdateArray(float dt);
+	virtual void updateTroopsArray();
 	virtual void updateSkillButtonState();
+	virtual void updateAI();
+	
+
+	// make tool
+	Troops* makeTroops(int forceSide, int fightUnitCount, Planet* pHomePort, GameObject* pTarget);
+	Planet* makePlanet(int force, CCPoint position, int fightUnitCount, int level);
+	StarObject* makeStar(CCPoint position);
+
+
 
 	// contact handle
+	void handleContactTroopsAndStar(Troops* pTroops, StarObject* pStar);
 	void handleContactTroopsAndTroops(Troops* troopsA, Troops* troopsB);
 	void handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlanet);
-	void handleContactTroopsAndStar(Troops* pTroops, StarObject* pStar);
-	Troops* makeTroops(int forceSide, int fightUnitCount, Planet* pHomePort, GameObject* pTarget);
-
+	
 
 	enum
 	{
@@ -117,24 +129,38 @@ public:
 	void showFocusedMarkOnFocusedPlanet();
 	void playOccupySoundEffect(int force);
 	void playOccupySoundEffectInDelay(float dt);
-	virtual void sendTroopsToPlanet(int force, Planet* fromPlanet, Planet* toPlanet);
-	virtual void sendTroopsToStar(int force, Planet* fromPlanet, StarObject* toStar);
+	virtual void sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet);
+	virtual void sendTroopsToStar(Planet* fromPlanet, StarObject* toStar);
 
 	// listener for sub class
 	virtual void planetOccupied(Planet* pPlanet);
 	virtual void starFinallyLandedOnMyPlanet(Planet* pPlanet);
 	virtual void planetFocused(Planet* pPlanet);
-	StarObject* makeStar(CCPoint position);
+
+	
+	virtual float getAIRefreshInteval() {return 4;}
+	virtual int getInitStarCount() {return 0;}
+
 	void gotoWin();
 	void gotoWinInDelay(float f);
 	void gotoDead();
 	void gotoDeadInDelay(float f);
+	void initLevelPannel();
+	void updateAIForPlanet(Planet* pPlanet);
+	Planet* getWeakestPlanet(int nForceSide, bool exceptMode);
+	Planet* getNeareastPlanet(CCPoint basePosition, int nForceSide, bool exceptMode);
+	Planet* getRandomPlanet( int nForceSide, bool exceptMode );
+	void planetActOn(Planet* pPlanet);
+	bool findTroops(GameObject* to, int force);
 protected:
 	bool m_bIsSpeakerEnabled;
 	bool m_bIsUpdateStopped;
 	int m_nStarCount;
 	bool m_bIsHelpLayerInShow;
-	bool m_InDeadOrWinState;
+	bool m_bInDeadOrWinState;
+	float m_fTime;
+	int m_nUnitLost;
+	float m_fLastRefreshAITime;
 };
 
 #endif // StageBaseLayer_h__

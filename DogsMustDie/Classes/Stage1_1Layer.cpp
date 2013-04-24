@@ -36,8 +36,7 @@ bool Stage1_1Layer::init()
 		CCSize size = WIN_SIZE;			
 
 		initGuideLayer();
-		setStarCount(4);
-
+		
 		CCMenu* pMenu = CCMenu::create(NULL);
 		pMenu->setPosition(CCPointZero);	
 		this->addChild(pMenu, 1);
@@ -61,8 +60,7 @@ bool Stage1_1Layer::init()
 
 void Stage1_1Layer::skipCallback(CCObject* pObject)
 {
-	//gotoWin();
-	gotoDead();
+	gotoWin();	
 }
 
 void Stage1_1Layer::initPlanets()
@@ -253,10 +251,10 @@ void Stage1_1Layer::guideClickOnDown(float dt)
 	m_bAskedToClickSkillDown = true;
 
 	// 画一个新Dog星球
-	Planet* pDog = makePlanet(kForceSideDog, ccp(362, 222), 20, 0);
+	Planet* pDog = makePlanet(kForceSideDog, ccp(362, 222), 15, 0);
 	setDogPlanet2(pDog);
 	
-	// 恢复增长
+	// 恢复所有星球增长
 	CCObject* pOb = NULL;
 	bool bCanSlowDown = false;
 	CCARRAY_FOREACH(getPlanetArray(), pOb)
@@ -273,7 +271,7 @@ void Stage1_1Layer::guideFinalStrike(float dt)
 {
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Now let's give the stupid dogs the final strike!");
+		m_pGuideLabel->setString("Now let's give the stupid dogs the final strike!\nLong live the meow star!");
 	}
 
 	if(!m_pFinger)
@@ -301,6 +299,12 @@ void Stage1_1Layer::guideWin()
 	{
 		m_pGuideLabel->setString("Good job. You see, dog sucks. But this is just the beginning of the holy war...");
 	}
+	this->scheduleOnce(schedule_selector(Stage1_1Layer::showWinInDelay), 2.5);
+}
+
+void Stage1_1Layer::showWinInDelay(float dt)
+{
+	gotoWin();
 }
 
 void Stage1_1Layer::callFunc1()
@@ -309,9 +313,9 @@ void Stage1_1Layer::callFunc1()
 		m_pFinger->setPosition(ccp(565, 295));
 }
 
-void Stage1_1Layer::sendTroopsToPlanet( int force, Planet* fromPlanet, Planet* toPlanet )
+void Stage1_1Layer::sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet )
 {
-	StageBaseLayer::sendTroopsToPlanet(force, fromPlanet, toPlanet);
+	StageBaseLayer::sendTroopsToPlanet(fromPlanet, toPlanet);
 	if(toPlanet == m_pDogPlanet1
 		&& toPlanet != NULL)
 	{
@@ -336,9 +340,9 @@ void Stage1_1Layer::sendTroopsToPlanet( int force, Planet* fromPlanet, Planet* t
 	}
 }
 
-void Stage1_1Layer::sendTroopsToStar( int force, Planet* fromPlanet, StarObject* toStar )
+void Stage1_1Layer::sendTroopsToStar(Planet* fromPlanet, StarObject* toStar )
 {
-	StageBaseLayer::sendTroopsToStar(force, fromPlanet, toStar);
+	StageBaseLayer::sendTroopsToStar(fromPlanet, toStar);
 
 	if(toStar == m_pStar)
 	{
@@ -354,7 +358,8 @@ void Stage1_1Layer::sendTroopsToStar( int force, Planet* fromPlanet, StarObject*
 
 void Stage1_1Layer::planetOccupied(Planet* pPlanet)
 {
-	StageBaseLayer::planetOccupied(pPlanet);
+	// 由于父类的planetOccupied作了输赢检查，所以下一行要注释掉
+	// StageBaseLayer::planetOccupied(pPlanet);
 
 	if(pPlanet == m_pDogPlanet1
 		&& pPlanet != NULL)
@@ -491,4 +496,9 @@ void Stage1_1Layer::updateSkillButtonState()
 	{
 		getSkillDownBtn()->setEnabled(true);
 	}
+}
+
+void Stage1_1Layer::updateAI()
+{
+	// 这一关的电脑什么也不做
 }

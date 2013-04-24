@@ -40,6 +40,10 @@ public:
 	void showNavigator(bool isWin, int time, int unitLost);
 	int m_nBigLevel;
 	int m_nSmallLevel;
+
+	virtual int getTimeJudgeLine() = 0;
+	virtual int getUnitLostJudgeLine() = 0;
+	virtual int getScoreStartCount(int time , int unitLost);
 };
 
 #endif // StageBaseScene_h__

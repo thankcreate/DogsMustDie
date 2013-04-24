@@ -53,7 +53,7 @@ bool RestartLayer::init()
 			this,
 			menu_selector(RestartLayer::backCallback));	
 
-		pBack->setPosition(ccp(240, 70));	
+		pBack->setPosition(ccp(240, 67));	
 		pMenu->addChild(pBack);
 
 		CCMenuItemImage *pNext = new CCMenuItemImage();		
@@ -64,7 +64,7 @@ bool RestartLayer::init()
 			this,
 			menu_selector(RestartLayer::restartCallback));	
 
-		pNext->setPosition(ccp(310, 70));	
+		pNext->setPosition(ccp(310, 67));	
 		pMenu->addChild(pNext);
 		
 		bRet = true;

@@ -19,6 +19,7 @@ public:
 	
 	CC_SYNTHESIZE(CCSprite* , m_pHappyCat, HappyCat);	
 	CC_SYNTHESIZE_RETAIN(CCAction*, m_pFlickerAction, FlickerAction);
+	CC_SYNTHESIZE_RETAIN(CCArray*, m_pStarArray, StarArray);
 
 	void show();
 	void restore();
@@ -29,6 +30,12 @@ public:
 
 	void catFunc1();
 	void catFunc2();
+
+	void setScoreStarCount(int count);
+	void fillEmptyStar(float dt);
+private:
+	int m_nScoreStarCount;
+	int m_nAlreadyFilledStarCount;
 };
 
 #endif // WinLayer_h__

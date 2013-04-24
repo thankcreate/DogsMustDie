@@ -68,7 +68,7 @@ enum eForceSide
 
 // other
 #define WIN_SIZE (CCDirector::sharedDirector()->getWinSize())
-
+#define HIT(prob) MiscTool::probabilityHit(prob)
 // stage
 #define BIG_STAGE_COUNT 2
 #define SMALL_STAGE_COUNT 12

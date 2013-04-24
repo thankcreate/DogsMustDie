@@ -1,19 +1,24 @@
 #include "WinLayer.h"
 #include "MyMenu.h"
 #include "Defines.h"
+#include "AudioManager.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
 
 WinLayer::WinLayer() :	
 	m_pHappyCat(NULL),
-	m_pFlickerAction(NULL)
+	m_pFlickerAction(NULL),
+	m_pStarArray(NULL),
+	m_nScoreStarCount(1),
+	m_nAlreadyFilledStarCount(0)
 {
 }
 
 WinLayer::~WinLayer()
 {
 	CC_SAFE_RELEASE(m_pFlickerAction);
+	CC_SAFE_RELEASE(m_pStarArray);
 }
 
 
@@ -38,11 +43,22 @@ bool WinLayer::init()
 		CCRepeat* pReapeat = CCRepeat::create(pSeq, ENDLESS_COUNT);
 		setFlickerAction(pReapeat);
 
+		// ·Ö¼¶ÐÇÐÇ
+		setStarArray(CCArray::createWithCapacity(3));
+		float xInterval = 63;
+		for(int i = 0; i < 3; i ++)
+		{
+			CCSprite* pStar = CCSprite::create("Navigator_star_empty.png");
+			pStar->setPosition(ccp(188 + xInterval * i, 122));
+			m_pFrame->addChild(pStar);
+			m_pStarArray->addObject(pStar);
+		}		
+
 		// °´Å¥
 		MyMenu* pMenu = MyMenu::create();
 		pMenu->setPosition(CCPointZero);	
-		m_pFrame->addChild(pMenu, 1);
-
+		m_pFrame->addChild(pMenu, 1);	
+		
 
 		CCMenuItemImage *pBack = new CCMenuItemImage();		
 		pBack->initWithNormalImage(
@@ -52,7 +68,7 @@ bool WinLayer::init()
 			this,
 			menu_selector(WinLayer::backCallback));	
 
-		pBack->setPosition(ccp(240, 70));	
+		pBack->setPosition(ccp(240, 67));	
 		pMenu->addChild(pBack);
 
 		CCMenuItemImage *pNext = new CCMenuItemImage();		
@@ -63,7 +79,7 @@ bool WinLayer::init()
 			this,
 			menu_selector(WinLayer::nextCallback));	
 
-		pNext->setPosition(ccp(310, 70));	
+		pNext->setPosition(ccp(310, 67));	
 		pMenu->addChild(pNext);
 
 		bRet = true;
@@ -118,4 +134,39 @@ void WinLayer::show()
 	m_pHappyCat->stopAllActions();
 	if(m_pFlickerAction)
 		m_pHappyCat->runAction(m_pFlickerAction);
+
+	this->schedule(schedule_selector(WinLayer::fillEmptyStar), 0.8);
+}
+
+void WinLayer::fillEmptyStar(float dt)
+{
+	if(m_nAlreadyFilledStarCount == m_nScoreStarCount)
+	{
+		this->unschedule(schedule_selector(WinLayer::fillEmptyStar));	
+		return;
+	}
+
+	if(m_pStarArray)
+	{
+		CCObject* pOb = m_pStarArray->objectAtIndex(m_nAlreadyFilledStarCount);
+		CCSprite* pStar = (CCSprite*) pOb;
+		pStar->initWithFile("Navigator_star_solid.png");
+		PlayEffect("Audio_cat_mew.mp3");
+
+		CCScaleTo* pScaleBig = CCScaleTo::create(0.09, 1.3);
+		CCScaleTo* pScaleRestore = CCScaleTo::create(0.09, 1);
+		CCSequence* pShake = CCSequence::createWithTwoActions(pScaleBig, pScaleRestore);		
+		pStar->runAction(pShake);
+	}
+
+	m_nAlreadyFilledStarCount++;
+}
+
+void WinLayer::setScoreStarCount( int count )
+{
+	if(count > 3)
+		count = 3;
+	if(count < 1)
+		count = 1;
+	m_nScoreStarCount = count;
 }
