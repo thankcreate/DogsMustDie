@@ -208,6 +208,15 @@
     <ClInclude Include="..\Classes\Rank.h">
       <Filter>include\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\NavigatorLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\RestartLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\WinLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -308,6 +317,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Rank.cpp">
       <Filter>source\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\NavigatorLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\WinLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\RestartLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

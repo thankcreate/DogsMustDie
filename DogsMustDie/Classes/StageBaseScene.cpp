@@ -3,12 +3,18 @@
 #include "AudioManager.h"
 #include "StageBaseLayer.h"
 #include "HelpLayer.h"
+#include "RestartLayer.h"
+#include "WinLayer.h"
+#include "MyUseDefaultDef.h"
+#include "StageSelectScene.h"
 
 StageBaseScene::StageBaseScene() :
 	m_pStageLayer(NULL),
 	m_nBigLevel(0),
 	m_nSmallLevel(0),
-	m_pHelpLayer(NULL)
+	m_pHelpLayer(NULL),
+	m_pRestartLayer(NULL),
+	m_pWinLayer(NULL)
 {
 
 }
@@ -52,7 +58,7 @@ const char* StageBaseScene::getBGMFileName()
 
 void StageBaseScene::opGoBack()
 {
-	CCScene* stage1 = StageBaseScene::create();						
+	CCScene* stage1 = StageSelectScene::create();						
 	CCDirector::sharedDirector()->replaceScene(stage1);
 }
 
@@ -72,14 +78,6 @@ void StageBaseScene::opSound(bool isOn)
 }
 
 
-// 设置本关的关卡号
-// 可以显示在optionlayer 层的 title上
-void StageBaseScene::setLevel(int big, int small1)
-{
-	m_nBigLevel = big;
-	m_nSmallLevel = small1;
-}
-
 void StageBaseScene::showHelpLayer()
 {
 	if(m_pHelpLayer == NULL)
@@ -89,4 +87,78 @@ void StageBaseScene::showHelpLayer()
 	}
 	m_pHelpLayer->setDelegate(m_pStageLayer);
 	m_pHelpLayer->show();	
+}
+
+
+// 设置本关的关卡号
+// 可以显示在optionlayer 层的 title上
+void StageBaseScene::setLevel(int big, int small1)
+{
+	m_nBigLevel = big;
+	m_nSmallLevel = small1;
+	//m_pOptionLayer->setLevelLabel(big,small1);
+}
+
+void StageBaseScene::showNavigator(bool isWin, int time, int unitLost)
+{
+	if(isWin)
+	{
+		int toBig = LoadIntegerFromXML(KEY_PLAYED_TO_BIG, 1);
+		int toSmall =  LoadIntegerFromXML(KEY_PLAYED_TO_SMALL, 1);
+
+		int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1;
+		int toZeroBasedIndex = zeroBasedIndex + 1;
+		int bigIndex = toZeroBasedIndex / SMALL_STAGE_COUNT + 1;
+		int smallIndex = toZeroBasedIndex % SMALL_STAGE_COUNT + 1;
+
+		if(bigIndex > toBig )
+		{
+			SaveIntegerToXML(KEY_PLAYED_TO_BIG, bigIndex);
+			SaveIntegerToXML(KEY_PLAYED_TO_SMALL, smallIndex);
+			SaveUserDefault();
+		}
+		else if(bigIndex == toBig &&  smallIndex > toSmall)
+		{
+			SaveIntegerToXML(KEY_PLAYED_TO_BIG, bigIndex);
+			SaveIntegerToXML(KEY_PLAYED_TO_SMALL, smallIndex);
+			SaveUserDefault();
+		}
+
+
+		showNavigatorWin(time, unitLost);
+	}
+	else
+	{
+		showNavigatorLose(time, unitLost);
+	}
+}
+
+
+
+void StageBaseScene::showNavigatorWin(int time, int unitLost)
+{
+	if(m_pWinLayer == NULL)
+	{			
+		setWinLayer(WinLayer::create());
+		m_pWinLayer->setStageScene(this);
+		this->addChild(m_pWinLayer, 10);
+	}
+	
+	m_pWinLayer->setTime(time);
+	m_pWinLayer->setLostUnit(unitLost);
+	m_pWinLayer->show();	
+}
+
+
+void StageBaseScene::showNavigatorLose(int time, int unitLost)
+{
+	if(m_pRestartLayer == NULL)
+	{
+		setRestartLayer(RestartLayer::create());
+		m_pRestartLayer->setStageScene(this);		
+		this->addChild(m_pRestartLayer, 10);
+	}	
+	m_pRestartLayer->setTime(time);
+	m_pRestartLayer->setLostUnit(unitLost);
+	m_pRestartLayer->show();
 }

@@ -41,6 +41,8 @@ bool Planet::init()
 
 void Planet::setFightUnitCount( int input )
 {
+	if(input > getMaximumUnitCount())
+		input = getMaximumUnitCount();
 	FightObject::setFightUnitCount(input);
 	if(m_pFightUnitLabel)
 	{
@@ -237,7 +239,7 @@ void Planet::stopIncrease()
 }
 
 
-void Planet::stopIncreaseRestore()
+void Planet::startIncrease()
 {
 	m_bIncreaseStopped = false;
 }

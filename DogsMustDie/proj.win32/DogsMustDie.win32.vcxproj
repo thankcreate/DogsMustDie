@@ -148,10 +148,12 @@
     <ClInclude Include="..\Classes\LineLayer.h" />
     <ClInclude Include="..\Classes\MyMenu.h" />
     <ClInclude Include="..\Classes\MyUseDefaultDef.h" />
+    <ClInclude Include="..\Classes\NavigatorLayer.h" />
     <ClInclude Include="..\Classes\OptionDelegate.h" />
     <ClInclude Include="..\Classes\PermissionManager.h" />
     <ClInclude Include="..\Classes\Planet.h" />
     <ClInclude Include="..\Classes\Rank.h" />
+    <ClInclude Include="..\Classes\RestartLayer.h" />
     <ClInclude Include="..\Classes\SettingLayer.h" />
     <ClInclude Include="..\Classes\SettingScene.h" />
     <ClInclude Include="..\Classes\Stage1_1Layer.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="..\Classes\StartupScene.h" />
     <ClInclude Include="..\Classes\SubStageItem.h" />
     <ClInclude Include="..\Classes\Troops.h" />
+    <ClInclude Include="..\Classes\WinLayer.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -185,9 +188,11 @@
     <ClCompile Include="..\Classes\HelpLayer.cpp" />
     <ClCompile Include="..\Classes\LineLayer.cpp" />
     <ClCompile Include="..\Classes\MyMenu.cpp" />
+    <ClCompile Include="..\Classes\NavigatorLayer.cpp" />
     <ClCompile Include="..\Classes\PermissionManager.cpp" />
     <ClCompile Include="..\Classes\Planet.cpp" />
     <ClCompile Include="..\Classes\Rank.cpp" />
+    <ClCompile Include="..\Classes\RestartLayer.cpp" />
     <ClCompile Include="..\Classes\SettingLayer.cpp" />
     <ClCompile Include="..\Classes\SettingScene.cpp" />
     <ClCompile Include="..\Classes\Stage1_1Layer.cpp" />
@@ -203,6 +208,7 @@
     <ClCompile Include="..\Classes\StartupScene.cpp" />
     <ClCompile Include="..\Classes\SubStageItem.cpp" />
     <ClCompile Include="..\Classes\Troops.cpp" />
+    <ClCompile Include="..\Classes\WinLayer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

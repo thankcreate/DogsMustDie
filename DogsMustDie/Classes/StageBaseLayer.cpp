@@ -13,10 +13,6 @@
 #include "DogPlanet.h"
 #include "AudioManager.h"
 
-#define SKILL_UPGRADE_COUNT 2
-#define SKILL_SPEED_COUNT 1
-#define SKILL_DOWN_COUNT 2
-
 
 StageBaseLayer::StageBaseLayer()  :
 	m_pParentScene(NULL),
@@ -38,7 +34,8 @@ StageBaseLayer::StageBaseLayer()  :
 	m_pSkillUpgradeBtn(NULL),
 	m_pSkillSpeedBtn(NULL),
 	m_pSkillDownBtn(NULL),
-	m_pFocusedPlanet(NULL)	
+	m_pFocusedPlanet(NULL),
+	m_InDeadOrWinState(NULL)
 {
 	setPlanetArray(CCArray::createWithCapacity(30));
 	setStarArray(CCArray::createWithCapacity(10));
@@ -115,6 +112,20 @@ Planet* StageBaseLayer::makePlanet(int force, CCPoint position, int fightUnitCou
 	this->addChild(pPlanet, kPlanetLayerIndex);
 
 	return pPlanet;
+}
+
+StarObject* StageBaseLayer::makeStar(CCPoint position)
+{
+	StarObject* pStar = StarObject::create();
+	pStar->setPosition(position);
+	pStar->createBox2dObject(m_pWorld);
+	this->addChild(pStar, kPlanetLayerIndex);	
+	getStarArray()->addObject(pStar);
+	getUpdateArray()->addObject(pStar);
+
+	return pStar;
+	
+	
 }
 
 void StageBaseLayer::initBackground()
@@ -492,6 +503,9 @@ void StageBaseLayer::showFocusedMarkOnFocusedPlanet()
 		CCSequence* pShake = CCSequence::createWithTwoActions(pScaleBig, pScaleRestore);
 		m_pFocusedPlanet->stopAllActions();
 		m_pFocusedPlanet->runAction(pShake);
+
+		// 触发监听者的函数
+		planetFocused(m_pFocusedPlanet);
 	}	
 }
 
@@ -923,6 +937,7 @@ void StageBaseLayer::handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlan
 		{
 			pPlanet->increaseFightUnitCount(pTroops->getFightUnitCount());
 			setStarCount(++m_nStarCount);
+			starFinallyLandedOnMyPlanet(pPlanet);
 		}
 		// 敌星
 		else 
@@ -998,4 +1013,52 @@ void StageBaseLayer::playOccupySoundEffect(int force)
 void StageBaseLayer::planetOccupied(Planet* pPlanet)
 {
 	// TODO
+}
+
+void StageBaseLayer::starFinallyLandedOnMyPlanet( Planet* pPlanet )
+{
+	// TODO
+}
+
+void StageBaseLayer::planetFocused( Planet* pPlanet )
+{
+	// TODO
+}
+
+
+void StageBaseLayer::gotoWin()
+{	
+	if(m_InDeadOrWinState)
+		return;
+	m_InDeadOrWinState = true;
+	if(m_pParentScene)
+	{		
+		m_bIsUpdateStopped = true;
+		this->scheduleOnce(schedule_selector(StageBaseLayer::gotoWinInDelay), 0.5f);
+	}	
+}
+
+void StageBaseLayer::gotoWinInDelay(float f)
+{
+	m_pParentScene->showNavigator(true, 10, 10);
+	PlayEffect("Audio_win.mp3");	
+}
+
+
+void StageBaseLayer::gotoDead()
+{
+	if(m_InDeadOrWinState)
+		return;	
+	m_InDeadOrWinState = true;	
+	if(m_pParentScene)
+	{		
+		m_bIsUpdateStopped = true;
+		this->scheduleOnce(schedule_selector(StageBaseLayer::gotoDeadInDelay), 0.5f);
+	}
+}
+
+void StageBaseLayer::gotoDeadInDelay(float f)
+{
+	PlayEffect("Audio_lose.mp3");	
+	m_pParentScene->showNavigator(false, 10, 10);		
 }

@@ -72,5 +72,5 @@ enum eForceSide
 // stage
 #define BIG_STAGE_COUNT 2
 #define SMALL_STAGE_COUNT 12
-
+#define ENDLESS_COUNT 99999
 #endif

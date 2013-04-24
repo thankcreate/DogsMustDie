@@ -15,6 +15,12 @@ class StarObject;
 class Troops;
 class GameObject;
 
+
+#define SKILL_UPGRADE_COUNT 2
+#define SKILL_SPEED_COUNT 1
+#define SKILL_DOWN_COUNT 2
+
+
 class StageBaseLayer : public CCLayer, public HelpLayerDelegate, public b2ContactListener
 {
 public:
@@ -85,7 +91,7 @@ public:
 	virtual void initPlanets();	
 	Planet* makePlanet(int force, CCPoint position, int fightUnitCount, int level);
 	void updateTroopsArray();
-	void updateSkillButtonState();
+	virtual void updateSkillButtonState();
 
 	// contact handle
 	void handleContactTroopsAndTroops(Troops* troopsA, Troops* troopsB);
@@ -116,11 +122,19 @@ public:
 
 	// listener for sub class
 	virtual void planetOccupied(Planet* pPlanet);
-private:
+	virtual void starFinallyLandedOnMyPlanet(Planet* pPlanet);
+	virtual void planetFocused(Planet* pPlanet);
+	StarObject* makeStar(CCPoint position);
+	void gotoWin();
+	void gotoWinInDelay(float f);
+	void gotoDead();
+	void gotoDeadInDelay(float f);
+protected:
 	bool m_bIsSpeakerEnabled;
 	bool m_bIsUpdateStopped;
 	int m_nStarCount;
 	bool m_bIsHelpLayerInShow;
+	bool m_InDeadOrWinState;
 };
 
 #endif // StageBaseLayer_h__

@@ -9,7 +9,15 @@ Stage1_1Layer::Stage1_1Layer() :
 	m_pGuideBorder(NULL),
 	m_pGuideLabel(NULL),
 	m_pFinger(NULL),
-	m_pDogPlanet1(NULL)
+	m_pDogPlanet1(NULL),
+	m_pStar(NULL),
+	m_bAskedToFocusAPlanet(false),
+	m_pSkillPrompt(NULL),
+	m_bAskedToClickSkillUpgrade(false),
+	m_bAskedToClickSkillSpeedUp(false),
+	m_bAskedToClickSkillDown(false),
+	m_pDogPlanet2(NULL),
+	m_bAskedToFinalStrike(false)
 {
 
 }
@@ -27,27 +35,34 @@ bool Stage1_1Layer::init()
 		CC_BREAK_IF(!StageBaseLayer::init());
 		CCSize size = WIN_SIZE;			
 
-		//StarObject* pTest = StarObject::create();
-		//pTest->setPosition(ccp(200, 400));
-		//this->addChild(pTest, kPlanetLayerIndex);
-		//getStarArray()->addObject(pTest);
-		//pTest->createBox2dObject(m_pWorld);
-		//getUpdateArray()->addObject(pTest);
-
-
-		//pTest = StarObject::create();
-		//pTest->setPosition(ccp(300, 400));
-		//this->addChild(pTest, kPlanetLayerIndex);
-		//getStarArray()->addObject(pTest);
-		//pTest->createBox2dObject(m_pWorld);
-		//getUpdateArray()->addObject(pTest);
-
 		initGuideLayer();
+		setStarCount(4);
+
+		CCMenu* pMenu = CCMenu::create(NULL);
+		pMenu->setPosition(CCPointZero);	
+		this->addChild(pMenu, 1);
+				
+		CCMenuItemImage *pSkipBtn = CCMenuItemImage::create();
+		pSkipBtn->initWithNormalImage(
+			"StageBase_btn_skip_normal.png",
+			"StageBase_btn_skip_pressed.png",
+			"StageBase_btn_skip_pressed.png",
+			this,
+			menu_selector(Stage1_1Layer::skipCallback));	
+
+		pSkipBtn->setPosition(ccp(378, size.height - 16));	
+		pMenu->addChild(pSkipBtn);
 
 		bRet = true;
 	} while (0);
 
 	return bRet;
+}
+
+void Stage1_1Layer::skipCallback(CCObject* pObject)
+{
+	//gotoWin();
+	gotoDead();
 }
 
 void Stage1_1Layer::initPlanets()
@@ -68,19 +83,20 @@ void Stage1_1Layer::initGuideLayer()
 	CCSize borderSize = m_pGuideBorder->boundingBox().size;
 	CCSize winSize = WIN_SIZE;
 	m_pGuideBorder->setPosition(ccp(winSize.width / 2 - 50, borderSize.height / 2));
-	this->addChild(m_pGuideBorder, kPannelLayerIndex);
-	
+	this->addChild(m_pGuideBorder, kPannelLayerIndex);	
 
-	setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", "00 Starmap Truetype.ttf", 30));	
-	m_pGuideLabel->setDimensions(CCSizeMake(420, 110));
-	//m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
+	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", "00 Starmap Truetype.ttf", 30));	
+	setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson.", "Arial", 26));		
+	m_pGuideLabel->setDimensions(CCSizeMake(420, 140));
+	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
+	m_pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
 	
 	ccColor3B ccMyOrange={255, 104, 0};
 	m_pGuideLabel->setPosition(ccp(250,60));
 	m_pGuideLabel->setColor(ccMyOrange);
 	m_pGuideBorder->addChild(m_pGuideLabel);
 		
-	this->schedule(schedule_selector(Stage1_1Layer::guideDragToOccupy), 3);
+	this->schedule(schedule_selector(Stage1_1Layer::guideDragToOccupy), 2);
 }
 
 void Stage1_1Layer::guideDragToOccupy(float dt)
@@ -102,10 +118,19 @@ void Stage1_1Layer::guideDragToOccupy(float dt)
 	m_pFinger->runAction(pMove);
 }
 
-void Stage1_1Layer::guideDragToStar()
+void Stage1_1Layer::guideDragToStar(float dt)
 {
-	if(!m_pGuideLabel)
-		return;
+	if(m_pGuideLabel)
+	{
+		m_pGuideLabel->setString("Well done! Now we need more stars to use skills.\nDrag as above to catch the star");
+	}
+		
+
+	if(!m_pStar)
+	{
+		StarObject* pStar = makeStar(ccp(352, 250));
+		setStar(pStar);		
+	}
 
 	if(!m_pFinger)
 	{
@@ -113,16 +138,197 @@ void Stage1_1Layer::guideDragToStar()
 		this->addChild(m_pFinger, kPannelLayerIndex);
 	}
 
+	m_pFinger->setVisible(true);
+	m_pFinger->setPosition(ccp(215, 295));	
+	float xDistance = 376 - 215;
+	float yDistance = 200 - 295;
+	CCMoveBy* pMove = CCMoveBy::create(1.5, ccp(xDistance, yDistance));
+	m_pFinger->runAction(pMove);
+
+	this->schedule(schedule_selector(Stage1_1Layer::guideDragToStar), 3);
+}
+
+void Stage1_1Layer::guideFocusOnPlanet(float dt)
+{
+	if(m_pGuideLabel)
+	{
+		m_pGuideLabel->setString("Tap on the planet to let it be focused, mew~");
+	}
+
+	if(!m_pFinger)
+	{
+		setFinger(CCSprite::create("Finger.png"));
+		this->addChild(m_pFinger, kPannelLayerIndex);
+	}
+	
+	m_pFinger->setVisible(true);
+	m_pFinger->setPosition(ccp(230, 280));		
+	CCMoveTo* pTo1 = CCMoveTo::create(0.4, ccp(230, 280));
+	CCMoveTo* pTo2 = CCMoveTo::create(0.4, ccp(215, 295));
+	CCSequence* pSep = CCSequence::createWithTwoActions(pTo2, pTo1);
+	m_pFinger->runAction(pSep);
+	this->schedule(schedule_selector(Stage1_1Layer::guideFocusOnPlanet), 2);
+
+	m_bAskedToFocusAPlanet = true;
+}
+
+void Stage1_1Layer::guideClickOnUpgrade()
+{
+	if(m_nStarCount < SKILL_UPGRADE_COUNT)
+	{
+		setStarCount(SKILL_UPGRADE_COUNT);
+	}
+	if(m_pGuideLabel)
+	{
+		m_pGuideLabel->setString("Click on the upgrade button. It will increase the proliferation speed and capacity of the selected planet");
+	}
+
+	if(!m_pSkillPrompt)
+	{
+		setSkillPrompt(CCSprite::create("SkillPrompt.png"));
+		m_pSkillPrompt->setPosition(ccp(666,434));
+		this->addChild(m_pSkillPrompt, kPannelLayerIndex);
+	}
+
+	CCMoveTo* pTo1 = CCMoveTo::create(0.4, ccp(651, 434));
+	CCMoveTo* pTo2 = CCMoveTo::create(0.4, ccp(666, 434));
+	CCSequence* pSeq = CCSequence::createWithTwoActions(pTo2, pTo1);
+	m_pSkillPrompt->runAction(CCRepeatForever::create(pSeq));	
+
+	m_bAskedToClickSkillUpgrade = true;
+}
+
+void Stage1_1Layer::guideClickOnSpeedUp()
+{
+	if(m_nStarCount < SKILL_SPEED_COUNT)
+	{
+		setStarCount(SKILL_SPEED_COUNT);
+	}
+	if(m_pGuideLabel)
+	{
+		m_pGuideLabel->setString("Click on the second button to speed up the troops sent by the planet");
+	}
+
+	if(!m_pSkillPrompt)
+	{
+		setSkillPrompt(CCSprite::create("SkillPrompt.png"));
+		m_pSkillPrompt->setPosition(ccp(666,349));
+		this->addChild(m_pSkillPrompt, kPannelLayerIndex);
+	}
+
+	CCMoveTo* pTo1 = CCMoveTo::create(0.4, ccp(651, 349));
+	CCMoveTo* pTo2 = CCMoveTo::create(0.4, ccp(666, 349));
+	CCSequence* pSeq = CCSequence::createWithTwoActions(pTo2, pTo1);
+	m_pSkillPrompt->runAction(CCRepeatForever::create(pSeq));	
+
+	m_bAskedToClickSkillSpeedUp = true;
+}
+
+// 提示去点击down时，开始新建个dog 星
+void Stage1_1Layer::guideClickOnDown(float dt)
+{
+	if(m_nStarCount < SKILL_DOWN_COUNT)
+	{
+		setStarCount(SKILL_DOWN_COUNT);
+	}
+
+	if(m_pGuideLabel)
+	{
+		m_pGuideLabel->setString("Click on the third button to decrease proliferation speed of all dog planets for 12 seconds.");
+	}
+
+	if(!m_pSkillPrompt)
+	{
+		setSkillPrompt(CCSprite::create("SkillPrompt.png"));
+		m_pSkillPrompt->setPosition(ccp(666,264));
+		this->addChild(m_pSkillPrompt, kPannelLayerIndex);
+	}
+
+	// 提示箭头
+	CCMoveTo* pTo1 = CCMoveTo::create(0.4, ccp(651, 264));
+	CCMoveTo* pTo2 = CCMoveTo::create(0.4, ccp(666, 264));
+	CCSequence* pSeq = CCSequence::createWithTwoActions(pTo2, pTo1);
+	m_pSkillPrompt->runAction(CCRepeatForever::create(pSeq));	
+
+	m_bAskedToClickSkillDown = true;
+
+	// 画一个新Dog星球
+	Planet* pDog = makePlanet(kForceSideDog, ccp(362, 222), 20, 0);
+	setDogPlanet2(pDog);
+	
+	// 恢复增长
+	CCObject* pOb = NULL;
+	bool bCanSlowDown = false;
+	CCARRAY_FOREACH(getPlanetArray(), pOb)
+	{
+		Planet* pPlanet = (Planet*) pOb;	
+		if(!pPlanet->isDirty())
+		{			
+			pPlanet->startIncrease();
+		}
+	}
+}
+
+void Stage1_1Layer::guideFinalStrike(float dt)
+{
+	if(m_pGuideLabel)
+	{
+		m_pGuideLabel->setString("Now let's give the stupid dogs the final strike!");
+	}
+
+	if(!m_pFinger)
+	{
+		setFinger(CCSprite::create("Finger.png"));
+		this->addChild(m_pFinger, kPannelLayerIndex);
+	}
+
+	m_pFinger->setVisible(true);
+	m_pFinger->setPosition(ccp(215, 295));	
+	CCMoveTo* pTo1 = CCMoveTo::create(0.9, ccp(400, 170));	
+	CCCallFunc* pFunc1 = CCCallFunc::create(this, callfunc_selector(Stage1_1Layer::callFunc1));
+	CCMoveTo* pTo2 = CCMoveTo::create(0.9, ccp(400, 170));	
+
+	CCFiniteTimeAction* pSeq = CCSequence::create(pTo1, pFunc1, pTo2, NULL);
+	m_pFinger->stopAllActions();
+	m_pFinger->runAction(pSeq);
+	this->schedule(schedule_selector(Stage1_1Layer::guideFinalStrike), 2.3f);
+	m_bAskedToFinalStrike = true;
+}
+
+void Stage1_1Layer::guideWin()
+{
+	if(m_pGuideLabel)
+	{
+		m_pGuideLabel->setString("Good job. You see, dog sucks. But this is just the beginning of the holy war...");
+	}
+}
+
+void Stage1_1Layer::callFunc1()
+{
+	if(m_pFinger)
+		m_pFinger->setPosition(ccp(565, 295));
 }
 
 void Stage1_1Layer::sendTroopsToPlanet( int force, Planet* fromPlanet, Planet* toPlanet )
 {
 	StageBaseLayer::sendTroopsToPlanet(force, fromPlanet, toPlanet);
 	if(toPlanet == m_pDogPlanet1
-		&& toPlanet!= NULL)
+		&& toPlanet != NULL)
 	{
 		// 说明已经完成了drag动作
 		this->unschedule(schedule_selector(Stage1_1Layer::guideDragToOccupy));
+		if(m_pFinger)
+		{
+			m_pFinger->setVisible(false);			
+		}
+	}
+
+	if(toPlanet == m_pDogPlanet2
+		&& toPlanet != NULL
+		&& m_bAskedToFinalStrike)
+	{
+		m_bAskedToFinalStrike = false;
+		this->unschedule(schedule_selector(Stage1_1Layer::guideFinalStrike));
 		if(m_pFinger)
 		{
 			m_pFinger->setVisible(false);			
@@ -133,14 +339,156 @@ void Stage1_1Layer::sendTroopsToPlanet( int force, Planet* fromPlanet, Planet* t
 void Stage1_1Layer::sendTroopsToStar( int force, Planet* fromPlanet, StarObject* toStar )
 {
 	StageBaseLayer::sendTroopsToStar(force, fromPlanet, toStar);
+
+	if(toStar == m_pStar)
+	{
+		// 说明已经完成了drag动作
+		this->unschedule(schedule_selector(Stage1_1Layer::guideDragToStar));
+		if(m_pFinger)
+		{
+			m_pFinger->setVisible(false);			
+		}
+	}
 }
 
 
 void Stage1_1Layer::planetOccupied(Planet* pPlanet)
 {
+	StageBaseLayer::planetOccupied(pPlanet);
+
 	if(pPlanet == m_pDogPlanet1
 		&& pPlanet != NULL)
 	{
+		// 这里必须用schedule
+		// 因为此函数是在碰撞回调过程中调入的，而guideDragToStar中涉及到b2Body的创建
+		this->schedule(schedule_selector(Stage1_1Layer::guideDragToStar), 0.2);
+	}
 
+	if(pPlanet == m_pDogPlanet2
+		&& pPlanet != NULL)
+	{
+		guideWin();
+	}
+}
+
+void Stage1_1Layer::starFinallyLandedOnMyPlanet( Planet* pPlanet )
+{
+	StageBaseLayer::starFinallyLandedOnMyPlanet(pPlanet);
+
+	if(pPlanet!= NULL && pPlanet->getForceSide() == kForceSideCat)
+	{
+		// 星星被送回来后，提示选中该星球
+		guideFocusOnPlanet(0);
+	}
+}
+
+
+void Stage1_1Layer::planetFocused( Planet* pPlanet )
+{
+	StageBaseLayer::starFinallyLandedOnMyPlanet(pPlanet);
+	if(m_bAskedToFocusAPlanet)
+	{
+		m_bAskedToFocusAPlanet = false;
+		this->unschedule(schedule_selector(Stage1_1Layer::guideFocusOnPlanet));
+		if(m_pFinger)
+		{
+			m_pFinger->setVisible(false);			
+		}
+		guideClickOnUpgrade();
+	}
+}
+
+void Stage1_1Layer::skillUpCallback( CCObject* pSender )
+{
+	StageBaseLayer::skillUpCallback(pSender);
+	if(m_bAskedToClickSkillUpgrade)
+	{
+		m_bAskedToClickSkillUpgrade = false;
+		guideClickOnSpeedUp();
+	}
+}
+
+void Stage1_1Layer::skillSpeedCallback( CCObject* pSender )
+{
+	StageBaseLayer::skillSpeedCallback(pSender);
+	if(m_bAskedToClickSkillSpeedUp)
+	{
+		m_bAskedToClickSkillSpeedUp = false;
+		this->scheduleOnce(schedule_selector(Stage1_1Layer::guideClickOnDown), 0.1);
+	}
+}
+
+void Stage1_1Layer::skillDownCallback( CCObject* pSender )
+{
+	StageBaseLayer::skillDownCallback(pSender);
+	if(m_bAskedToClickSkillDown)
+	{
+		m_bAskedToClickSkillDown = false;
+		if(m_pSkillPrompt)
+		{
+			m_pSkillPrompt->stopAllActions();
+			m_pSkillPrompt->setVisible(false);
+		}
+		guideFinalStrike(0);
+	}
+}
+
+
+
+// 在本关里，技能按钮只有在教程中需要按的时候才能按
+void Stage1_1Layer::updateSkillButtonState()
+{
+	bool test = getSkillUpgradeBtn()->isEnabled();
+	// 升级按钮
+	if(m_pFocusedPlanet == NULL
+		|| m_nStarCount < SKILL_UPGRADE_COUNT
+		|| !m_pFocusedPlanet->canLevelUp()
+		|| !m_bAskedToClickSkillUpgrade)
+	{
+		getSkillUpgradeBtn()->setEnabled(false);
+	}
+	else 
+	{		
+		getSkillUpgradeBtn()->setEnabled(true);
+	}
+
+	// 加速按钮
+	if(m_pFocusedPlanet == NULL
+		|| m_nStarCount < SKILL_SPEED_COUNT
+		|| !m_pFocusedPlanet->canSpeedUp()
+		|| !m_bAskedToClickSkillSpeedUp)
+	{
+		getSkillSpeedBtn()->setEnabled(false);
+	}
+	else
+	{
+		getSkillSpeedBtn()->setEnabled(true);
+	}
+
+	// 减速按钮
+	// 减速技能是使所有非己方星球升产速率降低
+	CCObject* pOb = NULL;
+	bool bCanSlowDown = false;
+	CCARRAY_FOREACH(getPlanetArray(), pOb)
+	{
+		Planet* pPlanet = (Planet*) pOb;	
+		if(!pPlanet->isDirty() 
+			&& !pPlanet->getForceSide() == kForceSideCat
+			&& pPlanet->canSlowDown())
+		{			
+			bCanSlowDown = true;
+			break;			
+		}
+	}
+
+	if(  m_nStarCount < SKILL_DOWN_COUNT
+		|| !bCanSlowDown
+		|| !m_bAskedToClickSkillDown)
+	{
+		getSkillDownBtn()->setEnabled(false);
+	}
+	else
+	{
+		getSkillDownBtn()->setEnabled(true);
 	}
 }

@@ -60,7 +60,7 @@ public:
 	void cry();
 
 	void stopIncrease();
-	void stopIncreaseRestore();
+	void startIncrease();
 private:
 	int m_nLevel;
 	bool m_bSpeedUped;

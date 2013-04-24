@@ -9,7 +9,7 @@ StageBaseLayer* Stage1_1Scene::getMainStageLayer()
 }
 
 
-void gotoNext()
+void Stage1_1Scene::gotoNext()
 {
 	StageMap::sharedInstance()->gotoStage(1,2);
 }

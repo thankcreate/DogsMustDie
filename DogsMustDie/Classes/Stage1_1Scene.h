@@ -13,6 +13,7 @@ class Stage1_1Scene : public StageBaseScene
 public:	
 	CREATE_FUNC(Stage1_1Scene);
 	virtual StageBaseLayer* getMainStageLayer();
+
 	void gotoNext();
 	const char* getBGMFileName();
 };

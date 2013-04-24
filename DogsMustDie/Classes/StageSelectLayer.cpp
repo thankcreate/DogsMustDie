@@ -13,7 +13,6 @@
 #endif
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-#include "CCAdView.h"
 #include "AdViewManager.h"
 #endif
 
