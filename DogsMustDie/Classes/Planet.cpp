@@ -41,8 +41,8 @@ bool Planet::init()
 
 void Planet::setFightUnitCount( int input )
 {
-	if(input > getMaximumUnitCount())
-		input = getMaximumUnitCount();
+	//if(input > getMaximumUnitCount())
+	//	input = getMaximumUnitCount();
 	FightObject::setFightUnitCount(input);
 	if(m_pFightUnitLabel)
 	{
@@ -70,6 +70,10 @@ void Planet::initWithForceSide( int force )
 	{
 		initWithFile("Planet_dog.png");
 	}
+	else if(force == kForceSideThird)
+	{
+		initWithFile("Planet_third.png");
+	}
 	else if(force == kForceSideMiddle)
 	{
 		initWithFile("Planet_middle.png");
@@ -90,6 +94,8 @@ void Planet::initWithForceSide( int force )
 	}
 	else
 		m_pFace->initWithForceSide(force);
+
+	
 	
 
 	// 右上角的数字
@@ -117,7 +123,11 @@ void Planet::initWithForceSide( int force )
 	// 每次init之后stopped都会被置为false
 	// 主要是因为当把一个middel星设为stop后，被另一方占领需要自动恢复成正常增加
 	m_bIncreaseStopped =false;
-	// b2Body创建	
+	// b2Body创建
+
+	// setLevel(0);
+	slowDownRestore(0);
+	setScale(1);
 }
 
 
@@ -196,6 +206,16 @@ void Planet::speedUp()
 	}
 }
 
+void Planet::clearSpeedUp()
+{
+	m_bSpeedUped = false;
+
+	if(m_pFace)
+	{
+		m_pFace->setWingsVisiable(false);
+	}
+}
+
 void Planet::slowDown()
 {
 	// 当前的逻辑禁止在一个减速期间叠加另一个减速
@@ -234,6 +254,7 @@ void Planet::slowDown()
 
 void Planet::slowDownRestore(float dt)
 {
+	this->unschedule(schedule_selector(Planet::slowDownRestore));
 	if(!m_pSlowDownMark || !m_bSlowDowned)
 		return;
 
@@ -252,7 +273,6 @@ void Planet::stopIncrease()
 {
 	m_bIncreaseStopped = true;
 }
-
 
 void Planet::startIncrease()
 {

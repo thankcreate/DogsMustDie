@@ -26,13 +26,14 @@ void FightObject::setFightUnitCount( int input )
 	// To be implemented by inherited class
 }
 
+// 现在的逻辑是，如果增加后来的值大于max，则沿用原来的值，而不是把原来的值改成max
 void FightObject::increaseFightUnitCount( int input )
 {
 	int result = m_nFightUnitCount + input;
 	int max = getMaximumUnitCount();
 	if(result > max)
 	{
-		result = max;
+		result = m_nFightUnitCount;
 	}
 	setFightUnitCount(result);
 }

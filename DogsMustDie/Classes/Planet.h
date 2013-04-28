@@ -61,6 +61,7 @@ public:
 
 	void stopIncrease();
 	void startIncrease();
+	void clearSpeedUp();
 private:
 	int m_nLevel;
 	bool m_bSpeedUped;

@@ -25,6 +25,10 @@ void Face::initWithForceSide( int force )
 	{
 		this->initWithFile("Dog_normal.png");
 	}
+	else if(m_nForceSide == kForceSideThird)
+	{
+		this->initWithFile("Third_normal.png");
+	}
 	else if(m_nForceSide == kForceSideMiddle)
 	{
 		int index = CCRANDOM_0_1() * 3;
@@ -54,26 +58,40 @@ void Face::setWingsVisiable( bool visible )
 		return;
 
 	if(!m_pLeftWing)
-	{
-		if(m_nForceSide == kForceSideCat)
-			setLeftWing(CCSprite::create("Cat_wing.png"));
-		else if(m_nForceSide == kForceSideDog)
-			setLeftWing(CCSprite::create("Dog_wing.png"));
+	{		
+		setLeftWing(CCSprite::create());
 		m_pLeftWing->setPosition(ccp(-6, 20));
 		this->addChild(m_pLeftWing);
 	}
 
 	if(!m_pRightWing)
 	{
-		if(m_nForceSide == kForceSideCat)
-			setRightWing(CCSprite::create("Cat_wing.png"));
-		else if(m_nForceSide == kForceSideDog)
-			setRightWing(CCSprite::create("Dog_wing.png"));
+		
+		setRightWing(CCSprite::create());
 		m_pRightWing->setScaleX(-1);
 		m_pRightWing->setPosition(ccp(52, 20));
 		this->addChild(m_pRightWing);
 	}
 
+	
+	if(m_nForceSide == kForceSideCat)
+	{
+		m_pLeftWing->initWithFile("Cat_wing.png");
+		m_pRightWing->initWithFile("Cat_wing.png");
+		m_pRightWing->setScaleX(-1);
+	}
+	else if(m_nForceSide == kForceSideDog)
+	{
+		m_pLeftWing->initWithFile("Dog_wing.png");
+		m_pRightWing->initWithFile("Dog_wing.png");
+		m_pRightWing->setScaleX(-1);
+	}
+	else if(m_nForceSide == kForceSideThird)
+	{
+		m_pLeftWing->initWithFile("Third_wing.png");
+		m_pRightWing->initWithFile("Third_wing.png");
+		m_pRightWing->setScaleX(-1);
+	}
 	m_pLeftWing->setVisible(visible);
 	m_pRightWing->setVisible(visible);
 
@@ -90,6 +108,10 @@ void Face::restore(float dt)
 	else if(m_nForceSide == kForceSideDog)
 	{
 		this->initWithFile("Dog_normal.png");
+	}
+	else if(m_nForceSide == kForceSideThird)
+	{
+		this->initWithFile("Third_normal.png");
 	}
 }
 
@@ -110,6 +132,10 @@ void Face::cry()
 		else if(m_nForceSide == kForceSideDog)
 		{
 			this->initWithFile("Dog_cry.png");
+		}
+		else if(m_nForceSide == kForceSideThird)
+		{
+			this->initWithFile("Third_cry.png");
 		}
 		m_bIsInCry = true;
 	}

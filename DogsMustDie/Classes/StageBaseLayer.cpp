@@ -9,17 +9,15 @@
 #include "CatTroops.h"
 #include "StarObject.h"
 #include "Box2D/Box2D.h"
-#include "CatPlanet.h"
-#include "DogPlanet.h"
 #include "AudioManager.h"
 #include "MiscTool.h"
+#include "ForceSideInfo.h"
 
 
 StageBaseLayer::StageBaseLayer()  :
 	m_pParentScene(NULL),
 	m_bIsSpeakerEnabled(false),
-	m_pSpeakerBtn(NULL),
-	m_nStarCount(2),
+	m_pSpeakerBtn(NULL),	
 	m_pLineLayer(NULL),
 	m_pPlanetArray(NULL),
 	m_pFrontSight(NULL),
@@ -41,14 +39,17 @@ StageBaseLayer::StageBaseLayer()  :
 	m_nUnitLost(0),
 	m_pLevelBorder(NULL),
 	m_pLevelLabel(NULL),
-	m_fLastRefreshAITime(0)
+	m_fLastRefreshAITime(0),
+	m_fLastAddStarTime(0),	
+	m_nLastAddStarIndex(-1),
+	m_pForceInfoDic(NULL),
+	m_bIsAIStopped(false)
 {
 	setPlanetArray(CCArray::createWithCapacity(30));
 	setStarArray(CCArray::createWithCapacity(10));
 	setUpdateArray(CCArray::createWithCapacity(100));
 	setTroopsArray(CCArray::createWithCapacity(100));
-
-	m_nStarCount = getInitStarCount();
+	setForceInfoDic(CCDictionary::create());
 }
 
 StageBaseLayer::~StageBaseLayer()
@@ -56,7 +57,8 @@ StageBaseLayer::~StageBaseLayer()
 	CC_SAFE_RELEASE(m_pPlanetArray);	
 	CC_SAFE_RELEASE(m_pStarArray);	
 	CC_SAFE_RELEASE(m_pUpdateArray);
-	CC_SAFE_RELEASE(m_pTroopsArray);
+	CC_SAFE_RELEASE(m_pTroopsArray);	
+	CC_SAFE_RELEASE(m_pForceInfoDic);	
 }
 
 bool StageBaseLayer::init()
@@ -66,6 +68,7 @@ bool StageBaseLayer::init()
 	{
 		CC_BREAK_IF(!CCLayer::init());
 
+		initForceSideInfo();  // 这个最好放最开始
 		initBackground();
 		initLevelPannel();
 		initBackButton();		
@@ -76,6 +79,8 @@ bool StageBaseLayer::init()
 
 		initWorld();
 		initPlanets();
+		
+
 		// 启动Update
 		this->scheduleUpdate();
 
@@ -94,6 +99,15 @@ bool StageBaseLayer::init()
 	return bRet;
 }
 
+// 初始化所有势力的初始数据
+// 目前其实只有初始星星量
+void StageBaseLayer::initForceSideInfo()
+{
+	m_pForceInfoDic->setObject(ForceSideInfo::create(kForceSideCat, 0) , kForceSideCat);
+	m_pForceInfoDic->setObject(ForceSideInfo::create(kForceSideDog, 0) , kForceSideDog);
+	m_pForceInfoDic->setObject(ForceSideInfo::create(kForceSideThird, 0) , kForceSideThird);
+}
+
 // level层要在back button之前add进去,不然可能有部分back button被遮挡
 void StageBaseLayer::initLevelPannel()
 {
@@ -109,6 +123,8 @@ void StageBaseLayer::initLevelPannel()
 	m_pLevelLabel->setPosition(ccp(borderSize.width / 2 - 2 ,20));
 	m_pLevelBorder->addChild(m_pLevelLabel);
 }
+
+
 
 void StageBaseLayer::setLevel(int big, int small1)
 {
@@ -146,9 +162,7 @@ StarObject* StageBaseLayer::makeStar(CCPoint position)
 	getStarArray()->addObject(pStar);
 	getUpdateArray()->addObject(pStar);
 
-	return pStar;
-	
-	
+	return pStar;	
 }
 
 void StageBaseLayer::initBackground()
@@ -192,18 +206,107 @@ void StageBaseLayer::update(float dt)
 	updateTroopsArray(); // Troops是需要每一轮跟据m_body值刷新其位置的
 	updateSkillButtonState();
 	updateAI();
+	updateAddStar();
+}
+
+// add star现在需要智能化， 不再需要手工指定可能位置
+// 每次都随机选位，如果其值离星球太近,或在易挡区，则再次选位
+void StageBaseLayer::updateAddStar()
+{
+	if(m_fTime - m_fLastAddStarTime < getAddStarInteval())
+	{
+		return;
+	}
 	
+	m_fLastAddStarTime = m_fTime;
+	if(!HIT(0.35))
+		return;
+
+	//int count = m_vecPossibleStarLocations.size();
+	//if(count == 0)
+	//	return;
+
+	//int randomIndex = MiscTool::getRandom(count);
+	//if(randomIndex == m_nLastAddStarIndex)
+	//{
+	//	randomIndex = (randomIndex + 1) % count;
+	//}
+
+	//CCPoint loc = m_vecPossibleStarLocations[randomIndex];
+	//m_nLastAddStarIndex = randomIndex;
+	//makeStar(loc);
+	CCPoint goodPostion;
+	bool bFinallyFindOne = false;
+	// 共计尝试次数，指定次数还没找到合适值，终止随机尝试
+	int testTime = 40;
 	
+	while(!bFinallyFindOne && --testTime > 0)
+	{
+		// 横坐标在 50 - 650 之间
+		int x = 50 + MiscTool::getRandom(650 - 50);
+		// 纵坐标在 40 - 435 之间
+		int y = 40 + MiscTool::getRandom(435 - 40);
+		CCPoint testPoint = ccp(x, y);
+		// 阈值
+		int judge = 150;
+		bool bOK = true;
+		// 1.不能离星球太近
+		CCObject* pOb = NULL;			
+		CCARRAY_FOREACH(m_pPlanetArray, pOb)
+		{
+			Planet* pPlanet = (Planet*) pOb;
+			// 如果是自己方才画线
+			if(!pPlanet->isDirty())
+			{	
+				CCPoint planetPosition = pPlanet->getPosition();
+				if(ccpDistance(planetPosition, testPoint) < judge)
+				{
+					bOK = false;
+					break;
+				}
+			}
+		}
+
+		// 2. 不能离返回按钮太近
+		CCRect rectBack(0, 370, 130, 130);
+		CCRect rectLevelLabel(71, 430, 160, 50);
+		if(rectBack.containsPoint(testPoint) || rectLevelLabel.containsPoint(testPoint))
+			bOK = false;
+
+		if(bOK)
+		{
+			bFinallyFindOne = true;
+			goodPostion = testPoint;
+			break;
+		}
+	}
+
+	if(bFinallyFindOne)
+		makeStar(goodPostion);
+	else
+	{
+		int a  = 0 ;
+		a++;
+	}
 }
 
 void StageBaseLayer::updateAI()
 {
 	// AI要隔一段时间update一次，如果每一帧都update可能消耗不起
-	if(m_fTime - m_fLastRefreshAITime < getAIRefreshInteval())
+	if(m_fTime - m_fLastRefreshAITime < getAIRefreshInteval()
+		|| m_bIsAIStopped)
 	{
 		return;
 	}
 	m_fLastRefreshAITime = m_fTime;
+
+	updateAIAttack();
+	updateAIStar();
+	updateAISkill();
+}
+
+void StageBaseLayer::updateAIAttack()
+{
 	CCObject* pOb = NULL;			
 	CCARRAY_FOREACH(m_pPlanetArray, pOb)
 	{
@@ -215,23 +318,81 @@ void StageBaseLayer::updateAI()
 			updateAIForPlanet(pPlanet);
 		}
 	}
+}
 
-	// 为Dog类星球寻找一个离Star最近的去追星
-	CCARRAY_FOREACH(m_pStarArray, pOb)
+void StageBaseLayer::updateAIStar()
+{
+	// 为Dog类、 Third类星球寻找一个离Star最近的去追星
+	int forceSideNeedAI[] = {kForceSideDog, kForceSideThird};
+	int count = sizeof(forceSideNeedAI) / sizeof(int);
+	
+	for(int i = 0; i < count; i++)
 	{
-		StarObject* pStar = (StarObject*) pOb;
-		if(!pStar->isDirty())
-		{			
-			bool thisForceHaveSentStarTroop = findTroops(pStar, kForceSideDog);
-			if(thisForceHaveSentStarTroop)
-				continue;
-			else
-			{
-				Planet* pNearest = getNeareastPlanet(pStar->getPosition(), kForceSideDog, false);
-				sendTroopsToStar(pNearest, pStar);
+		int forceSide = forceSideNeedAI[i];
+		CCObject* pOb = NULL;	
+		CCARRAY_FOREACH(m_pStarArray, pOb)
+		{
+			StarObject* pStar = (StarObject*) pOb;
+			if(!pStar->isDirty())
+			{	
+				if(HIT(0.3))
+				{
+					bool thisForceHaveSentStarTroop = findTroops(pStar, forceSide);
+					if(thisForceHaveSentStarTroop)
+						continue;
+					else
+					{
+						Planet* pNearest = getNeareastPlanet(pStar->getPosition(), forceSide, false);
+						if(pNearest)
+							sendTroopsToStar(pNearest, pStar);
+					}
+				}
 			}
 		}
 	}
+}
+
+void StageBaseLayer::updateAISkill()
+{
+	// 为Dog类、 Third类星球寻找一个离Star最近的去追星
+	int forceSideNeedAI[] = {kForceSideDog, kForceSideThird};
+	int count = sizeof(forceSideNeedAI) / sizeof(int);
+	for(int i = 0; i < count; i++)
+	{
+		int forceSide = forceSideNeedAI[i];
+
+		// 为Dog类星球作技能使用判断
+		if( (getStarCountForForceSide(kForceSideDog) >= SKILL_SPEED_COUNT) && HIT(0.3))
+		{
+			Planet* pSpeedUpPlanet = getRandomCanSpeedUpPlanet(kForceSideDog, false);
+			if(pSpeedUpPlanet)
+			{
+				pSpeedUpPlanet->speedUp();
+				addStarCountForForceSide(kForceSideDog, -SKILL_SPEED_COUNT);			
+				PlayEffect("Audio_button.mp3");
+			}
+		}
+
+		if( (getStarCountForForceSide(kForceSideDog) >= SKILL_UPGRADE_COUNT) && HIT(0.3))
+		{
+			Planet* pLevelUpPlanet = getRandomCanLevelUpPlanet(kForceSideDog, false);
+			if(pLevelUpPlanet)
+			{
+				pLevelUpPlanet->levelUp();
+				addStarCountForForceSide(kForceSideDog, -SKILL_UPGRADE_COUNT);			
+				PlayEffect("Audio_button.mp3");
+			}
+		}
+	}
+}
+
+// extraUpdateAIForPlanet是对updateAIForPlanet的补充
+// 专供特殊逻辑星球
+// 在子类中就不用直接override updateAIForPlanet了
+// 重写extraUpdateAIForPlanet即可
+void StageBaseLayer::updateAIExtraForPlanet(Planet* pPlanet)
+{
+	// To be implemented
 }
 
 void StageBaseLayer::updateAIForPlanet(Planet* pPlanet)
@@ -240,6 +401,8 @@ void StageBaseLayer::updateAIForPlanet(Planet* pPlanet)
 	{
 		return;
 	}
+
+	updateAIExtraForPlanet(pPlanet);
 
 	int thisCount = pPlanet->getFightUnitCount();
 	CCObject* pOb = NULL;			
@@ -272,7 +435,7 @@ void StageBaseLayer::updateAIForPlanet(Planet* pPlanet)
 				// 二级触发概率普遍较大
 				if(thisCount / 2 >= toCount  && thisCount >= 10 )
 				{
-					if(HIT(0.7))
+					if(HIT(0.3))
 					{
 						sendTroopsToPlanet(pPlanet, targetPlanet);
 						bHaveSent = true;
@@ -281,7 +444,7 @@ void StageBaseLayer::updateAIForPlanet(Planet* pPlanet)
 				}	
 				else if(thisCount - toCount >= 5)
 				{
-					if(HIT(0.5))
+					if(HIT(0.25))
 					{
 						sendTroopsToPlanet(pPlanet, targetPlanet);
 						bHaveSent = true;
@@ -291,34 +454,38 @@ void StageBaseLayer::updateAIForPlanet(Planet* pPlanet)
 			}
 		}
 	}
+
 	
 	// 此处的逻辑重点是基于当前数量占自身容量的比例来进行的
 	// 二级触发概率普遍较小
 	if(!bHaveSent)
 	{
-		if(thisCount == pPlanet->getMaximumUnitCount())
+		/*if(thisCount == pPlanet->getMaximumUnitCount())
 		{
-			planetActOn(pPlanet);
+		planetActOn(pPlanet);
 		}	
 		else if(thisCount > pPlanet->getMaximumUnitCount() * 3 / 4  )
 		{
-			if(HIT(0.7))
-				planetActOn(pPlanet);
+		if(HIT(0.7))
+		planetActOn(pPlanet);
 		}
 		else if(thisCount > pPlanet->getMaximumUnitCount() * 2 / 4  )
 		{
-			if(HIT(0.3))
+		if(HIT(0.3))
+		planetActOn(pPlanet);
+		}
+		*/
+		if(thisCount > 20 )
+		{
+			if(HIT(0.9))
 				planetActOn(pPlanet);
 		}
-		else if(thisCount > pPlanet->getMaximumUnitCount() * 1 / 4 )
+		else if(thisCount > 10 )
 		{
-			if(HIT(0.1))
+			if(HIT(0.6))
 				planetActOn(pPlanet);
 		}
 	}
-	
-
-
 }
 
 bool StageBaseLayer::findTroops(GameObject* to, int force)
@@ -342,18 +509,25 @@ void StageBaseLayer::planetActOn(Planet* pPlanet)
 	Planet* pWeakestEnemyPlanet = getWeakestPlanet(pPlanet->getForceSide(), true);
 	Planet* pWeakestFriendPlanet = getWeakestPlanet(pPlanet->getForceSide(), false);
 	Planet* pRandomEnemyPlanet = getRandomPlanet(pPlanet->getForceSide(), true);
-	// 有0.4 向最弱星球发动攻击
-	if(HIT(0.4) && pWeakestEnemyPlanet)
+	Planet* pNearestEnemyPlanet = getNeareastPlanet(pPlanet->getPosition(), pPlanet->getForceSide(), true);
+
+	// 向最近中立星球发动攻击
+	if(HIT(0.5) && pNearestEnemyPlanet)
+	{
+		sendTroopsToPlanet(pPlanet, pNearestEnemyPlanet);
+	}
+	// 向最弱星球发动攻击
+	else if(HIT(0.3) && pWeakestEnemyPlanet)
 	{
 		sendTroopsToPlanet(pPlanet, pWeakestEnemyPlanet);
 	}
-	// 否则 0.5 随机挑选对方星球发动攻击
-	else if(HIT(0.5) && pRandomEnemyPlanet)
+	//  随机挑选对方星球发动攻击
+	else if(HIT(0.3) && pRandomEnemyPlanet)
 	{
 		sendTroopsToPlanet(pPlanet, pRandomEnemyPlanet);
 	}
-	// 否则 0.5 概率救援己方最弱且未满星球
-	else if(HIT(0.5) && pWeakestFriendPlanet && pWeakestFriendPlanet != pPlanet
+	// 救援己方最弱且未满星球
+	else if(HIT(0.3) && pWeakestFriendPlanet && pWeakestFriendPlanet != pPlanet
 		&& pWeakestFriendPlanet->getFightUnitCount() < pWeakestFriendPlanet->getMaximumUnitCount())
 	{
 		sendTroopsToPlanet(pPlanet, pWeakestFriendPlanet);
@@ -458,6 +632,63 @@ Planet* StageBaseLayer::getRandomPlanet( int nForceSide, bool exceptMode )
 	return (Planet*)pRandomArray->objectAtIndex(randomIndex);
 }
 
+Planet* StageBaseLayer::getRandomCanLevelUpPlanet( int nForceSide, bool exceptMode )
+{
+	Planet* pResult = NULL;
+	CCObject* pOb = NULL;
+	CCArray* pRandomArray = CCArray::createWithCapacity(40);
+	CCARRAY_FOREACH(m_pPlanetArray, pOb)
+	{
+		Planet* pIter = (Planet*) pOb;
+		if(!pIter->isDirty())
+		{
+			bool judgeGoOn = ( pIter->getForceSide() == nForceSide );
+			if(exceptMode)
+				judgeGoOn = !judgeGoOn;
+			if(judgeGoOn && pIter->canLevelUp())
+			{
+				pRandomArray->addObject(pIter);
+			}
+		}
+	}
+
+	int count = pRandomArray->count();
+	if(count == 0)
+		return NULL;
+
+	int randomIndex = MiscTool::getRandom(count);
+	return (Planet*)pRandomArray->objectAtIndex(randomIndex);
+}
+
+Planet* StageBaseLayer::getRandomCanSpeedUpPlanet( int nForceSide, bool exceptMode )
+{
+	Planet* pResult = NULL;
+	CCObject* pOb = NULL;
+	CCArray* pRandomArray = CCArray::createWithCapacity(40);
+	CCARRAY_FOREACH(m_pPlanetArray, pOb)
+	{
+		Planet* pIter = (Planet*) pOb;
+		if(!pIter->isDirty())
+		{
+			bool judgeGoOn = ( pIter->getForceSide() == nForceSide );
+			if(exceptMode)
+				judgeGoOn = !judgeGoOn;
+			if(judgeGoOn && pIter->canLevelUp())
+			{
+				pRandomArray->addObject(pIter);
+			}
+		}
+	}
+
+	int count = pRandomArray->count();
+	if(count == 0)
+		return NULL;
+
+	int randomIndex = MiscTool::getRandom(count);
+	return (Planet*)pRandomArray->objectAtIndex(randomIndex);
+}
+
+
 void StageBaseLayer::updateTime(float dt)
 {
 	m_fTime += dt;
@@ -465,10 +696,10 @@ void StageBaseLayer::updateTime(float dt)
 
 void StageBaseLayer::updateSkillButtonState()
 {
-
+	int catStarCount = getStarCountForForceSide(kForceSideCat) ;
 	// 升级按钮
 	if(m_pFocusedPlanet == NULL
-		|| m_nStarCount < SKILL_UPGRADE_COUNT
+		|| catStarCount < SKILL_UPGRADE_COUNT
 		|| !m_pFocusedPlanet->canLevelUp())
 	{
 		m_pSkillUpgradeBtn->setEnabled(false);
@@ -480,7 +711,7 @@ void StageBaseLayer::updateSkillButtonState()
 	
 	// 加速按钮
 	if(m_pFocusedPlanet == NULL
-		|| m_nStarCount < SKILL_SPEED_COUNT
+		|| catStarCount < SKILL_SPEED_COUNT
 		|| !m_pFocusedPlanet->canSpeedUp())
 	{
 		m_pSkillSpeedBtn->setEnabled(false);
@@ -506,7 +737,7 @@ void StageBaseLayer::updateSkillButtonState()
 		}
 	}
 
-	if(  m_nStarCount < SKILL_DOWN_COUNT
+	if(  catStarCount < SKILL_DOWN_COUNT
 		|| !bCanSlowDown)
 	{
 		m_pSkillDownBtn->setEnabled(false);
@@ -644,8 +875,16 @@ void StageBaseLayer::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent)
 	{
 		StarObject* pStar = (StarObject*) pOb;
 		CCPoint starPosition = pStar->getPosition();
+		float adjust = 10; // 微调，使其更好点中
+		CCRect originalRect = pStar->boundingBox();
+		CCRect adjustedRect = CCRectMake(
+			originalRect.origin.x - adjust,
+			originalRect.origin.y - adjust,
+			originalRect.size.width + adjust * 2,
+			originalRect.size.height + adjust * 2);
+
 		if(!pStar->isDirty() && 
-			pStar->boundingBox().containsPoint(touchPoint))
+			adjustedRect.containsPoint(touchPoint))
 		{
 			if(m_pFrontSight)
 			{
@@ -801,7 +1040,7 @@ void StageBaseLayer::showFocusedMarkOnFocusedPlanet()
 	}	
 }
 
-void StageBaseLayer::sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
+void StageBaseLayer::sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet, int count)
 {
 	if(!fromPlanet || !toPlanet) 
 		return;
@@ -816,7 +1055,7 @@ void StageBaseLayer::sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet)
 		return;
 
 	// 
-	int sendCount = unitCount / 2;
+	int sendCount = count == -1 ? unitCount / 2 : count;
 	int remainCount = unitCount - sendCount;
 
 	// 设置from
@@ -894,6 +1133,45 @@ const char* StageBaseLayer::getBKGFileName()
 	return "StageBase_bkg.png";
 }
 
+int StageBaseLayer::getStarCountForForceSide(int forceSide)
+{
+	int res = 0;
+	CCObject* pOb = m_pForceInfoDic->objectForKey(forceSide);
+	if(!pOb)
+		return res;
+
+	ForceSideInfo* pInfo = (ForceSideInfo*) pOb;
+	res =  pInfo->getStarCount();
+	return res;
+}
+
+void StageBaseLayer::setStarCountForForceSide(int forceSide, int count)
+{	
+	CCObject* pOb = m_pForceInfoDic->objectForKey(forceSide);
+	if(!pOb)
+		return ;
+
+	ForceSideInfo* pInfo = (ForceSideInfo*) pOb;
+	pInfo->setStarCount(count);	
+
+	if(forceSide == kForceSideCat)
+		refreshCatStartCountLabel();
+}
+
+void StageBaseLayer::addStarCountForForceSide(int forceSide, int count)
+{	
+	CCObject* pOb = m_pForceInfoDic->objectForKey(forceSide);
+	if(!pOb)
+		return ;
+
+	ForceSideInfo* pInfo = (ForceSideInfo*) pOb;
+	int nBefore = pInfo->getStarCount();
+	pInfo->setStarCount(nBefore + count);	
+
+	if(forceSide == kForceSideCat)
+		refreshCatStartCountLabel();
+}
+
 void StageBaseLayer::initPannel()
 {
 	// pannel background
@@ -958,7 +1236,8 @@ void StageBaseLayer::initPannel()
 	pPanelStar->setPosition(ccp(56, 200));
 	pPanel->addChild(pPanelStar);
 
-	CCString* pStrCount = CCString::createWithFormat("%d", m_nStarCount);
+	int catStarCount = getStarCountForForceSide(kForceSideCat);
+	CCString* pStrCount = CCString::createWithFormat("%d", catStarCount);
 	setStarCountLabel(CCLabelTTF::create(pStrCount->getCString(), "8bitoperator JVE.ttf", 40));
 	ccColor3B ccMyYellow={250, 203, 13};
 	m_pStarCountLabel->setColor(ccMyYellow);
@@ -1023,8 +1302,8 @@ void StageBaseLayer::skillUpCallback( CCObject* pSender )
 {
 	if(m_pFocusedPlanet)
 	{
-		int remain = m_nStarCount - SKILL_UPGRADE_COUNT;
-		setStarCount(remain);
+		addStarCountForForceSide(kForceSideCat, -SKILL_UPGRADE_COUNT);		
+		
 		m_pFocusedPlanet->levelUp();
 
 		PlayEffect("Audio_button.mp3");
@@ -1035,8 +1314,7 @@ void StageBaseLayer::skillSpeedCallback( CCObject* pSender )
 {
 	if(m_pFocusedPlanet)
 	{
-		int remain = m_nStarCount - SKILL_SPEED_COUNT;
-		setStarCount(remain);
+		addStarCountForForceSide(kForceSideCat, -SKILL_SPEED_COUNT);
 		m_pFocusedPlanet->speedUp();
 
 		PlayEffect("Audio_button.mp3");
@@ -1045,14 +1323,15 @@ void StageBaseLayer::skillSpeedCallback( CCObject* pSender )
 
 void StageBaseLayer::skillDownCallback( CCObject* pSender )
 {
-	int remain = m_nStarCount - SKILL_DOWN_COUNT;
-	setStarCount(remain);
+	addStarCountForForceSide(kForceSideCat, -SKILL_DOWN_COUNT);			
 
 	CCObject* pOb = NULL;
 	CCARRAY_FOREACH(m_pPlanetArray, pOb)
 	{
 		Planet* pPlanet = (Planet*) pOb;	
-		if(!pPlanet->isDirty() && pPlanet->getForceSide() != kForceSideCat)
+		if(!pPlanet->isDirty() 
+			&& pPlanet->getForceSide() != kForceSideCat
+			&& pPlanet->getForceSide() != kForceSideMiddle)
 		{
 			pPlanet->slowDown();
 		}
@@ -1184,6 +1463,18 @@ void StageBaseLayer::handleContactTroopsAndTroops(Troops* pTroopsA, Troops* pTro
 	if(pTroopsA->getForceSide() == pTroopsB->getForceSide())
 		return;
 
+	// 将追星部队视为0碰撞体积
+	GameObject *pTarA = pTroopsA->getTargetObject();
+	GameObject *pTarB = pTroopsB->getTargetObject();
+	if(pTarA && pTarB)
+	{
+		if(pTarA->getType() == kGameObjectStar || pTarB->getType() == kGameObjectStar)
+		{
+			return;
+		}
+	}
+
+
 	PlayEffect("Audio_fight.mp3");
 
 	int countA = pTroopsA->getFightUnitCount();
@@ -1273,8 +1564,16 @@ void StageBaseLayer::handleContactTroopsAndPlanet(Troops* pTroops, Planet* pPlan
 			&& pTroops->hasGotStar() == true)
 		{
 			pPlanet->increaseFightUnitCount(pTroops->getFightUnitCount());
-			setStarCount(++m_nStarCount);
-			starFinallyLandedOnMyPlanet(pPlanet);
+			if(pPlanet->getForceSide() == kForceSideCat)
+			{
+				addStarCountForForceSide(kForceSideCat, 1);	
+				refreshCatStartCountLabel();
+				starFinallyLandedOnMyPlanet(pPlanet);
+			}
+			else
+			{
+				addStarCountForForceSide(pPlanet->getForceSide(), 1);
+			}
 		}
 		// 敌星
 		else 
@@ -1323,17 +1622,6 @@ void StageBaseLayer::handleContactTroopsAndStar(Troops* pTroops, StarObject* pSt
 	}
 }
 
-void StageBaseLayer::setStarCount( int count )
-{
-	m_nStarCount = count;
-	if(m_pStarCountLabel)
-	{
-		CCString* pStrCount = CCString::createWithFormat("%d", m_nStarCount);
-		m_pStarCountLabel->setString(pStrCount->getCString());
-	}
-}
-
-
 // 占领音效
 void StageBaseLayer::playOccupySoundEffect(int force)
 {
@@ -1359,7 +1647,7 @@ void StageBaseLayer::planetOccupied(Planet* pPlanet)
 		int forceSide = pIter->getForceSide();
 		if(forceSide == kForceSideCat)
 			bNeedGotoDead = false;
-		else
+		else if(forceSide == kForceSideDog || forceSide == kForceSideThird)
 			bNeedGotoWin = false;
 	}
 
@@ -1416,4 +1704,15 @@ void StageBaseLayer::gotoDead()
 void StageBaseLayer::gotoDeadInDelay(float f)
 {	
 	m_pParentScene->showNavigator(false, (int)m_fTime, m_nUnitLost);		
+}
+
+
+
+void StageBaseLayer::refreshCatStartCountLabel()
+{	
+	if(m_pStarCountLabel)
+	{
+		CCString* pStrCount = CCString::createWithFormat("%d", getStarCountForForceSide(kForceSideCat));
+		m_pStarCountLabel->setString(pStrCount->getCString());
+	}
 }

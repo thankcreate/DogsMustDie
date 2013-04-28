@@ -10,6 +10,10 @@ void Rank::initWithCount( int count )
 {
 	init();
 	this->removeAllChildrenWithCleanup(true);
+
+	if(count == 0)
+		return;
+
 	this->initWithFile("Rank.png");
 	for(int i = 1; i < count; i ++)
 	{

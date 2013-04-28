@@ -21,11 +21,11 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 	CCString* pStr = CCString::createWithFormat("%d", smallIndex);
 	CCLabelTTF* pLabel = CCLabelTTF::create(pStr->getCString(), "8bitoperator JVE.ttf", 55);
 	pLabel->setColor(ccWHITE);
-	pLabel->setPosition(ccp(42 , 36));
+	pLabel->setPosition(ccp(normal->boundingBox().size.width / 2 , 36));
 	normal->addChild(pLabel);
 
 	int score = MiscTool::getScoreForLevel(bigIndex, smallIndex);
-	float xInterval = 22;
+	float xInterval = 30;
 	if(score >=1)
 	{
 		// 这里从1开始算i会直观一点
@@ -36,14 +36,14 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 				pScore->initWithFile("StageSelect_item_score_fill.png");
 			else
 				pScore->initWithFile("StageSelect_item_score_empty.png");
-			pScore->setPosition(ccp(18 + (i - 1) * xInterval, 9));
+			pScore->setPosition(ccp(20 + (i - 1) * xInterval, 9));
 			normal->addChild(pScore);
 		}
 	}
 
 	// seleted
 	CCSprite* selected = CCSprite::create("StageSelect_tinyblock_pressed.png");
-	xInterval = 22;
+	xInterval = 30;
 	if(score >=1)
 	{
 		// 这里从1开始算i会直观一点
@@ -54,14 +54,14 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 				pScore->initWithFile("StageSelect_item_score_fill.png");
 			else
 				pScore->initWithFile("StageSelect_item_score_empty.png");
-			pScore->setPosition(ccp(18 + (i - 1) * xInterval, 9));
+			pScore->setPosition(ccp(20 + (i - 1) * xInterval, 9));
 			selected->addChild(pScore);
 		}
 	}
 
 	CCLabelTTF* pLabel2 = CCLabelTTF::create(pStr->getCString(), "8bitoperator JVE.ttf", 55);
 	pLabel2->setColor(ccWHITE);
-	pLabel2->setPosition(ccp(42 , 36));
+	pLabel2->setPosition(ccp(selected->boundingBox().size.width / 2 , 36));
 	selected->addChild(pLabel2);
 
 	CCSprite* disabled = CCSprite::create("StageSelect_tinyblock_locked.png");

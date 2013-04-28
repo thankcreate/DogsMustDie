@@ -41,6 +41,9 @@ bool PermissionManager::isStageAllowed(int bigIndex, int smallIndex)
         if(smallIndex <= toSmall)
 			res = true;
 	}
+
+	// TODO
+	return true;
     
 	return res;
 }

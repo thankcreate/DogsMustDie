@@ -36,7 +36,8 @@ enum eForceSide
 {
 	kForceSideCat,
 	kForceSideDog,
-	kForceSideMiddle
+	kForceSideThird, // Third是第三方,会主动攻击
+	kForceSideMiddle,  // Middle是中立，不会主动攻击
 };
 
 // CCUserDefault
@@ -69,8 +70,9 @@ enum eForceSide
 // other
 #define WIN_SIZE (CCDirector::sharedDirector()->getWinSize())
 #define HIT(prob) MiscTool::probabilityHit(prob)
+#define STAR_PRELOAD_LOCATION(x, y) m_vecPossibleStarLocations.push_back(ccp(x,y))
 // stage
-#define BIG_STAGE_COUNT 2
-#define SMALL_STAGE_COUNT 12
+#define BIG_STAGE_COUNT 3
+#define SMALL_STAGE_COUNT 9
 #define ENDLESS_COUNT 99999
 #endif

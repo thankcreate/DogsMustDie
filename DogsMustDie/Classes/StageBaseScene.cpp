@@ -8,6 +8,7 @@
 #include "MyUseDefaultDef.h"
 #include "StageSelectScene.h"
 #include "MiscTool.h"
+#include "StageMap.h"
 
 StageBaseScene::StageBaseScene() :
 	m_pStageLayer(NULL),
@@ -177,4 +178,24 @@ void StageBaseScene::showNavigatorLose(int time, int unitLost)
 int StageBaseScene::getScoreStartCount(int time , int unitLost)
 {
 	return 3;
+}
+
+
+// gotoNext现在统一由BigLevel和SmallLevel来推断
+// 一般不由子类重写
+void StageBaseScene::gotoNext()
+{
+	if(m_nBigLevel <=0 || m_nSmallLevel <= 0)
+		return;
+
+	// 注意，BigLevel和SmallLevel是从1开始计数
+	// 但是此处推演时以0开始计数
+	int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1;	
+	int bigIndex = zeroBasedIndex / SMALL_STAGE_COUNT + 1;
+	int smallIndex = zeroBasedIndex % SMALL_STAGE_COUNT + 1;
+
+	StageMap::sharedInstance()->gotoStage(bigIndex, smallIndex);
+
+	// TODO 边界情况目前未处理，最后一关
+
 }

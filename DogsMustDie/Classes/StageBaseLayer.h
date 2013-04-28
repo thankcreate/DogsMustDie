@@ -49,8 +49,10 @@ public:
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pStarArray, StarArray);
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pTroopsArray, TroopsArray);
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pUpdateArray, UpdateArray);
-	
 
+	CC_SYNTHESIZE_RETAIN(CCDictionary*, m_pForceInfoDic, ForceInfoDic);
+	
+	std::vector<CCPoint> m_vecPossibleStarLocations;
 
 	b2World* m_pWorld;
 
@@ -91,13 +93,18 @@ public:
 	virtual void initPlanets();	
 	void initBackButton();
 
+
 	// update cycle
 	virtual void updateTime(float dt);
 	virtual void updateUpdateArray(float dt);
 	virtual void updateTroopsArray();
 	virtual void updateSkillButtonState();
 	virtual void updateAI();
-	
+	virtual void updateAIStar();
+	virtual void updateAIAttack();
+	virtual void updateAISkill();
+	virtual void updateAIExtraForPlanet(Planet* pPlanet);
+	virtual void updateAddStar();
 
 	// make tool
 	Troops* makeTroops(int forceSide, int fightUnitCount, Planet* pHomePort, GameObject* pTarget);
@@ -121,15 +128,13 @@ public:
 		kPannelLayerIndex = 10
 	};
 
-	// set and get
-	void setStarCount(int count);
-	int getStarCount() { return m_nStarCount; }
+
 	void initFocusMark();
 	Planet* getPlanetByLocation(CCPoint location);
 	void showFocusedMarkOnFocusedPlanet();
 	void playOccupySoundEffect(int force);
 	void playOccupySoundEffectInDelay(float dt);
-	virtual void sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet);
+	virtual void sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet, int count = -1);
 	virtual void sendTroopsToStar(Planet* fromPlanet, StarObject* toStar);
 
 	// listener for sub class
@@ -139,28 +144,39 @@ public:
 
 	
 	virtual float getAIRefreshInteval() {return 4;}
-	virtual int getInitStarCount() {return 0;}
+	virtual float getAddStarInteval() {return 3;}	
 
 	void gotoWin();
 	void gotoWinInDelay(float f);
 	void gotoDead();
 	void gotoDeadInDelay(float f);
 	void initLevelPannel();
-	void updateAIForPlanet(Planet* pPlanet);
+	virtual void updateAIForPlanet(Planet* pPlanet);
 	Planet* getWeakestPlanet(int nForceSide, bool exceptMode);
 	Planet* getNeareastPlanet(CCPoint basePosition, int nForceSide, bool exceptMode);
 	Planet* getRandomPlanet( int nForceSide, bool exceptMode );
 	void planetActOn(Planet* pPlanet);
 	bool findTroops(GameObject* to, int force);
+	Planet* getRandomCanLevelUpPlanet( int nForceSide, bool exceptMode );
+	Planet* getRandomCanSpeedUpPlanet( int nForceSide, bool exceptMode );
+	void initForceSideInfo();
+	int getStarCountForForceSide(int forceSide);
+	void setStarCountForForceSide(int forceSide, int count);
+	void addStarCountForForceSide(int forceSide, int count);
+	
+	void refreshCatStartCountLabel();
+	
 protected:
 	bool m_bIsSpeakerEnabled;
 	bool m_bIsUpdateStopped;
-	int m_nStarCount;
+	bool m_bIsAIStopped;
 	bool m_bIsHelpLayerInShow;
 	bool m_bInDeadOrWinState;
 	float m_fTime;
 	int m_nUnitLost;
 	float m_fLastRefreshAITime;
+	float m_fLastAddStarTime;
+	float m_nLastAddStarIndex;
 };
 
 #endif // StageBaseLayer_h__

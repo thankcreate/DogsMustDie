@@ -62,7 +62,7 @@ bool StageSelectLayer::init()
 		this->setContentSize(CCSizeMake(size.width * BIG_STAGE_COUNT, size.height));
 		float frameX1 = size.width / 2;
 		float frameY1 = size.height / 2;
-		char *titleArray[2] = {"StageSelect_title1.png", "StageSelect_title2.png"};
+		char *titleArray[3] = {"StageSelect_title1.png", "StageSelect_title2.png", "StageSelect_title2.png"};
 		
 		for(int i = 0; i < BIG_STAGE_COUNT; i++)
 		{

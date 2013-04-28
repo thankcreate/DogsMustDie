@@ -38,12 +38,12 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 	pRet->addChild(pTitle, 1);
 
 	// 4. Ñ¡¹Ø°´Å¥
-	float originX = 90;
+	float originX = 107;
 	float originY = 240;
-	float intervalX  = 97;
+	float intervalX  = 125;
 	float intervalY = 74;
 
-	int xNum = 4;
+	int xNum = 3;
 	int yNum = 3;
 
 	CCMenu* pStageMenu = CCMenu::create(NULL);
