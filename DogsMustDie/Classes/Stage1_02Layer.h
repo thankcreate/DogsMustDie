@@ -15,10 +15,14 @@ public:
 	Stage1_02Layer();
 	
 	CREATE_FUNC(Stage1_02Layer);
+	
+	CC_SYNTHESIZE(Planet*, m_pDog, Dog);
+	CC_SYNTHESIZE(Planet*, m_pCatRight, CatRight);
 
 	bool init();
 	void initPlanets();	
-	
+	void attack(float dt);
+
 
 };
 

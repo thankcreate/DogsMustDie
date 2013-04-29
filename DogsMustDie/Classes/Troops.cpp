@@ -2,7 +2,7 @@
 #include "Defines.h"
 #include "Planet.h"
 #include "Face.h"
-#define DEFAULT_SPPED 50
+#define DEFAULT_SPPED 55
 
 Troops::Troops() :	
 	m_pBubble(NULL),

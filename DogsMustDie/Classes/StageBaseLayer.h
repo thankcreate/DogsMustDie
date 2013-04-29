@@ -170,6 +170,7 @@ protected:
 	bool m_bIsSpeakerEnabled;
 	bool m_bIsUpdateStopped;
 	bool m_bIsAIStopped;
+	bool m_bIsAddStarStopped;
 	bool m_bIsHelpLayerInShow;
 	bool m_bInDeadOrWinState;
 	float m_fTime;

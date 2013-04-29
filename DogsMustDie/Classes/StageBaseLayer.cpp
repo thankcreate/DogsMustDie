@@ -43,7 +43,8 @@ StageBaseLayer::StageBaseLayer()  :
 	m_fLastAddStarTime(0),	
 	m_nLastAddStarIndex(-1),
 	m_pForceInfoDic(NULL),
-	m_bIsAIStopped(false)
+	m_bIsAIStopped(false),
+	m_bIsAddStarStopped(false)
 {
 	setPlanetArray(CCArray::createWithCapacity(30));
 	setStarArray(CCArray::createWithCapacity(10));
@@ -217,6 +218,9 @@ void StageBaseLayer::updateAddStar()
 	{
 		return;
 	}
+
+	if(m_bIsAddStarStopped)
+		return;
 	
 	m_fLastAddStarTime = m_fTime;
 	if(!HIT(0.35))

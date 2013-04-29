@@ -24,8 +24,6 @@ Planet::Planet() :
 	m_nFightUnitCount = DEFAULT_COUNT;
 }
 
-
-
 bool Planet::init()
 {
 	bool bRet = false;

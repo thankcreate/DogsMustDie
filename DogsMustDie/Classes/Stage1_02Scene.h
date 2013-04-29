@@ -13,8 +13,7 @@ class Stage1_02Scene : public StageBaseScene
 public:	
 	CREATE_FUNC(Stage1_02Scene);
 	virtual StageBaseLayer* getMainStageLayer();
-
-	void gotoNext();
+		
 	const char* getBGMFileName();
 
 	int getTimeJudgeLine() { return 30 ;}

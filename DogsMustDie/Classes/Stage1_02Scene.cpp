@@ -9,10 +9,7 @@ StageBaseLayer* Stage1_02Scene::getMainStageLayer()
 }
 
 
-void Stage1_02Scene::gotoNext()
-{
-	StageMap::sharedInstance()->gotoStage(1,3);
-}
+
 
 const char* Stage1_02Scene::getBGMFileName()
 {	

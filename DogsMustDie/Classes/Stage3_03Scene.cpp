@@ -12,5 +12,5 @@ StageBaseLayer* Stage3_03Scene::getMainStageLayer()
 
 const char* Stage3_03Scene::getBGMFileName()
 {	
-	return "Audio_bgm_stage_1.mp3";
+	return "Audio_bgm_stage_3.mp3";
 }

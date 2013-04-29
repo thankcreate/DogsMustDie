@@ -21,11 +21,19 @@ bool Stage3_06Layer::init()
 
 void Stage3_06Layer::initPlanets()
 {
-	makePlanet(kForceSideCat, ccp(170,105), 0, 0);
-	makePlanet(kForceSideDog, ccp(548,105), 0, 0);
-	makePlanet(kForceSideMiddle, ccp(354,360), 12, 1);
+	makePlanet(kForceSideDog, ccp(394,57), 2, 1);
+	makePlanet(kForceSideDog, ccp(568,159), 2, 1);
 
-	makeStar(ccp(360, 218));
+	makePlanet(kForceSideThird, ccp(175,103), 2, 0);
+	makePlanet(kForceSideThird, ccp(339,218), 2, 0);
+	makePlanet(kForceSideThird, ccp(509,319), 2, 0);
 
 
+	makePlanet(kForceSideCat, ccp(98, 267), 2, 1);
+	makePlanet(kForceSideCat, ccp(267, 376), 2, 1);
+
+	makeStar(ccp(135, 392));
+	makeStar(ccp(44, 35));
+
+	setStarCountForForceSide(kForceSideCat, 2);
 }

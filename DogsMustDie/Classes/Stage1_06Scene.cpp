@@ -9,12 +9,7 @@ StageBaseLayer* Stage1_06Scene::getMainStageLayer()
 }
 
 
-void Stage1_06Scene::gotoNext()
-{
-	StageMap::sharedInstance()->gotoStage(1,3);
-}
-
 const char* Stage1_06Scene::getBGMFileName()
 {	
-	return "Audio_bgm_stage_1.mp3";
+	return "Audio_bgm_stage_5.mp3";
 }

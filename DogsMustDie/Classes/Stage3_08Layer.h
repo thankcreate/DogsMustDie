@@ -18,7 +18,7 @@ public:
 
 	bool init();
 	void initPlanets();		
-
+	virtual float getAddStarInteval() {return 1.5;}	
 };
 
 #endif // Stage3_08Layer_h__

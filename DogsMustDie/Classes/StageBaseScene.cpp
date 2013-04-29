@@ -190,7 +190,7 @@ void StageBaseScene::gotoNext()
 
 	// 注意，BigLevel和SmallLevel是从1开始计数
 	// 但是此处推演时以0开始计数
-	int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1;	
+	int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1 + 1;	
 	int bigIndex = zeroBasedIndex / SMALL_STAGE_COUNT + 1;
 	int smallIndex = zeroBasedIndex % SMALL_STAGE_COUNT + 1;
 

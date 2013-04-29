@@ -19,6 +19,13 @@ public:
 	bool init();
 	void initPlanets();		
 
+	CC_SYNTHESIZE(Planet*, m_pThird, Third);
+	CC_SYNTHESIZE(Planet*, m_pDog1, Dog1);
+	CC_SYNTHESIZE(Planet*, m_pDog2, Dog2);
+	CC_SYNTHESIZE(Planet*, m_pDog3, Dog3);
+	void attach1(float dt);
+	void attach2(float dt);
+	void attach3(float dt);
 };
 
 #endif // Stage3_05Layer_h__
