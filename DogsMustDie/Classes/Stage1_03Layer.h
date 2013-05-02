@@ -16,10 +16,13 @@ public:
 
 	CREATE_FUNC(Stage1_03Layer);
 
+	CC_SYNTHESIZE(CCSprite*, m_pGuideBorder, GuideBorder);
+	CC_SYNTHESIZE(CCLabelTTF*, m_pGuideLabel, GuideLabel);
+
 	bool init();
 	void initPlanets();	
-	
-
+	void initGuideLayer();
+	void moveLeftGuideLayer(float dt);
 };
 
 #endif // Stage1_03Layer_h__

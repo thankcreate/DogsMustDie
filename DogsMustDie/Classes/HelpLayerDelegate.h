@@ -4,7 +4,7 @@
 class HelpLayerDelegate
 {
 public:
-	virtual void helpLayerClosed() {};
+	virtual void helpLayerClosed() =0;
 };
 
 #endif // HelpLayerDelegate_h__

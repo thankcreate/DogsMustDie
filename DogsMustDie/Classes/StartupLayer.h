@@ -24,6 +24,7 @@ public:
 	void startCallback(CCObject* pSender);
 	void optionCallback(CCObject* pSender);
 	void aboutCallback(CCObject* pSender);
+	void endlessCallback(CCObject* pSender);
     
     // 目前仅对iOS版有效，评分
     void rateusCallback(CCObject* pSender);

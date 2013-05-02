@@ -14,9 +14,7 @@ p(NULL)
 
 SettingLayer::~SettingLayer(void)
 {
-
 }
-
 
 bool SettingLayer::init()
 {
@@ -148,7 +146,6 @@ void SettingLayer::gobackCallback(CCObject* pSender)
 	CCScene* stage = StartupScene::create();
 	CCDirector::sharedDirector()->replaceScene(stage);	
 }
-
 
 void SettingLayer::keyBackClicked()
 {

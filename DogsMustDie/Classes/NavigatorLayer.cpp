@@ -6,8 +6,6 @@
 NavigatorLayer::NavigatorLayer() :
 	m_pStageScene(NULL),
 	m_bInShow(false),
-	m_pTimeLabel(NULL),
-	m_pLostUnitLabel(NULL),
 	m_pFrame(NULL),
 	m_nTime(0),
 	m_nLostUnit(0),
@@ -18,7 +16,8 @@ NavigatorLayer::NavigatorLayer() :
 
 NavigatorLayer::~NavigatorLayer()
 {
-
+	int a = 1;
+	a++;
 }
 
 bool NavigatorLayer::init()
@@ -53,7 +52,7 @@ bool NavigatorLayer::init()
 
 	
 
-		// 禁止后层的按键
+		// 禁止后层的按键,不写的话得手动remove from dispatcher,否则本类不会被析构
 		this->setTouchEnabled(true);
 
 		bRet = true;
@@ -81,6 +80,8 @@ void NavigatorLayer::onEnterTransitionDidFinish()
 
 void NavigatorLayer::show()
 {
+	if(m_bInShow)
+		return;
 	m_bInShow = true;
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
 	CCMoveTo* pMoveDown = CCMoveTo::create(0.3, ccp(size.width / 2, size.height / 2));
@@ -146,42 +147,3 @@ void NavigatorLayer::gotoStageSelect( CCObject* object )
 	}
 }
 
-
-void NavigatorLayer::setTime(int nTime)
-{
-	m_nTime = nTime;
-	if(!m_pTimeLabel)
-	{		
-		setTimeLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
-		m_pTimeLabel->setDimensions(CCSizeMake(220, 25));
-		m_pTimeLabel->setPosition(ccp(255, 201));
-		ccColor3B ccMyOrange={255, 104, 0};
-		m_pTimeLabel->setColor(ccMyOrange);
-		m_pTimeLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
-		m_pTimeLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
-		m_pFrame->addChild(m_pTimeLabel);
-	}
-
-	CCString* pFullTimeString = CCString::createWithFormat("Time:  %d s", m_nTime);
-	m_pTimeLabel->setString(pFullTimeString->getCString());
-}
-
-void NavigatorLayer::setLostUnit(int nLost)
-{
-	m_nLostUnit = nLost;
-	if(!m_pLostUnitLabel)
-	{		
-		setLostUnitLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
-		m_pLostUnitLabel->setDimensions(CCSizeMake(220, 25));
-		m_pLostUnitLabel->setPosition(ccp(255, 170));
-		m_pLostUnitLabel->getTexture()->setAliasTexParameters();
-		ccColor3B ccMyOrange={255, 104, 0};
-		m_pLostUnitLabel->setColor(ccMyOrange);
-		m_pLostUnitLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
-		m_pLostUnitLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
-		m_pFrame->addChild(m_pLostUnitLabel);
-	}
-
-	CCString* pFullLostUnitString = CCString::createWithFormat("Unit lost:  %d cat", m_nLostUnit);
-	m_pLostUnitLabel->setString(pFullLostUnitString->getCString());
-}

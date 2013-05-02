@@ -17,9 +17,7 @@ public:
 
 	CC_SYNTHESIZE(StageBaseScene*, m_pStageScene, StageScene);
 	CC_SYNTHESIZE(CCLayerColor*, m_pColorLayer, ColorLayer);
-	CC_SYNTHESIZE(CCSprite*, m_pFrame, Frame);
-	CC_SYNTHESIZE(CCLabelTTF*, m_pTimeLabel, TimeLabel);
-	CC_SYNTHESIZE(CCLabelTTF*, m_pLostUnitLabel, LostUnitLabel);	
+	CC_SYNTHESIZE(CCSprite*, m_pFrame, Frame);	
 	CC_SYNTHESIZE(CCLabelTTF*, m_pTitleLabel, TitleLabel);	
 
 	bool m_bInShow; // 主要是为了防止用户连续点击gotonext 或者是restart
@@ -32,8 +30,8 @@ public:
 
 	virtual CCString* getTitle() = 0;
 
-	void setTime(int nTime);
-	void setLostUnit(int nLost);
+	virtual void setTime(int nTime) {};
+	virtual  void setLostUnit(int nLost) {};
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	void onEnterTransitionDidFinish();
 	enum
@@ -41,7 +39,9 @@ public:
 		SHAKE_DISTANCE = 30
 	};
 
-private:
+	virtual void setScoreStarCount(int count) {};
+	virtual void setRound(int round) {};
+protected:
 	int m_nTime;
 	int m_nLostUnit;
 };

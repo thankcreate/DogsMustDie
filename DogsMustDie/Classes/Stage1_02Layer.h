@@ -19,11 +19,14 @@ public:
 	CC_SYNTHESIZE(Planet*, m_pDog, Dog);
 	CC_SYNTHESIZE(Planet*, m_pCatRight, CatRight);
 
+	CC_SYNTHESIZE(CCSprite*, m_pGuideBorder, GuideBorder);
+	CC_SYNTHESIZE(CCLabelTTF*, m_pGuideLabel, GuideLabel);
+
 	bool init();
 	void initPlanets();	
-	void attack(float dt);
-
-
+	void attack(float dt);	
+	void initGuideLayer(float dt);
+	void moveRightGuideLayer(float dt);	
 };
 
 #endif // Stage1_02Layer_h__

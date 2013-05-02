@@ -91,6 +91,12 @@
     <Filter Include="include\Stage\Stage1">
       <UniqueIdentifier>{0c2b560a-296c-4b38-8788-49092902f2e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\Stage\Endless">
+      <UniqueIdentifier>{a2f18c67-7d86-458d-a70e-a1d790cbaba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Stage\Endless">
+      <UniqueIdentifier>{4cf4c825-87a0-45b6-92b2-fea956f5d540}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\DogsMustDie.ico">
@@ -397,6 +403,33 @@
     <ClInclude Include="..\Classes\Stage3_07Scene.h">
       <Filter>include\Stage\Stage3</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\StageStartupCGLayer.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageStartupCGScene.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageEndlessLayer.h">
+      <Filter>include\Stage\Endless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageEndlessScene.h">
+      <Filter>include\Stage\Endless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageEndlessWinLayer.h">
+      <Filter>include\Stage\Endless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageEndlessRestartLayer.h">
+      <Filter>include\Stage\Endless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageEndlessNavigatorLayer.h">
+      <Filter>include\Stage\Endless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PauseLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PauseLayerDelegate.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -666,8 +699,32 @@
     <ClCompile Include="..\Classes\Stage3_08Scene.cpp">
       <Filter>source\Stage\Stage3</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\StageStartupCGLayer.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageStartupCGScene.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\StageTemplateScene.cpp">
-      <Filter>source\Stage</Filter>
+      <Filter>source\Stage\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageEndlessLayer.cpp">
+      <Filter>source\Stage\Endless</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageEndlessScene.cpp">
+      <Filter>source\Stage\Endless</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageEndlessWinLayer.cpp">
+      <Filter>source\Stage\Endless</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageEndlessRestartLayer.cpp">
+      <Filter>source\Stage\Endless</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageEndlessNavigatorLayer.cpp">
+      <Filter>source\Stage\Endless</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PauseLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

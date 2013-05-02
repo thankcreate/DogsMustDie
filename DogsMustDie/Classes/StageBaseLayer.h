@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "HelpLayerDelegate.h"
+#include "PauseLayerDelegate.h"
 #include "Box2D/Box2D.h"
 
 using namespace cocos2d;
@@ -21,7 +22,11 @@ class GameObject;
 #define SKILL_DOWN_COUNT 2
 
 
-class StageBaseLayer : public CCLayer, public HelpLayerDelegate, public b2ContactListener
+class StageBaseLayer : 
+	public CCLayer, 
+	public HelpLayerDelegate, 
+	public b2ContactListener,
+	public PauseLayerDelegate
 {
 public:
 	StageBaseLayer();
@@ -40,7 +45,7 @@ public:
 	CC_SYNTHESIZE(CCLabelTTF*, m_pStarCountLabel, StarCountLabel);
 	CC_SYNTHESIZE(CCSprite*, m_pLevelBorder, LevelBorder);
 	CC_SYNTHESIZE(CCLabelTTF*, m_pLevelLabel, LevelLabel);
-	void setLevel(int big, int small1);
+	
 	CC_SYNTHESIZE(CCSprite*, m_pFromObject, FromObject);
 	CC_SYNTHESIZE(CCSprite*, m_pToObject, ToObject);
 	CC_SYNTHESIZE(Planet*, m_pFocusedPlanet, FocusedPlanet);
@@ -59,19 +64,21 @@ public:
 	virtual const char* getBKGFileName();
 	
 	// btn call back
-	void gobackCallback(CCObject* pSender);
+	virtual void gobackCallback(CCObject* pSender);
 	virtual void skillUpCallback(CCObject* pSender);
 	virtual void skillSpeedCallback(CCObject* pSender);
 	virtual void skillDownCallback(CCObject* pSender);
 	virtual void speakerCallback(CCObject* pSender);
 	virtual void helpCallback(CCObject* pSender);
-	
-
-	// HelpLayerDelegate
+	// PauseLayerDelegate	
+	void pauseLayerResumed();
 	void helpLayerClosed();
 
 	// b2ContactListener
 	void BeginContact(b2Contact* contact);
+
+	// android pad back
+	void keyBackClicked();
 
 	// touch
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
@@ -146,10 +153,10 @@ public:
 	virtual float getAIRefreshInteval() {return 4;}
 	virtual float getAddStarInteval() {return 3;}	
 
-	void gotoWin();
-	void gotoWinInDelay(float f);
-	void gotoDead();
-	void gotoDeadInDelay(float f);
+	virtual void gotoWin();
+	virtual void gotoWinInDelay(float f);
+	virtual void gotoDead();
+	virtual void gotoDeadInDelay(float f);
 	void initLevelPannel();
 	virtual void updateAIForPlanet(Planet* pPlanet);
 	Planet* getWeakestPlanet(int nForceSide, bool exceptMode);
@@ -165,7 +172,11 @@ public:
 	void addStarCountForForceSide(int forceSide, int count);
 	
 	void refreshCatStartCountLabel();
+	void setLevel(int big, int small1);
+	virtual void setTime(int minu, int sec);
+	void updateAddStarInternal();
 	
+
 protected:
 	bool m_bIsSpeakerEnabled;
 	bool m_bIsUpdateStopped;

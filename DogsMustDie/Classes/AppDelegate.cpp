@@ -11,6 +11,9 @@
 #include "cocos2d.h"
 #include "StartupScene.h"
 #include "SimpleAudioEngine.h"
+#include "Defines.h"
+#include "MyUseDefaultDef.h"
+#include "StageStartupCGScene.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -37,7 +40,21 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    CCScene *pScene = StartupScene::create();
+    
+
+	// 第一次时，启动cg页
+	bool bFirstLauch = LoadBooleanFromXML(KEY_FIRST_LAUNCH, true);
+	CCScene *pScene = NULL;
+	if(bFirstLauch)
+	{
+		SaveBooleanToXML(KEY_FIRST_LAUNCH, false);
+		SaveUserDefault();
+		pScene = StageStartupCGScene::create();    
+	}
+	else
+	{
+		pScene = StartupScene::create(); 
+	}
 
     // run
     pDirector->runWithScene(pScene);

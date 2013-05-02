@@ -9,6 +9,7 @@
 #include "StageSelectScene.h"
 #include "MiscTool.h"
 #include "StageMap.h"
+#include "PauseLayer.h"
 
 StageBaseScene::StageBaseScene() :
 	m_pStageLayer(NULL),
@@ -16,7 +17,8 @@ StageBaseScene::StageBaseScene() :
 	m_nSmallLevel(0),
 	m_pHelpLayer(NULL),
 	m_pRestartLayer(NULL),
-	m_pWinLayer(NULL)
+	m_pWinLayer(NULL),
+	m_pPauseLayer(NULL)
 {
 
 }
@@ -95,6 +97,17 @@ void StageBaseScene::showHelpLayer()
 	m_pHelpLayer->show();	
 }
 
+void StageBaseScene::showPauseLayer()
+{
+	if(m_pPauseLayer == NULL)
+	{			
+		setPauseLayer(PauseLayer::create());		
+		this->addChild(m_pPauseLayer, 10);		
+		m_pPauseLayer->setStageScene(this);
+	}
+	m_pPauseLayer->setDelegate(m_pStageLayer);
+	m_pPauseLayer->show();
+}
 
 // 设置本关的关卡号
 // 可以显示在optionlayer 层的 title上
@@ -177,8 +190,16 @@ void StageBaseScene::showNavigatorLose(int time, int unitLost)
 // 只要赢了至少给个1星吧
 int StageBaseScene::getScoreStartCount(int time , int unitLost)
 {
-	return 3;
+	int judgeTime = getJudgeScoreTime();
+	if(time > judgeTime  + 26)
+		return 1;
+	else if(time > judgeTime + 10)
+		return 2;
+	else 
+		return 3;
 }
+
+
 
 
 // gotoNext现在统一由BigLevel和SmallLevel来推断
@@ -196,6 +217,6 @@ void StageBaseScene::gotoNext()
 
 	StageMap::sharedInstance()->gotoStage(bigIndex, smallIndex);
 
-	// TODO 边界情况目前未处理，最后一关
+	// TODO 边界情况目前未处理，最后一关，通过画面
 
 }

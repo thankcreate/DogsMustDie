@@ -13,6 +13,8 @@
 #include "SettingScene.h"
 #include "AboutScene.h"
 #include "AudioManager.h"
+#include "StageStartupCGScene.h"
+#include "StageEndlessScene.h"
 using namespace cocos2d;
 
 StartupLayer::StartupLayer(void) :
@@ -66,8 +68,19 @@ bool StartupLayer::init()
 			menu_selector(StartupLayer::startCallback));
 		CC_BREAK_IF(! pStartItem);		
 
-		pStartItem->setPosition(ccp(400, 210));
+		pStartItem->setPosition(ccp(400, 244));
 		pMenu->addChild(pStartItem);
+
+		// endless
+		CCMenuItemImage *pEndlessItem = CCMenuItemImage::create(
+			"Startup_btn_endless_normal.png",
+			"Startup_btn_endless_pressed.png",
+			this,
+			menu_selector(StartupLayer::endlessCallback));
+		CC_BREAK_IF(! pEndlessItem);		
+
+		pEndlessItem->setPosition(ccp(400, 177));
+		pMenu->addChild(pEndlessItem);
 
 		// option
 		CCMenuItemImage *pOptionItem = CCMenuItemImage::create(
@@ -77,7 +90,7 @@ bool StartupLayer::init()
 			menu_selector(StartupLayer::optionCallback));
 		CC_BREAK_IF(! pOptionItem);		
 
-		pOptionItem->setPosition(ccp(400, 140));
+		pOptionItem->setPosition(ccp(400, 110));
 		pMenu->addChild(pOptionItem);
 
 
@@ -89,7 +102,9 @@ bool StartupLayer::init()
 			menu_selector(StartupLayer::aboutCallback));
 		CC_BREAK_IF(! pAboutItem);		
 
-		pAboutItem->setPosition(ccp(400, 70));
+
+
+		pAboutItem->setPosition(ccp(400, 43));
 		pMenu->addChild(pAboutItem);		
 
 		shakePlanets();
@@ -140,7 +155,9 @@ void StartupLayer::optionCallback(CCObject* pSender)
 void StartupLayer::aboutCallback(CCObject* pSender)
 {
 	PlayEffect("Audio_button.mp3");
-	CCScene* stage = AboutScene::create();
+	// TODO
+	//CCScene* stage = AboutScene::create();
+	CCScene* stage = StageStartupCGScene::create();
 	CCDirector::sharedDirector()->replaceScene(stage);
 }
 
@@ -154,4 +171,11 @@ void StartupLayer::rateusCallback(CCObject* pSender)
 void StartupLayer::keyBackClicked()
 {
    CCDirector::sharedDirector()->end(); 
+}
+
+void StartupLayer::endlessCallback( CCObject* pSender )
+{
+	PlayEffect("Audio_button.mp3");
+	CCScene* stage = StageEndlessScene::create();
+	CCDirector::sharedDirector()->replaceScene(stage);
 }

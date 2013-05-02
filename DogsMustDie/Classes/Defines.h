@@ -75,4 +75,9 @@ enum eForceSide
 #define BIG_STAGE_COUNT 3
 #define SMALL_STAGE_COUNT 9
 #define ENDLESS_COUNT 99999
+
+
+
+// purchase
+#define LOCK_BEGIN_INDEX 2
 #endif

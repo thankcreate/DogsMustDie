@@ -8,9 +8,8 @@ using namespace cocos2d;
 
 class StageBaseLayer;
 class HelpLayer;
-class RestartLayer;
-class WinLayer;
-
+class NavigatorLayer;
+class PauseLayer;
 class StageBaseScene : public CCScene, public OptionDelegate
 {
 public:
@@ -19,9 +18,9 @@ public:
 
 	CC_SYNTHESIZE(StageBaseLayer*, m_pStageLayer, StageBaseLayer);
 	CC_SYNTHESIZE(HelpLayer*, m_pHelpLayer, HelpLayer);
-	CC_SYNTHESIZE(RestartLayer*, m_pRestartLayer, RestartLayer);
-	CC_SYNTHESIZE(WinLayer*, m_pWinLayer, WinLayer);	
-
+	CC_SYNTHESIZE(NavigatorLayer*, m_pRestartLayer, RestartLayer);
+	CC_SYNTHESIZE(NavigatorLayer*, m_pWinLayer, WinLayer);	
+	CC_SYNTHESIZE(PauseLayer*, m_pPauseLayer, PauseLayer);
 	virtual StageBaseLayer* getMainStageLayer() = 0;
 
 	bool init();	
@@ -29,21 +28,24 @@ public:
 	void playBGM();
 	virtual const char* getBGMFileName();
 
-	void opGoBack();
-	void opReStart();
-	void opSound(bool isOn);
+	virtual void opGoBack();
+	virtual void opReStart();
+	virtual void opSound(bool isOn);
 	virtual void gotoNext();
 	void showHelpLayer();
 		
-	void showNavigatorLose(int time, int unitLost);
-	void showNavigatorWin(int time, int unitLost);
-	void showNavigator(bool isWin, int time, int unitLost);
+	virtual void showNavigatorLose(int time, int unitLost);
+	virtual void showNavigatorWin(int time, int unitLost);
+	virtual void showNavigator(bool isWin, int time, int unitLost);
 	int m_nBigLevel;
 	int m_nSmallLevel;
 
 	virtual int getTimeJudgeLine() = 0;
 	virtual int getUnitLostJudgeLine() = 0;
 	virtual int getScoreStartCount(int time , int unitLost);
+
+	virtual int getJudgeScoreTime() { return 40; }
+	void showPauseLayer();
 };
 
 #endif // StageBaseScene_h__

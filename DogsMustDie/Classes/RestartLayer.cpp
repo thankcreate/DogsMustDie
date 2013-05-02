@@ -1,20 +1,20 @@
 #include "RestartLayer.h"
 #include "MyMenu.h"
 #include "Defines.h"
-#include "..\StrangeAdventure\Classes\RestartLayer.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
 RestartLayer::RestartLayer() :	
 	m_pHappyDog(NULL),
-	m_pFlickerAction(NULL)
+	m_pFlickerAction(NULL),
+	m_pTimeLabel(NULL),
+	m_pLostUnitLabel(NULL)
 {
 
 }
 
 RestartLayer::~RestartLayer()
-{
-	CC_SAFE_RELEASE(m_pFlickerAction);
+{	
 }
 
 bool RestartLayer::init()
@@ -90,7 +90,10 @@ void RestartLayer::dogFunc2()
 
 
 void RestartLayer::backCallback(CCObject* pOb)
-{
+{	
+	restore();
+	// m_pFlickerAction 与 本类存在互相引用，故要提前做release
+	CC_SAFE_RELEASE(m_pFlickerAction);
 	getStageScene()->opGoBack();
 }
 
@@ -115,8 +118,50 @@ void RestartLayer::restore()
 
 void RestartLayer::show()
 {
+	if(m_bInShow)
+		return;
 	NavigatorLayer::show();
 	m_pHappyDog->stopAllActions();
 	if(m_pFlickerAction)
 		m_pHappyDog->runAction(m_pFlickerAction);
+}
+
+
+void RestartLayer::setTime(int nTime)
+{
+	m_nTime = nTime;
+	if(!m_pTimeLabel)
+	{		
+		setTimeLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
+		m_pTimeLabel->setDimensions(CCSizeMake(220, 25));
+		m_pTimeLabel->setPosition(ccp(255, 201));
+		ccColor3B ccMyOrange={255, 104, 0};
+		m_pTimeLabel->setColor(ccMyOrange);
+		m_pTimeLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
+		m_pTimeLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+		m_pFrame->addChild(m_pTimeLabel);
+	}
+
+	CCString* pFullTimeString = CCString::createWithFormat("Time:  %d s", m_nTime);
+	m_pTimeLabel->setString(pFullTimeString->getCString());
+}
+
+void RestartLayer::setLostUnit(int nLost)
+{
+	m_nLostUnit = nLost;
+	if(!m_pLostUnitLabel)
+	{		
+		setLostUnitLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
+		m_pLostUnitLabel->setDimensions(CCSizeMake(220, 25));
+		m_pLostUnitLabel->setPosition(ccp(255, 170));
+		m_pLostUnitLabel->getTexture()->setAliasTexParameters();
+		ccColor3B ccMyOrange={255, 104, 0};
+		m_pLostUnitLabel->setColor(ccMyOrange);
+		m_pLostUnitLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
+		m_pLostUnitLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+		m_pFrame->addChild(m_pLostUnitLabel);
+	}
+
+	CCString* pFullLostUnitString = CCString::createWithFormat("Unit lost:  %d cat", m_nLostUnit);
+	m_pLostUnitLabel->setString(pFullLostUnitString->getCString());
 }

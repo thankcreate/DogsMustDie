@@ -15,7 +15,8 @@ HelpLayer::HelpLayer() :
 
 HelpLayer::~HelpLayer()
 {
-
+	int a  = 1;
+	a++;
 }
 
 bool HelpLayer::init()
@@ -58,7 +59,7 @@ bool HelpLayer::init()
 		pBack->setPosition(ccp(385, 58));	
 		m_pMenu->addChild(pBack);
 
-		// 禁止后层的按键
+		// 禁止后层的按键,不写的话得手动remove from dispatcher,否则本类不会被析构
 		this->setTouchEnabled(true);
 
 		bRet = true;

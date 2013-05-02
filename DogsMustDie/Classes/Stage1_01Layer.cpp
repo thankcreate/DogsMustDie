@@ -72,6 +72,8 @@ void Stage1_01Layer::initPlanets()
 	pPlanet = makePlanet(kForceSideDog, ccp(540, 370), 10, 0);
 	setDogPlanet1(pPlanet);
 	pPlanet->stopIncrease();
+
+	m_bIsAddStarStopped = true;
 }
 
 void Stage1_01Layer::initGuideLayer()

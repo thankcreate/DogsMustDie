@@ -9,13 +9,23 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 {
 	StageSelectFrameSprite* pRet = new StageSelectFrameSprite();
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	if(mBigIndex >= LOCK_BEGIN_INDEX)
 	{
 		bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED);
 		if(!bPurchased)
-		{
+		{			
 			pRet->initWithFile("StageSelect_frame_locked.png");
+			// Text
+			CCString* pStrText = CCString::create("^_^\nUpgrade to Pro version to unlock this stage.") ;
+			CCLabelTTF *pText = CCLabelTTF::create(pStrText->getCString(), "8bitoperator JVE.ttf", 45);		
+			pText->setPosition(ccp(226, 84));
+			pText->setDimensions(CCSizeMake(350, 97));
+			pText->setHorizontalAlignment(kCCTextAlignmentCenter);
+			pText->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+			ccColor3B ccMyOrange={255, 104, 0};
+			pText->setColor(ccMyOrange);
+			pRet->addChild(pText);
 			return pRet;
 		}
 		else
@@ -28,9 +38,9 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 	{
 		pRet->initWithFile("StageSelect_frame.png");
 	}
-#else
-	pRet->initWithFile("StageSelect_frame.png");
-#endif
+//#else
+//	pRet->initWithFile("StageSelect_frame.png");
+//#endif
 
 	// 3. БъЬт
 	CCSprite* pTitle= CCSprite::create(title);		

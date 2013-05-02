@@ -2,6 +2,7 @@
 #include "MyMenu.h"
 #include "Defines.h"
 #include "AudioManager.h"
+#include "NavigatorLayer.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
@@ -11,16 +12,16 @@ WinLayer::WinLayer() :
 	m_pFlickerAction(NULL),
 	m_pStarArray(NULL),
 	m_nScoreStarCount(1),
-	m_nAlreadyFilledStarCount(0)
+	m_nAlreadyFilledStarCount(0),
+	m_pTimeLabel(NULL),
+	m_pLostUnitLabel(NULL)
 {
 }
 
 WinLayer::~WinLayer()
-{
-	CC_SAFE_RELEASE(m_pFlickerAction);
+{	
 	CC_SAFE_RELEASE(m_pStarArray);
 }
-
 
 bool WinLayer::init()
 {
@@ -41,7 +42,7 @@ bool WinLayer::init()
 		CCActionInterval* pDelay = CCActionInterval::create(0.6);
 		CCFiniteTimeAction* pSeq = CCSequence::create(pCatFunc1, pDelay, pCatFunc2, pDelay ,NULL);
 		CCRepeat* pReapeat = CCRepeat::create(pSeq, ENDLESS_COUNT);
-		setFlickerAction(pReapeat);
+		setFlickerAction(pReapeat);		
 
 		// 分级星星
 		setStarArray(CCArray::createWithCapacity(3));
@@ -81,7 +82,6 @@ bool WinLayer::init()
 
 		pNext->setPosition(ccp(310, 67));	
 		pMenu->addChild(pNext);
-
 		bRet = true;
 	}while(0);
 
@@ -104,11 +104,15 @@ void WinLayer::catFunc2()
 
 void WinLayer::backCallback(CCObject* pOb)
 {
+	restore();
 	getStageScene()->opGoBack();
+	// m_pFlickerAction 与 本类存在互相引用，故要提前做release
+	CC_SAFE_RELEASE(m_pFlickerAction);
 }
 
 void WinLayer::nextCallback(CCObject* pOb)
 {
+	restore();
 	getStageScene()->gotoNext();
 }
 
@@ -130,6 +134,9 @@ void WinLayer::restore()
 
 void WinLayer::show()
 {
+	if(m_bInShow)
+		return;
+
 	NavigatorLayer::show();
 	m_pHappyCat->stopAllActions();
 	if(m_pFlickerAction)
@@ -169,4 +176,45 @@ void WinLayer::setScoreStarCount( int count )
 	if(count < 1)
 		count = 1;
 	m_nScoreStarCount = count;
+}
+
+
+
+void WinLayer::setTime(int nTime)
+{
+	m_nTime = nTime;
+	if(!m_pTimeLabel)
+	{		
+		setTimeLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
+		m_pTimeLabel->setDimensions(CCSizeMake(220, 25));
+		m_pTimeLabel->setPosition(ccp(255, 201));
+		ccColor3B ccMyOrange={255, 104, 0};
+		m_pTimeLabel->setColor(ccMyOrange);
+		m_pTimeLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
+		m_pTimeLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+		m_pFrame->addChild(m_pTimeLabel);
+	}
+
+	CCString* pFullTimeString = CCString::createWithFormat("Time:  %d s", m_nTime);
+	m_pTimeLabel->setString(pFullTimeString->getCString());
+}
+
+void WinLayer::setLostUnit(int nLost)
+{
+	m_nLostUnit = nLost;
+	if(!m_pLostUnitLabel)
+	{		
+		setLostUnitLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
+		m_pLostUnitLabel->setDimensions(CCSizeMake(220, 25));
+		m_pLostUnitLabel->setPosition(ccp(255, 170));
+		m_pLostUnitLabel->getTexture()->setAliasTexParameters();
+		ccColor3B ccMyOrange={255, 104, 0};
+		m_pLostUnitLabel->setColor(ccMyOrange);
+		m_pLostUnitLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
+		m_pLostUnitLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+		m_pFrame->addChild(m_pLostUnitLabel);
+	}
+
+	CCString* pFullLostUnitString = CCString::createWithFormat("Unit lost:  %d cat", m_nLostUnit);
+	m_pLostUnitLabel->setString(pFullLostUnitString->getCString());
 }

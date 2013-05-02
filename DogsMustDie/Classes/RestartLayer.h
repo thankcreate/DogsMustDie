@@ -20,6 +20,8 @@ public:
 
 	CC_SYNTHESIZE(CCSprite* , m_pHappyDog, HappyDog);		
 	CC_SYNTHESIZE_RETAIN(CCAction*, m_pFlickerAction, FlickerAction);
+	CC_SYNTHESIZE(CCLabelTTF*, m_pTimeLabel, TimeLabel);
+	CC_SYNTHESIZE(CCLabelTTF*, m_pLostUnitLabel, LostUnitLabel);
 
 	CCString* getTitle();
 	void backCallback(CCObject* pOb);
@@ -31,7 +33,8 @@ public:
 
 	void dogFunc1();
 	void dogFunc2();
-
+	void setTime(int nTime);
+	void setLostUnit(int nLost);
 };
 
 #endif // RestartLayer_h__

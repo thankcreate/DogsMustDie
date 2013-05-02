@@ -6,10 +6,9 @@
 #define  KEY_PLAYED_TO_BIG "Played_To_Big"
 #define  KEY_PLAYED_TO_SMALL "Played_To_Small"
 #define  KEY_PRO_UPGRADE_PURCHASED "ProUpgrade_Purchased"
-#define  KEY_PROMPT_PURCHASED "Prompt_Purchased"
 #define  KEY_FIRST_LAUNCH "FIRST_LAUNCH"
 #define  KEY_LAUNCH_COUNT "Launch_Count"
-#define  KEY_LOWEST_SCORE "Lowest_Score"
+#define  KEY_ENDLESS_BEST_ROUND "Best_Endless_Round"
 
 
 #define  ACHIEVE_IQ250 "grp.com.thankcreate.StrangeAdventure.IQ250"

@@ -94,10 +94,18 @@ bool StageBaseLayer::init()
 		PreloadEffect("Audio_skill_down.mp3");
 		PreloadEffect("Audio_cat_mew.mp3");
 
+		this->setKeypadEnabled(true);
+
 		bRet = true;
 	} while (0);
 
 	return bRet;
+}
+
+// 目前仅对安卓有效，后退时弹暂停
+void StageBaseLayer::keyBackClicked()
+{
+	gobackCallback(NULL);
 }
 
 // 初始化所有势力的初始数据
@@ -185,8 +193,8 @@ void StageBaseLayer::initBackButton()
 	this->addChild(pMenu, kPannelLayerIndex);
 
 	CCMenuItemImage *pGobackItem = CCMenuItemImage::create(
-		"Thumb_back.png",
-		"Thumb_back_pressed.png",
+		"Thumb_stop_normal.png",
+		"Thumb_stop_pressed.png",
 		this,
 		menu_selector(StageBaseLayer::gobackCallback));
 	
@@ -226,24 +234,17 @@ void StageBaseLayer::updateAddStar()
 	if(!HIT(0.35))
 		return;
 
-	//int count = m_vecPossibleStarLocations.size();
-	//if(count == 0)
-	//	return;
+	updateAddStarInternal();
+}
 
-	//int randomIndex = MiscTool::getRandom(count);
-	//if(randomIndex == m_nLastAddStarIndex)
-	//{
-	//	randomIndex = (randomIndex + 1) % count;
-	//}
+void StageBaseLayer::updateAddStarInternal()
+{
 
-	//CCPoint loc = m_vecPossibleStarLocations[randomIndex];
-	//m_nLastAddStarIndex = randomIndex;
-	//makeStar(loc);
 	CCPoint goodPostion;
 	bool bFinallyFindOne = false;
 	// 共计尝试次数，指定次数还没找到合适值，终止随机尝试
 	int testTime = 40;
-	
+
 	while(!bFinallyFindOne && --testTime > 0)
 	{
 		// 横坐标在 50 - 650 之间
@@ -1127,8 +1128,12 @@ void StageBaseLayer::onEnterTransitionDidFinish()
 
 void StageBaseLayer::gobackCallback(CCObject* pSender)
 {
-	CCScene* stage = StageSelectScene::create();
-	CCDirector::sharedDirector()->replaceScene(stage);	
+	//CCScene* stage = StageSelectScene::create();
+	//CCDirector::sharedDirector()->replaceScene(stage);	
+	m_bIsUpdateStopped = true;
+	PlayEffect("Audio_button.mp3");
+	if(m_pParentScene)
+		m_pParentScene->showPauseLayer();
 }
 
 
@@ -1378,10 +1383,7 @@ void StageBaseLayer::helpCallback( CCObject* pSender )
 	PlayEffect("Audio_button.mp3");
 }
 
-void StageBaseLayer::helpLayerClosed()
-{
-	m_bIsUpdateStopped = false;
-}
+
 
 void StageBaseLayer::BeginContact( b2Contact* contact )
 {
@@ -1720,3 +1722,21 @@ void StageBaseLayer::refreshCatStartCountLabel()
 		m_pStarCountLabel->setString(pStrCount->getCString());
 	}
 }
+
+void StageBaseLayer::setTime( int minu, int sec )
+{
+
+}
+
+void StageBaseLayer::pauseLayerResumed()
+{
+	m_bIsUpdateStopped = false;
+}
+
+void StageBaseLayer::helpLayerClosed()
+{
+	m_bIsUpdateStopped = false;
+}
+
+
+
