@@ -154,10 +154,8 @@ void StartupLayer::optionCallback(CCObject* pSender)
 
 void StartupLayer::aboutCallback(CCObject* pSender)
 {
-	PlayEffect("Audio_button.mp3");
-	// TODO
-	//CCScene* stage = AboutScene::create();
-	CCScene* stage = StageStartupCGScene::create();
+	PlayEffect("Audio_button.mp3");	
+	CCScene* stage = AboutScene::create();	
 	CCDirector::sharedDirector()->replaceScene(stage);
 }
 

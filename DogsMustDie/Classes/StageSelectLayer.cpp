@@ -73,7 +73,38 @@ bool StageSelectLayer::init()
 			m_pScrollLayer->addChild(pMainFrame, 1);			
 		}
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS        
+		// IAP buy button from 2 - 3
+		bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED, false);
+		if(!bPurchased)
+		{
+			CCMenu* pMenuInScrollLayer = CCMenu::create(NULL);
+			pMenuInScrollLayer->setPosition(CCPointZero);
+			CC_BREAK_IF(! pMenuInScrollLayer);
+			m_pScrollLayer->addChild(pMenuInScrollLayer, 2);
+			setBuyBtnArray(CCArray::createWithCapacity(6));
+			for(int i = LOCK_BEGIN_INDEX; i <= BIG_STAGE_COUNT ; i  ++)
+			{
+				CCMenuItemImage* item = CCMenuItemImage::create(
+					"StageSelect_btn_buy_normal.png",
+					"StageSelect_btn_buy_pressed.png",
+					this,
+					menu_selector(StageSelectLayer::buyCallback));
+				item->setPosition(ccp(size.width * (i - 1)  + size.width / 2 - 110, 35));
+				pMenuInScrollLayer->addChild(item);
+				m_pBuyBtnArray->addObject(item);
 
+				item = CCMenuItemImage::create(
+					"StageSelect_btn_restore_normal.png",
+					"StageSelect_btn_restore_pressed.png",
+					this,
+					menu_selector(StageSelectLayer::restoreCallback));
+				item->setPosition(ccp(size.width * (i - 1)  + size.width / 2 + 110, 35));
+				pMenuInScrollLayer->addChild(item);
+				m_pBuyBtnArray->addObject(item);
+			}
+		}
+#endif
 
 		// ×óÓÒÐ¡°´Å¥
 		CCMenu* pRootMenu = CCMenu::create(NULL);

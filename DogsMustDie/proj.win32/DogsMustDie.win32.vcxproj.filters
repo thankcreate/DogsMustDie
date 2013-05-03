@@ -445,6 +445,12 @@
     <ClInclude Include="..\Classes\BuyScene.h">
       <Filter>include\Stage\Others</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\StageGameOverScene.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StageGameOverLayer.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -751,6 +757,12 @@
       <Filter>source\Stage\Others</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\BuyScene.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageGameOverLayer.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StageGameOverScene.cpp">
       <Filter>source\Stage\Others</Filter>
     </ClCompile>
   </ItemGroup>

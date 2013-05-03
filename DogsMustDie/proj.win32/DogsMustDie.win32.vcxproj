@@ -223,6 +223,8 @@
     <ClInclude Include="..\Classes\StageEndlessRestartLayer.h" />
     <ClInclude Include="..\Classes\StageEndlessScene.h" />
     <ClInclude Include="..\Classes\StageEndlessWinLayer.h" />
+    <ClInclude Include="..\Classes\StageGameOverLayer.h" />
+    <ClInclude Include="..\Classes\StageGameOverScene.h" />
     <ClInclude Include="..\Classes\StageMap.h" />
     <ClInclude Include="..\Classes\StageSelectFrameSprite.h" />
     <ClInclude Include="..\Classes\StageSelectLayer.h" />
@@ -328,6 +330,8 @@
     <ClCompile Include="..\Classes\StageEndlessRestartLayer.cpp" />
     <ClCompile Include="..\Classes\StageEndlessScene.cpp" />
     <ClCompile Include="..\Classes\StageEndlessWinLayer.cpp" />
+    <ClCompile Include="..\Classes\StageGameOverLayer.cpp" />
+    <ClCompile Include="..\Classes\StageGameOverScene.cpp" />
     <ClCompile Include="..\Classes\StageMap.cpp" />
     <ClCompile Include="..\Classes\StageSelectFrameSprite.cpp" />
     <ClCompile Include="..\Classes\StageSelectLayer.cpp" />

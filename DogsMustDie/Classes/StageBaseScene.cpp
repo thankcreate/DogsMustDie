@@ -75,8 +75,7 @@ void StageBaseScene::opGoBack()
 void StageBaseScene::opReStart()
 {
 	this->removeChild(m_pStageLayer,true);
-	// TODO
-
+	
 	// Caution: 此处并不remove掉小电视那一层
 	// 因为小电视自己需要一个退出动画，不能在restart时立即销毁	
 	init();
@@ -142,8 +141,7 @@ void StageBaseScene::customizeTopBannerLayer()
 {
 	if(m_pTopBannerLayer == NULL)
 		return;
-
-	// TODO
+		
 }
 
 void StageBaseScene::restoreTopBannerLayer(float dt)
@@ -252,14 +250,18 @@ void StageBaseScene::gotoNext()
 	if(m_nBigLevel <=0 || m_nSmallLevel <= 0)
 		return;
 
-	// 注意，BigLevel和SmallLevel是从1开始计数
-	// 但是此处推演时以0开始计数
-	int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1 + 1;	
-	int bigIndex = zeroBasedIndex / SMALL_STAGE_COUNT + 1;
-	int smallIndex = zeroBasedIndex % SMALL_STAGE_COUNT + 1;
+	if(m_nBigLevel == BIG_STAGE_COUNT && m_nSmallLevel == SMALL_STAGE_COUNT)
+	{
+		StageMap::sharedInstance()->gotoStageGameOver();
+	}
+	else
+	{
+		// 注意，BigLevel和SmallLevel是从1开始计数
+		// 但是此处推演时以0开始计数
+		int zeroBasedIndex = (m_nBigLevel -  1 ) * SMALL_STAGE_COUNT + m_nSmallLevel - 1 + 1;	
+		int bigIndex = zeroBasedIndex / SMALL_STAGE_COUNT + 1;
+		int smallIndex = zeroBasedIndex % SMALL_STAGE_COUNT + 1;
 
-	StageMap::sharedInstance()->gotoStage(bigIndex, smallIndex);
-
-	// TODO 边界情况目前未处理，最后一关，通过画面
-
+		StageMap::sharedInstance()->gotoStage(bigIndex, smallIndex);
+	}	
 }

@@ -38,6 +38,8 @@
 #include "Stage3_08Scene.h"
 #include "Stage3_09Scene.h"
 
+#include "StageGameOverScene.h"
+
 
 StageMap* StageMap::m_pInstance = NULL;
 
@@ -79,7 +81,7 @@ void StageMap::gotoStage( int bigIndex, int smallIndex )
 
 void StageMap::gotoStageGameOver()
 {
-
+	CCDirector::sharedDirector()->replaceScene(StageGameOverScene::create());		
 }
 
 
@@ -95,7 +97,7 @@ StageBaseScene* StageMap::gotoStageInner( int bigIndex, int smallIndex )
 		case 1:
 			{				
 				stage = Stage1_01Scene::create();				
-				CCDirector::sharedDirector()->replaceScene(stage);				
+				CCDirector::sharedDirector()->replaceScene(stage);
 				break;
 			}
 		case 2:

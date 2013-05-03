@@ -1793,12 +1793,12 @@ void StageBaseLayer::planetOccupied(Planet* pPlanet)
 
 void StageBaseLayer::starFinallyLandedOnMyPlanet( Planet* pPlanet )
 {
-	// TODO
+	
 }
 
 void StageBaseLayer::planetFocused( Planet* pPlanet )
 {
-	// TODO
+	
 }
 
 
