@@ -2,7 +2,17 @@
 // Prefix header for all source files of the 'DogsMustDie' target in the 'DogsMustDie' project
 //
 
+
 #ifdef __OBJC__
-	#import <Foundation/Foundation.h>
-	#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+
+// 这里的Lite和Pro只针对iOS版有意义
+#define VERSION_LITE 1
+#define VERSION_PRO 2
+
+#define VERSION VERSION_PRO
+
+
 #endif

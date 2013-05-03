@@ -38,9 +38,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);
-
-    // create a scene. it's an autorelease object
     
+	// Base on 800x480
+	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(800, 480, kResolutionExactFit);
 
 	// 第一次时，启动cg页
 	bool bFirstLauch = LoadBooleanFromXML(KEY_FIRST_LAUNCH, true);

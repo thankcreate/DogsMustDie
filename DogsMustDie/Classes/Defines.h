@@ -76,8 +76,8 @@ enum eForceSide
 #define SMALL_STAGE_COUNT 9
 #define ENDLESS_COUNT 99999
 
-
-
-// purchase
+// IAP
+#define AppPurchaseProUpgradeProductId  "com.thankcreate.DogsMustDie.UpgradeToPro"
 #define LOCK_BEGIN_INDEX 2
+
 #endif
