@@ -29,7 +29,7 @@ public:
 	void run3(float dt);
 	void run2(float dt);
 	void restoreAI(float dt);
-
+	void initLoadedAction();
 	int m_nCount1;
 	int m_nCount2;
 	int m_nCount3;

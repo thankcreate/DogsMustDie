@@ -5,6 +5,7 @@
 #include "StartupScene.h"
 #include "AudioManager.h"
 #include "StageEndlessScene.h"
+#include "MyUseDefaultDef.h"
 
 StageEndlessLayer::StageEndlessLayer() :
 	m_nRound(0),
@@ -31,6 +32,19 @@ bool StageEndlessLayer::init()
 	} while (0);
 
 	return bRet;
+}
+
+void StageEndlessLayer::initLoadedAction()
+{		
+	// check if need show NoticeLayer
+	bool bFirstHere = LoadBooleanFromXML(KEY_FIRST_ENDLESS , true);
+	if(bFirstHere)
+	{
+		SaveBooleanToXML(KEY_FIRST_ENDLESS, false);
+		SaveUserDefault();
+		StageEndlessScene* scene = (StageEndlessScene*)getParentScene();
+		scene->showNoticeLayer();
+	}
 }
 
 
@@ -266,4 +280,9 @@ void StageEndlessLayer::gotoWinInDelay(float f)
 void StageEndlessLayer::gotoDeadInDelay(float f)
 {	
 	m_pParentScene->showNavigator(false, 0, 0);		
+}
+
+void StageEndlessLayer::noticeLayerFinished()
+{
+	m_bIsUpdateStopped = false;
 }

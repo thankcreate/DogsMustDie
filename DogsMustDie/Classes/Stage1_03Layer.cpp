@@ -1,6 +1,7 @@
 #include "Stage1_03Layer.h"
 #include "Defines.h"
 #include "Planet.h"
+#include "MyUseDefaultDef.h"
 
 Stage1_03Layer::Stage1_03Layer() :
 	m_pGuideBorder(NULL),
@@ -16,8 +17,14 @@ bool Stage1_03Layer::init()
 	{
 		CC_BREAK_IF(!StageBaseLayer::init());
 
-
-		initGuideLayer();
+		bool first = LoadBooleanFromXML(KEY_Stage_1_03_FIRST_JUDGE_SHOW_MIDDLE_PROMPT, true);
+		if(first)
+		{
+			SaveBooleanToXML(KEY_Stage_1_03_FIRST_JUDGE_SHOW_MIDDLE_PROMPT, false);
+			SaveUserDefault();
+			initGuideLayer();
+		}
+		
 		bRet = true;
 	} while (0);
 
@@ -30,12 +37,12 @@ void Stage1_03Layer::initGuideLayer()
 	setGuideBorder(CCSprite::create("StageBase_notice1.png"));
 	CCSize borderSize = m_pGuideBorder->boundingBox().size;
 	CCSize winSize = WIN_SIZE;
-	m_pGuideBorder->setPosition(ccp(156, 183));
-	this->addChild(m_pGuideBorder, kPannelLayerIndex);	
+	m_pGuideBorder->setPosition(ccp(156, 181));
+	this->addChild(m_pGuideBorder, kGuideLayerIndex);	
 
 	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", "00 Starmap Truetype.ttf", 30));	
 	setGuideLabel(CCLabelTTF::create("This is a neutral planet, it will not launch an attack on own initiative", "Arial", 23));		
-	m_pGuideLabel->setDimensions(CCSizeMake(209, 104));
+	m_pGuideLabel->setDimensions(CCSizeMake(209, 200));
 	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
 
@@ -65,3 +72,4 @@ void Stage1_03Layer::initPlanets()
 	makeStar(ccp(193, 183));
 	makeStar(ccp(639, 214));		
 }
+

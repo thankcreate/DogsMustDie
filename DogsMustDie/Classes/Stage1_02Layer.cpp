@@ -1,12 +1,15 @@
 #include "Stage1_02Layer.h"
 #include "Defines.h"
 #include "Planet.h"
+#include "StageBaseScene.h"
+#include "MyUseDefaultDef.h"
 
 Stage1_02Layer::Stage1_02Layer() :
 	m_pDog(NULL),
 	m_pCatRight(NULL),
 	m_pGuideBorder(NULL),
-	m_pGuideLabel(NULL)	
+	m_pScorePrompt(NULL),
+	m_pScorePromptLabel(NULL)
 {
 }
 
@@ -31,9 +34,31 @@ void Stage1_02Layer::initPlanets()
 	makeStar(ccp(360, 218));	
 
 	m_bIsAIStopped = true;
-	this->scheduleOnce(schedule_selector(Stage1_02Layer::attack), 2);
-	this->scheduleOnce(schedule_selector(Stage1_02Layer::initGuideLayer), 2.8);
+	
 }
+
+void Stage1_02Layer::initLoadedAction(float dt)
+{
+	initLoadedAction();
+	m_bIsAIStopped = true;
+}
+
+void Stage1_02Layer::initLoadedAction()
+{
+	m_bIsAIStopped = true;
+	this->scheduleOnce(schedule_selector(Stage1_02Layer::attack),  2);
+	this->scheduleOnce(schedule_selector(Stage1_02Layer::initGuideLayer), 2.8);
+
+	bool first = LoadBooleanFromXML(KEY_Stage_1_02_FIRST_JUDGE_SHOW_SCORE_PROMPT, true);
+	if(first)
+	{
+		SaveBooleanToXML(KEY_Stage_1_02_FIRST_JUDGE_SHOW_SCORE_PROMPT, false);
+		SaveUserDefault();
+		this->scheduleOnce(schedule_selector(Stage1_02Layer::showScorePrompt), 8);
+	}	
+}
+
+
 
 void Stage1_02Layer::attack(float dt)
 {
@@ -49,19 +74,53 @@ void Stage1_02Layer::initGuideLayer(float dt)
 	CCSize winSize = WIN_SIZE;
 	m_pGuideBorder->setPosition(ccp(550, 244));
 	this->addChild(m_pGuideBorder, kTroopsLayerIndex - 1);	
-
-	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", "00 Starmap Truetype.ttf", 30));	
-	setGuideLabel(CCLabelTTF::create(">_<\nWe are under attack. Help! Help!", "Arial", 23));		
-	m_pGuideLabel->setDimensions(CCSizeMake(196, 80));
-	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
-	m_pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+		
+	CCLabelTTF* pGuideLabel = CCLabelTTF::create(">_<\nWe are under attack. Help! Help!", "Arial", 23);
+	pGuideLabel->setDimensions(CCSizeMake(196, 200));
+	pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
+	pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
 
 	ccColor3B ccMyOrange={255, 104, 0};
-	m_pGuideLabel->setPosition(ccp(142,86));
-	m_pGuideLabel->setColor(ccMyOrange);
-	m_pGuideBorder->addChild(m_pGuideLabel);
+	pGuideLabel->setPosition(ccp(142,86));
+	pGuideLabel->setColor(ccMyOrange);
+	m_pGuideBorder->addChild(pGuideLabel);
 
-	this->scheduleOnce(schedule_selector(Stage1_02Layer::moveRightGuideLayer), 4);
+	this->scheduleOnce(schedule_selector(Stage1_02Layer::moveRightGuideLayer),  4);
+}
+
+
+void Stage1_02Layer::showScorePrompt(float dt)
+{
+	setScorePrompt(CCSprite::create("StageBase_notice2.png"));
+	CCSize borderSize = m_pScorePrompt->boundingBox().size;
+	CCSize winSize = WIN_SIZE;
+	m_pScorePrompt->setPosition(ccp(173, 244));
+	this->addChild(m_pScorePrompt, kTroopsLayerIndex - 1);	
+		
+	setScorePromptLabel(CCLabelTTF::create("The less time costs, the better score mark you'll have", "Arial", 20));
+	m_pScorePromptLabel->setDimensions(CCSizeMake(196, 200));
+	m_pScorePromptLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
+	m_pScorePromptLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+
+	ccColor3B ccMyOrange={255, 104, 0};
+	m_pScorePromptLabel->setPosition(ccp(142,86));
+	m_pScorePromptLabel->setColor(ccMyOrange);
+	m_pScorePrompt->addChild(m_pScorePromptLabel);
+
+	this->scheduleOnce(schedule_selector(Stage1_02Layer::showNextScorePrompt),  4);	
+}
+
+void Stage1_02Layer::showNextScorePrompt(float dt)
+{
+	m_pScorePromptLabel->setString("Try your best to win with 3 score marks! Meow~");
+	this->scheduleOnce(schedule_selector(Stage1_02Layer::moveLeftScorePromptLayer),  3);	
+}
+
+void Stage1_02Layer::moveLeftScorePromptLayer(float dt)
+{
+	CCSize winSize = WIN_SIZE;
+	CCMoveBy* pLeft = CCMoveBy::create(0.5, ccp(-410, 0));
+	m_pScorePrompt->runAction(pLeft);
 }
 
 

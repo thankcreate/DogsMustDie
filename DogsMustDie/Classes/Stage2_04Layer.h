@@ -16,9 +16,16 @@ public:
 
 	CREATE_FUNC(Stage2_04Layer);
 
+	CC_SYNTHESIZE(Planet*, m_pCat, Cat);
+	CC_SYNTHESIZE(Planet*, m_pDog1, Dog1);	
+	CC_SYNTHESIZE(Planet*, m_pDog2, Dog2);
+
+	CC_SYNTHESIZE(Planet*, m_pMiddle1, Middle1);	
+	CC_SYNTHESIZE(Planet*, m_pMiddle2, Middle2);
 	bool init();
 	void initPlanets();	
-	
+	void initLoadedAction();
+
 
 };
 

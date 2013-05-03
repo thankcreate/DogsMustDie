@@ -16,9 +16,15 @@ public:
 
 	CREATE_FUNC(Stage2_02Layer);
 
+	CC_SYNTHESIZE(Planet*, m_pCat, Cat);
+	CC_SYNTHESIZE(Planet*, m_pDog, Dog);
+	CC_SYNTHESIZE(Planet*, m_pMiddleNearToDog, MiddleNearToDog);
+	CC_SYNTHESIZE(Planet*, m_pMiddleNearToCat, MiddleNearToCat);
+	CC_SYNTHESIZE(Planet*, m_pThird, Third);
+
 	bool init();
 	void initPlanets();		
-
+	void initLoadedAction();
 };
 
 #endif // Stage2_02Layer_h__

@@ -76,13 +76,18 @@ void Stage1_01Layer::initPlanets()
 	m_bIsAddStarStopped = true;
 }
 
+void Stage1_01Layer::initLoadedAction()
+{
+	this->schedule(schedule_selector(Stage1_01Layer::guideDragToOccupy), 2);
+}
+
 void Stage1_01Layer::initGuideLayer()
 {
 	setGuideBorder(CCSprite::create("StageBase_guide_border.png"));
 	CCSize borderSize = m_pGuideBorder->boundingBox().size;
 	CCSize winSize = WIN_SIZE;
 	m_pGuideBorder->setPosition(ccp(winSize.width / 2 - 50, borderSize.height / 2));
-	this->addChild(m_pGuideBorder, kPannelLayerIndex);	
+	this->addChild(m_pGuideBorder, kGuideLayerIndex);	
 
 	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", "00 Starmap Truetype.ttf", 30));	
 	setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson.", "Arial", 26));		
@@ -94,8 +99,6 @@ void Stage1_01Layer::initGuideLayer()
 	m_pGuideLabel->setPosition(ccp(250,60));
 	m_pGuideLabel->setColor(ccMyOrange);
 	m_pGuideBorder->addChild(m_pGuideLabel);
-		
-	this->schedule(schedule_selector(Stage1_01Layer::guideDragToOccupy), 2);
 }
 
 void Stage1_01Layer::guideDragToOccupy(float dt)

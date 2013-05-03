@@ -42,9 +42,9 @@ void Stage2_03Layer::initPlanets()
 	makeStar(ccp(305, 199));
 	makeStar(ccp(444, 115));
 	makeStar(ccp(559, 76));
-
-
 }
+
+
 
 void Stage2_03Layer::extraUpdateAIForPlanet( Planet* pPlanet )
 {

@@ -32,12 +32,13 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 		for(int i = 1 ; i <= 3; i ++)
 		{
 			CCSprite* pScore = CCSprite::create();
-			if(i <= score)			
+			if(i <= score)		
+			{
 				pScore->initWithFile("StageSelect_item_score_fill.png");
-			else
-				pScore->initWithFile("StageSelect_item_score_empty.png");
-			pScore->setPosition(ccp(20 + (i - 1) * xInterval, 9));
-			normal->addChild(pScore);
+				pScore->setPosition(ccp(20 + (i - 1) * xInterval, 9));
+				normal->addChild(pScore);
+			}
+			
 		}
 	}
 
@@ -50,12 +51,12 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 		for(int i = 1 ; i <= 3; i ++)
 		{
 			CCSprite* pScore = CCSprite::create();
-			if(i <= score)			
+			if(i <= score)		
+			{
 				pScore->initWithFile("StageSelect_item_score_fill.png");
-			else
-				pScore->initWithFile("StageSelect_item_score_empty.png");
-			pScore->setPosition(ccp(20 + (i - 1) * xInterval, 9));
-			selected->addChild(pScore);
+				pScore->setPosition(ccp(20 + (i - 1) * xInterval, 9));
+				selected->addChild(pScore);
+			}
 		}
 	}
 

@@ -18,7 +18,12 @@ public:
 
 	bool init();
 	void initPlanets();	
-	
+
+	CC_SYNTHESIZE(Planet*, m_pDog, Dog);
+	CC_SYNTHESIZE(Planet*, m_pMiddle1, Middle1);
+	CC_SYNTHESIZE(Planet*, m_pMiddle2, Middle2);
+	void initLoadedAction();
+
 
 };
 

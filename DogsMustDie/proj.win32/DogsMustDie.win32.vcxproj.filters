@@ -430,6 +430,21 @@
     <ClInclude Include="..\Classes\PauseLayerDelegate.h">
       <Filter>include\Stage\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\NoticeLayer.h">
+      <Filter>include\Stage\Endless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NoticeLayerDelegate.h">
+      <Filter>include\Stage\Endless</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TopBannerLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BuyLayer.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BuyScene.h">
+      <Filter>include\Stage\Others</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -725,6 +740,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\PauseLayer.cpp">
       <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\NoticeLayer.cpp">
+      <Filter>source\Stage\Endless</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TopBannerLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BuyLayer.cpp">
+      <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BuyScene.cpp">
+      <Filter>source\Stage\Others</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

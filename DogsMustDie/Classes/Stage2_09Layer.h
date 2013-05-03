@@ -18,7 +18,7 @@ public:
 
 	bool init();
 	void initPlanets();		
-
+	void initLoadedAction();
 };
 
 #endif // Stage2_09Layer_h__

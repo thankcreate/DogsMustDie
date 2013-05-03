@@ -7,11 +7,16 @@
 #include "StageBaseScene.h"
 #include "Defines.h"
 #include "MyUseDefaultDef.h"
+#include "NoticeLayer.h"
+#include "TopBannerLayer.h"
+
+#include <time.h>
+
 StageEndlessScene::StageEndlessScene() :
-	m_nEndlessRound(0)
+	m_nEndlessRound(0),
+	m_pNoticeLayer(NULL)
 {
 }
-
 
 StageBaseLayer* StageEndlessScene::getMainStageLayer()
 {
@@ -37,17 +42,59 @@ bool StageEndlessScene::init()
 		StageEndlessLayer* pLayer = (StageEndlessLayer*) getStageBaseLayer();
 		pLayer->initWithRound(m_nEndlessRound);
 
+		checkIfNeedToAddDailyCoin();
+		
 		playBGM();
 		bRet = true;
 	} while (0);
 	return bRet;
 }
 
+void StageEndlessScene::checkIfNeedToAddDailyCoin()
+{
+	time_t rawtime;
+	struct tm * tmInfo;
+	time (&rawtime);
+
+	tmInfo = localtime(&rawtime);
+	int year = tmInfo->tm_year + 1900;
+	int month = tmInfo->tm_mon + 1;
+	int day = tmInfo->tm_mday;
+
+	//CCString* test = CCString::createWithFormat("Month: %d  Day %d", month, day);
+	//CCMessageBox(test->getCString(),"");
+	int lastYear = LoadIntegerFromXML(KEY_LAST_ENDLESS_DATE_YEAR , -1);
+	int lastMonth = LoadIntegerFromXML(KEY_LAST_ENDLESS_DATE_MONTH , -1);
+	int lastDay = LoadIntegerFromXML(KEY_LAST_ENDLESS_DATE_DAY , -1);
+
+	if(	lastYear != year
+		|| lastMonth != month
+		|| lastDay != day )
+	{		
+		// 走到这里说明是今日第一次登陆到无尽模式
+		int coin = LoadIntegerFromXML(KEY_COIN_COUNT, 0);
+		++coin;
+		SaveIntegerToXML(KEY_COIN_COUNT, coin);
+		SaveIntegerToXML(KEY_LAST_ENDLESS_DATE_YEAR, year);
+		SaveIntegerToXML(KEY_LAST_ENDLESS_DATE_MONTH, month);
+		SaveIntegerToXML(KEY_LAST_ENDLESS_DATE_DAY, day);
+		SaveUserDefault();
+		showTopBannerLayerWithCustomizedContent(3);		
+	}	
+}
+
+
 void StageEndlessScene::opReStart()
 {	
 	m_nEndlessRound = 0;
 	this->removeChild(m_pStageLayer,true);
 
+	init();
+}
+
+void StageEndlessScene::continueRestartWithThisRound()
+{
+	this->removeChild(m_pStageLayer,true);
 	init();
 }
 
@@ -65,6 +112,19 @@ void StageEndlessScene::opGoBack()
 {
 	CCScene* stage = StartupScene::create();						
 	CCDirector::sharedDirector()->replaceScene(stage);
+}
+
+void StageEndlessScene::showNoticeLayer()
+{
+	if(m_pNoticeLayer == NULL)
+	{			
+		setNoticeLayer(NoticeLayer::create());		
+		this->addChild(m_pNoticeLayer, 10);		
+		m_pNoticeLayer->setStageScene(this);
+	}
+	m_pNoticeLayer->setDelegate((StageEndlessLayer*)m_pStageLayer);
+	m_pNoticeLayer->show();
+	m_pStageLayer->stopUpdate();
 }
 
 void StageEndlessScene::showNavigator( bool isWin, int time, int unitLost)
@@ -112,4 +172,35 @@ void StageEndlessScene::showNavigatorLose(int time, int unitLost)
 	getRestartLayer()->setRound(m_nEndlessRound);	
 	getRestartLayer()->show();
 }
+
+void StageEndlessScene::customizeTopBannerLayer()
+{
+	if(!getTopBannerLayer())
+		return;
+
+	CCSprite* frame = getTopBannerLayer()->getFrame();
+	if(!frame)
+		return;
+
+	CCSize frameSize = frame->boundingBox().size;
+
+	CCLabelTTF* pLabel = CCLabelTTF::create("+1.  Daily award. ^_^", "8bitoperator JVE.ttf", 30);	
+	ccColor3B ccMyOrange={255, 104, 0};
+	pLabel->setPosition(ccp(frameSize.width / 2 + 10,  frameSize.height / 2 + 3));
+	pLabel->setDimensions(CCSizeMake(frameSize.width - 50, frameSize.height - 25));
+	pLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
+	pLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
+	pLabel->setColor(ccMyOrange);
+	frame->addChild(pLabel,10);
+
+	CCSprite* pSprite = CCSprite::create("Coin.png");
+	pSprite->setPosition(ccp(95,33));
+	frame->addChild(pSprite,10);
+
+	
+	//m_pTopBannerLayer->addChild(m_pContentLabel);
+	
+}
+
+
 

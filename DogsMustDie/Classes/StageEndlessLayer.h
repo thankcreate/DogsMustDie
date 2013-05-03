@@ -3,19 +3,24 @@
 
 #include "StageEndlessLayer.h"
 #include "StageBaseLayer.h"
+#include "NoticeLayerDelegate.h"
 
 using namespace cocos2d;
 
 class Planet;
 
+
 // 第一关有很多教程部分
-class StageEndlessLayer : public StageBaseLayer
+class StageEndlessLayer : public StageBaseLayer, public NoticeLayerDelegate
 {
 public:
 	StageEndlessLayer();
 	~StageEndlessLayer();
 
 	CREATE_FUNC(StageEndlessLayer);
+
+	// NoticeLayerDelegate
+	void noticeLayerFinished();
 
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pCatPlanetArray, CatPlanetArray);
 	CC_SYNTHESIZE_RETAIN(CCArray*, m_pDogPlanetArray, DogPlanetArray);
@@ -36,7 +41,8 @@ public:
 	void initDogPlanetsWithRound(int round);
 	void initStarsWithRound(int round);
 	void initStartCountWithRound(int round);
-	void initMiddlePlanetsWithRound(int round);
+	void initMiddlePlanetsWithRound(int round);	
+	void initLoadedAction();
 protected:
 	int m_nRound;
 };

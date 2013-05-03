@@ -24,6 +24,7 @@ public:
 	void initPlanets();		
 	void attack1(float dt);
 	void restoreAIUpdate(float dt);
+	void initLoadedAction();
 };
 
 #endif // Stage3_03Layer_h__

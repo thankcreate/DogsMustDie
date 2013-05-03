@@ -136,6 +136,8 @@
     <ClInclude Include="..\Classes\AdViewManager.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\AudioManager.h" />
+    <ClInclude Include="..\Classes\BuyLayer.h" />
+    <ClInclude Include="..\Classes\BuyScene.h" />
     <ClInclude Include="..\Classes\CatTroops.h" />
     <ClInclude Include="..\Classes\Defines.h" />
     <ClInclude Include="..\Classes\Face.h" />
@@ -149,6 +151,8 @@
     <ClInclude Include="..\Classes\MyMenu.h" />
     <ClInclude Include="..\Classes\MyUseDefaultDef.h" />
     <ClInclude Include="..\Classes\NavigatorLayer.h" />
+    <ClInclude Include="..\Classes\NoticeLayer.h" />
+    <ClInclude Include="..\Classes\NoticeLayerDelegate.h" />
     <ClInclude Include="..\Classes\OptionDelegate.h" />
     <ClInclude Include="..\Classes\PauseLayer.h" />
     <ClInclude Include="..\Classes\PauseLayerDelegate.h" />
@@ -231,6 +235,7 @@
     <ClInclude Include="..\Classes\StartupLayer.h" />
     <ClInclude Include="..\Classes\StartupScene.h" />
     <ClInclude Include="..\Classes\SubStageItem.h" />
+    <ClInclude Include="..\Classes\TopBannerLayer.h" />
     <ClInclude Include="..\Classes\Troops.h" />
     <ClInclude Include="..\Classes\WinLayer.h" />
     <ClInclude Include="main.h" />
@@ -242,6 +247,8 @@
     <ClCompile Include="..\Classes\AdViewManager.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\AudioManager.cpp" />
+    <ClCompile Include="..\Classes\BuyLayer.cpp" />
+    <ClCompile Include="..\Classes\BuyScene.cpp" />
     <ClCompile Include="..\Classes\CatTroops.cpp" />
     <ClCompile Include="..\Classes\Face.cpp" />
     <ClCompile Include="..\Classes\FightObject.cpp" />
@@ -252,6 +259,7 @@
     <ClCompile Include="..\Classes\MiscTool.cpp" />
     <ClCompile Include="..\Classes\MyMenu.cpp" />
     <ClCompile Include="..\Classes\NavigatorLayer.cpp" />
+    <ClCompile Include="..\Classes\NoticeLayer.cpp" />
     <ClCompile Include="..\Classes\PauseLayer.cpp" />
     <ClCompile Include="..\Classes\PermissionManager.cpp" />
     <ClCompile Include="..\Classes\Planet.cpp" />
@@ -332,6 +340,7 @@
     <ClCompile Include="..\Classes\StartupLayer.cpp" />
     <ClCompile Include="..\Classes\StartupScene.cpp" />
     <ClCompile Include="..\Classes\SubStageItem.cpp" />
+    <ClCompile Include="..\Classes\TopBannerLayer.cpp" />
     <ClCompile Include="..\Classes\Troops.cpp" />
     <ClCompile Include="..\Classes\WinLayer.cpp" />
     <ClCompile Include="main.cpp" />

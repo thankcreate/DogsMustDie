@@ -1,6 +1,7 @@
 #include "Stage3_03Layer.h"
 #include "Defines.h"
 #include "Planet.h"
+#include "StageBaseLayer.h"
 
 Stage3_03Layer::Stage3_03Layer() :
 	m_pDog1(NULL),
@@ -38,9 +39,7 @@ void Stage3_03Layer::initPlanets()
 	makeStar(ccp(570, 412));
 
 	// 这一关里一开始将AI停掉，过一段时间手动发起进攻
-	m_bIsAIStopped = true;
-
-	this->scheduleOnce(schedule_selector(Stage3_03Layer::attack1), 10);
+	m_bIsAIStopped = true;	
 }
 
 void Stage3_03Layer::attack1(float dt)
@@ -54,4 +53,9 @@ void Stage3_03Layer::attack1(float dt)
 void Stage3_03Layer::restoreAIUpdate(float dt)
 {
 	m_bIsAIStopped = false;
+}
+
+void Stage3_03Layer::initLoadedAction()
+{
+	this->scheduleOnce(schedule_selector(Stage3_03Layer::attack1), 10);
 }

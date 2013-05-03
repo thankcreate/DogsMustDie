@@ -2,7 +2,10 @@
 #include "Defines.h"
 #include "Planet.h"
 
-Stage1_04Layer::Stage1_04Layer()
+Stage1_04Layer::Stage1_04Layer() :
+	m_pDog(NULL),
+	m_pMiddle1(NULL),
+	m_pMiddle2(NULL)
 {
 
 }
@@ -22,17 +25,22 @@ bool Stage1_04Layer::init()
 void Stage1_04Layer::initPlanets()
 {
 	makePlanet(kForceSideCat, ccp(532,323), 15, 0);
-	Planet* dog = makePlanet(kForceSideDog, ccp(143,112), 22, 1);
+	m_pDog = makePlanet(kForceSideDog, ccp(143,112), 22, 1);
 
-	Planet* middle1 = makePlanet(kForceSideMiddle, ccp(250,323), 5, 0);
-	middle1->stopIncrease();
+	m_pMiddle1 = makePlanet(kForceSideMiddle, ccp(250,323), 5, 0);
+	m_pMiddle1->stopIncrease();
 
-	Planet* middle2 = makePlanet(kForceSideMiddle, ccp(440,112), 5, 0);
-	middle2->stopIncrease();
+	m_pMiddle2 = makePlanet(kForceSideMiddle, ccp(440,112), 5, 0);
+	m_pMiddle2->stopIncrease();
 
-	sendTroopsToPlanet(dog, middle1, 9);
-	sendTroopsToPlanet(dog, middle2, 9);
-	
+
 	makeStar(ccp(360, 218));
 }
 
+
+
+void Stage1_04Layer::initLoadedAction()
+{
+	sendTroopsToPlanet(m_pDog, m_pMiddle1, 9);
+	sendTroopsToPlanet(m_pDog, m_pMiddle2, 9);
+}

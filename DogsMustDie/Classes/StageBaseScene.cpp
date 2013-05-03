@@ -10,6 +10,7 @@
 #include "MiscTool.h"
 #include "StageMap.h"
 #include "PauseLayer.h"
+#include "TopBannerLayer.h"
 
 StageBaseScene::StageBaseScene() :
 	m_pStageLayer(NULL),
@@ -18,7 +19,8 @@ StageBaseScene::StageBaseScene() :
 	m_pHelpLayer(NULL),
 	m_pRestartLayer(NULL),
 	m_pWinLayer(NULL),
-	m_pPauseLayer(NULL)
+	m_pPauseLayer(NULL),
+	m_pTopBannerLayer(NULL)
 {
 
 }
@@ -107,6 +109,47 @@ void StageBaseScene::showPauseLayer()
 	}
 	m_pPauseLayer->setDelegate(m_pStageLayer);
 	m_pPauseLayer->show();
+}
+
+void StageBaseScene::showTopBannerLayer(char* content,float restoreTime)
+{
+	if(m_pTopBannerLayer == NULL)
+	{			
+		setTopBannerLayer(TopBannerLayer::create());		
+		this->addChild(m_pTopBannerLayer, 10);				
+	}	
+	m_pTopBannerLayer->setContent(content);
+	m_pTopBannerLayer->show();
+
+	this->scheduleOnce(schedule_selector(StageBaseScene::restoreTopBannerLayer), restoreTime);
+}
+
+void StageBaseScene::showTopBannerLayerWithCustomizedContent(float restoreTime)
+{
+	if(m_pTopBannerLayer == NULL)
+	{			
+		setTopBannerLayer(TopBannerLayer::create());		
+		this->addChild(m_pTopBannerLayer, 10);				
+	}	
+	
+	customizeTopBannerLayer();
+	m_pTopBannerLayer->show();
+
+	this->scheduleOnce(schedule_selector(StageBaseScene::restoreTopBannerLayer), restoreTime);
+}
+
+void StageBaseScene::customizeTopBannerLayer()
+{
+	if(m_pTopBannerLayer == NULL)
+		return;
+
+	// TODO
+}
+
+void StageBaseScene::restoreTopBannerLayer(float dt)
+{
+	if(m_pTopBannerLayer)
+		m_pTopBannerLayer->restore();
 }
 
 // 设置本关的关卡号

@@ -2,6 +2,7 @@
 #include "Defines.h"
 #include "Planet.h"
 #include "MiscTool.h"
+#include "StageBaseLayer.h"
 
 Stage2_05Layer::Stage2_05Layer() :
 	m_pMiddleToDog1(NULL),
@@ -43,14 +44,17 @@ void Stage2_05Layer::initPlanets()
 	m_pMiddleToCat2 = makePlanet(kForceSideMiddle, ccp(63, 146), 15, 1);
 	m_pMiddleToCat2->stopIncrease();
 
+	makeStar(ccp(428, 408));
+	makeStar(ccp(315, 58));
+	makeStar(ccp(582, 415));
+}
+
+void Stage2_05Layer::initLoadedAction()
+{
 	sendTroopsToPlanet(m_pThird,m_pMiddleToDog1, 10);
 	sendTroopsToPlanet(m_pThird,m_pMiddleToDog2, 10);
 	sendTroopsToPlanet(m_pThird,m_pMiddleToCat1, 10);
 	sendTroopsToPlanet(m_pThird,m_pMiddleToCat2, 10);
-
-	makeStar(ccp(428, 408));
-	makeStar(ccp(315, 58));
-	makeStar(ccp(582, 415));
 }
 
 

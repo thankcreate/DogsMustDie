@@ -29,6 +29,7 @@ public:
 	bool init();
 	void initPlanets();		
 	void extraUpdateAIForPlanet( Planet* pPlanet );
+	void initLoadedAction();
 };
 
 #endif // Stage2_05Layer_h__

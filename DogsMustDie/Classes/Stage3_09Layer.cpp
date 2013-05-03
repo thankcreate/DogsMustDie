@@ -44,16 +44,19 @@ void Stage3_09Layer::initPlanets()
 	m_pMiddle3 = makePlanet(kForceSideMiddle, ccp(603,390), 22, 1);
 	m_pMiddle3->stopIncrease();
 
-	//makeStar(ccp(360, 218));
+	
 	m_bIsAIStopped = true;
+	setStarCountForForceSide(kForceSideCat, 2);
+}
 
+
+void Stage3_09Layer::initLoadedAction()
+{
 	this->schedule(schedule_selector(Stage3_09Layer::run1), 1);
 	this->schedule(schedule_selector(Stage3_09Layer::run2), 1);
 	this->schedule(schedule_selector(Stage3_09Layer::run3), 1);	
 
 	this->scheduleOnce(schedule_selector(Stage3_09Layer::restoreAI), 15);
-
-	setStarCountForForceSide(kForceSideCat, 2);
 }
 
 void Stage3_09Layer::restoreAI(float dt)

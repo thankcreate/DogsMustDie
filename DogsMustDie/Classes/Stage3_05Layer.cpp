@@ -39,11 +39,16 @@ void Stage3_05Layer::initPlanets()
 	makeStar(ccp(474, 63));
 	makeStar(ccp(600, 400));
 
+
+
+	setStarCountForForceSide(kForceSideCat, 2);
+}
+
+void Stage3_05Layer::initLoadedAction()
+{
 	this->scheduleOnce(schedule_selector(Stage3_05Layer::attach1) , 1);
 	this->scheduleOnce(schedule_selector(Stage3_05Layer::attach2) , 1.6);
 	this->scheduleOnce(schedule_selector(Stage3_05Layer::attach3) , 2.2);
-
-	setStarCountForForceSide(kForceSideCat, 2);
 }
 
 void Stage3_05Layer::attach1(float dt)

@@ -10,6 +10,7 @@ class StageBaseLayer;
 class HelpLayer;
 class NavigatorLayer;
 class PauseLayer;
+class TopBannerLayer;
 class StageBaseScene : public CCScene, public OptionDelegate
 {
 public:
@@ -21,6 +22,7 @@ public:
 	CC_SYNTHESIZE(NavigatorLayer*, m_pRestartLayer, RestartLayer);
 	CC_SYNTHESIZE(NavigatorLayer*, m_pWinLayer, WinLayer);	
 	CC_SYNTHESIZE(PauseLayer*, m_pPauseLayer, PauseLayer);
+	CC_SYNTHESIZE(TopBannerLayer*, m_pTopBannerLayer, TopBannerLayer);
 	virtual StageBaseLayer* getMainStageLayer() = 0;
 
 	bool init();	
@@ -46,6 +48,10 @@ public:
 
 	virtual int getJudgeScoreTime() { return 40; }
 	void showPauseLayer();
+	void showTopBannerLayer(char* content, float restoreTime);
+	void restoreTopBannerLayer(float dt);
+	void showTopBannerLayerWithCustomizedContent(float restoreTime);
+	virtual void customizeTopBannerLayer();
 };
 
 #endif // StageBaseScene_h__

@@ -43,7 +43,7 @@ StageBaseLayer::StageBaseLayer()  :
 	m_fLastAddStarTime(0),	
 	m_nLastAddStarIndex(-1),
 	m_pForceInfoDic(NULL),
-	m_bIsAIStopped(false),
+	m_bIsAIStopped(true),
 	m_bIsAddStarStopped(false)
 {
 	setPlanetArray(CCArray::createWithCapacity(30));
@@ -69,7 +69,9 @@ bool StageBaseLayer::init()
 	{
 		CC_BREAK_IF(!CCLayer::init());
 
+		
 		initForceSideInfo();  // 这个最好放最开始
+		initDoor();
 		initBackground();
 		initLevelPannel();
 		initBackButton();		
@@ -78,8 +80,9 @@ bool StageBaseLayer::init()
 		initFrontSight();
 		initFocusMark();
 
-		initWorld();
+		initWorld();		
 		initPlanets();
+		this->scheduleOnce(schedule_selector(StageBaseLayer::initLoadedAction), getStageOpenTime());
 		
 
 		// 启动Update
@@ -100,6 +103,48 @@ bool StageBaseLayer::init()
 	} while (0);
 
 	return bRet;
+}
+
+void StageBaseLayer::initDoor()
+{
+	// 在过场动画阶段禁止AI判断
+	m_bIsAIStopped = true;
+
+	CCSize size = WIN_SIZE;
+	CCSprite* pDoorLeft = CCSprite::create("StageBase_door_left.png");
+	pDoorLeft->setPosition(ccp(pDoorLeft->boundingBox().size.width / 2, size.height / 2));
+	this->addChild(pDoorLeft, kDoorLayerIndex);
+	CCActionInterval* pDelayLeft = CCActionInterval::create(0.3);
+	CCMoveBy* pMoveLeft = CCMoveBy::create(1.5, ccp(-pDoorLeft->boundingBox().size.width  - 2, 0));		
+	CCFiniteTimeAction* pSeqLeft = CCSequence::create(pDelayLeft, pMoveLeft, NULL);
+	pDoorLeft->runAction(pSeqLeft);
+
+	CCSprite* pDoorRight = CCSprite::create("StageBase_door_right.png");
+	pDoorRight->setPosition(ccp(size.width - pDoorRight->boundingBox().size.width / 2, size.height / 2));
+	this->addChild(pDoorRight, kDoorLayerIndex);
+	CCActionInterval* pDelayRight = CCActionInterval::create(0.3);
+	CCMoveBy* pMoveRight = CCMoveBy::create(1.5, ccp(pDoorRight->boundingBox().size.width  + 2, 0));		
+	CCFiniteTimeAction* pSeqRight = CCSequence::create(pDelayRight, pMoveRight, NULL);
+	
+	pDoorRight->runAction(pSeqRight);
+}
+
+void StageBaseLayer::initLoadedAction(float dt)
+{	
+	initLoadedAction();
+	m_bIsAIStopped = false;
+}
+
+void StageBaseLayer::initLoadedAction()
+{
+
+}
+
+
+
+void StageBaseLayer::restoreUpdateInDoorEnd()
+{
+	m_bIsUpdateStopped = false;
 }
 
 // 目前仅对安卓有效，后退时弹暂停
@@ -140,6 +185,7 @@ void StageBaseLayer::setLevel(int big, int small1)
 	CCString* pStrLevel = CCString::createWithFormat("Stage %d-%d", big, small1);
 	m_pLevelLabel->setString(pStrLevel->getCString());
 }
+
 
 void StageBaseLayer::initPlanets()
 {
@@ -753,17 +799,44 @@ void StageBaseLayer::updateSkillButtonState()
 	}
 }
 
-
+// 目前此函数有两个作用
+// A.根据 b2对象位置刷新sprite对象位置
+// B.如果追星部队的目标星已经被其他部队拿到手，令其提前返回
 void StageBaseLayer::updateTroopsArray()
 {
 	CCObject* pObject = NULL;
 	CCARRAY_FOREACH(m_pTroopsArray, pObject)
-	{
+	{		
 		Troops* pTroops = (Troops*)pObject;
+		// A.根据 b2对象位置刷新sprite对象位置
 		if(pTroops->m_pBody)
 		{
 			b2Vec2 b2Pos = pTroops->m_pBody->GetPosition();
 			pTroops->setPosition(ccp(b2Pos.x * PTM_RATIO, b2Pos.y * PTM_RATIO));
+		}
+		// B.如果追星部队的目标星已经被其他部队拿到手，令其提前返回
+		if(pTroops->getTroopsType() == kTroopsForStar
+			&& !pTroops->isInReturn())
+		{
+			GameObject* pTarget = pTroops->getTargetObject();
+			if(pTarget->getType() == kGameObjectStar)
+			{
+				StarObject* pTargetStar = (StarObject*) pTarget;
+				if(pTargetStar->hasBeenGotBySomeOne())
+				{
+					// 两种可能
+					// 1.此部队已经与母星脱离，直接goHome
+					if(pTroops->hasEndContactWithHome())
+					{
+						pTroops->goHome();
+					}
+					else
+					{
+						pTroops->destroyInNextUpdate();
+						pTroops->getHomePort()->increaseFightUnitCount(1);
+					}
+				}
+			}			
 		}
 	}
 }
@@ -1383,6 +1456,60 @@ void StageBaseLayer::helpCallback( CCObject* pSender )
 	PlayEffect("Audio_button.mp3");
 }
 
+// EndContact最主要的目的是看追星部队是否离开了母星
+// 这是因为如果追星部队尚未离开母星，此时如果星星被别的部队拿到
+// 此追星部队如果返回，不会触发对母星的BeginContact
+void StageBaseLayer::EndContact(b2Contact* contact)
+{
+	void* pRawA = contact->GetFixtureA()->GetBody()->GetUserData();
+	void* pRawB = contact->GetFixtureB()->GetBody()->GetUserData();
+	if(!pRawA || !pRawB)
+		return;
+
+	GameObject* goA = (GameObject*) pRawA;
+	GameObject* goB = (GameObject*) pRawB;
+
+	if(goA->willBeDestoried() || goB->willBeDestoried())
+	{
+		return;
+	}
+
+	int goTypeA = GET_TYPE(goA);
+	int goTypeB = GET_TYPE(goB);
+
+	if(goTypeA == kGameObjectFight && goTypeB == kGameObjectFight)
+	{
+		FightObject* fightA = (FightObject*) goA;
+		FightObject* fightB = (FightObject*) goB;
+
+		int fightTypeA = fightA->getFightType();
+		int fightTypeB = fightB->getFightType();
+
+		Planet* planet = NULL;
+		Troops* troop = NULL;
+		// 只考虑追星部队和母星这一种情况
+		if(fightTypeA == kFightTroops && fightTypeB == kFightPlanet)
+		{
+			planet = (Planet*) fightB;
+			troop = (Troops*) fightA;
+		}		
+		else if(fightTypeA == kFightPlanet && fightTypeB == kFightTroops)
+		{
+			planet = (Planet*) fightA;
+			troop = (Troops*) fightB;
+		}
+		else
+		{
+			return;
+		}
+
+		if(troop->getTroopsType() == kTroopsForStar
+			&& troop->getHomePort() == planet)
+		{
+			troop->setHasEndContactWithHome(true);
+		}
+	}
+}
 
 
 void StageBaseLayer::BeginContact( b2Contact* contact )

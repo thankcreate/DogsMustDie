@@ -14,7 +14,8 @@ Troops::Troops() :
 	m_bIsInReturn(false),
 	m_bHasGotStar(false),
 	m_bIsHighSpeed(false),
-	m_pFace(NULL)
+	m_pFace(NULL),
+	m_bHasEndContactWithHome(false)
 {
 }
 

@@ -9,7 +9,8 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 {
 	StageSelectFrameSprite* pRet = new StageSelectFrameSprite();
 
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+	bool locked = false;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	if(mBigIndex >= LOCK_BEGIN_INDEX)
 	{
 		bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED);
@@ -18,15 +19,15 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 			pRet->initWithFile("StageSelect_frame_locked.png");
 			// Text
 			CCString* pStrText = CCString::create("^_^\nUpgrade to Pro version to unlock this stage.") ;
-			CCLabelTTF *pText = CCLabelTTF::create(pStrText->getCString(), "8bitoperator JVE.ttf", 45);		
-			pText->setPosition(ccp(226, 84));
+			CCLabelTTF *pText = CCLabelTTF::create(pStrText->getCString(), "8bitoperator JVE.ttf", 30);		
+			pText->setPosition(ccp(226, 87));
 			pText->setDimensions(CCSizeMake(350, 97));
 			pText->setHorizontalAlignment(kCCTextAlignmentCenter);
 			pText->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
 			ccColor3B ccMyOrange={255, 104, 0};
 			pText->setColor(ccMyOrange);
 			pRet->addChild(pText);
-			return pRet;
+			locked = true;
 		}
 		else
 		{
@@ -38,18 +39,20 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 	{
 		pRet->initWithFile("StageSelect_frame.png");
 	}
-//#else
-//	pRet->initWithFile("StageSelect_frame.png");
-//#endif
+#else
+	pRet->initWithFile("StageSelect_frame.png");
+#endif
 
 	// 3. 标题
 	CCSprite* pTitle= CCSprite::create(title);		
-	pTitle->setPosition(ccp(pRet->boundingBox().size.width / 2 - 15, 340));
+	pTitle->setPosition(ccp(pRet->boundingBox().size.width / 2 - 15, 315));
 	pRet->addChild(pTitle, 1);
+	if(locked)
+		return pRet;
 
 	// 4. 选关按钮
 	float originX = 107;
-	float originY = 240;
+	float originY = 227;
 	float intervalX  = 125;
 	float intervalY = 74;
 

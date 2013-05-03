@@ -1,6 +1,7 @@
 #include "Stage2_09Layer.h"
 #include "Defines.h"
 #include "Planet.h"
+#include "StageBaseLayer.h"
 
 Stage2_09Layer::Stage2_09Layer()
 {
@@ -40,4 +41,8 @@ void Stage2_09Layer::initPlanets()
 	makeStar(ccp(343, 198));
 	makeStar(ccp(549, 412));
 	makeStar(ccp(633, 95));
+}
+
+void Stage2_09Layer::initLoadedAction()
+{
 }

@@ -132,7 +132,9 @@ public:
 		kFocuseMarkIndex = 6,
 		kTroopsLayerIndex = 7,
 		kFrontSightLayerIndex = 8,
-		kPannelLayerIndex = 10
+		kGuideLayerIndex = 9,
+		kDoorLayerIndex = 10,
+		kPannelLayerIndex = 11
 	};
 
 
@@ -177,6 +179,15 @@ public:
 	void updateAddStarInternal();
 	
 
+	void stopUpdate() { m_bIsUpdateStopped = true;}
+	void restoreUpdate() { m_bIsUpdateStopped = false;}
+	void initDoor();
+	void restoreUpdateInDoorEnd();
+
+	virtual float getStageOpenTime() {return 2.2;}
+	virtual void initLoadedAction();
+	virtual void initLoadedAction(float dt);
+	void EndContact(b2Contact* contact);
 protected:
 	bool m_bIsSpeakerEnabled;
 	bool m_bIsUpdateStopped;

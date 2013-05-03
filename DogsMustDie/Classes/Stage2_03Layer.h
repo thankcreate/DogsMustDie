@@ -24,7 +24,7 @@ public:
 	
 
 	void extraUpdateAIForPlanet(Planet* pPlanet);
-
+	
 };
 
 #endif // Stage2_03Layer_h__

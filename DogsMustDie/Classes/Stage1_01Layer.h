@@ -54,6 +54,7 @@ public:
 
 	int getInitStarCount() { return 4; }
 	virtual void updateAI();
+	void initLoadedAction();
 private:
 	bool m_bAskedToFocusAPlanet;
 	bool m_bAskedToClickSkillUpgrade;

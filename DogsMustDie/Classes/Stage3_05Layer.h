@@ -26,6 +26,7 @@ public:
 	void attach1(float dt);
 	void attach2(float dt);
 	void attach3(float dt);
+	void initLoadedAction();
 };
 
 #endif // Stage3_05Layer_h__

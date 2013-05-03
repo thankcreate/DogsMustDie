@@ -43,12 +43,15 @@ public:
 	bool hasGotStar() {return m_bHasGotStar;}
 	void setHighSpeed(bool isHighSpeed);
 	bool isHighSpeed() { return m_bIsHighSpeed; }
-
+	void setHasEndContactWithHome(bool has) { m_bHasEndContactWithHome = has; }
+	bool hasEndContactWithHome() {return m_bHasEndContactWithHome; }
+	
 private:
 	int m_nTroopsType; // 是否是追星星的Troop
 	bool m_bHasGotStar;  // 是否带着星星，因为回来时不一定带着星星，可能已经被别人抢走了
 	bool m_bIsInReturn;
 	bool m_bIsHighSpeed;
+	bool m_bHasEndContactWithHome;
 };
 
 #endif // Troops_h__
