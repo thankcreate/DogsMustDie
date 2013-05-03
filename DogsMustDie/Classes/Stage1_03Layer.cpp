@@ -40,7 +40,7 @@ void Stage1_03Layer::initGuideLayer()
 	m_pGuideBorder->setPosition(ccp(156, 181));
 	this->addChild(m_pGuideBorder, kGuideLayerIndex);	
 
-	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", "00 Starmap Truetype.ttf", 30));	
+	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", FONT_00_STARMAP_TRUETYPE, 30));	
 	setGuideLabel(CCLabelTTF::create("This is a neutral planet, it will not launch an attack on own initiative", "Arial", 23));		
 	m_pGuideLabel->setDimensions(CCSizeMake(209, 200));
 	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);

@@ -44,7 +44,7 @@ bool NavigatorLayer::init()
 
 		// БъЬт
 		CCString* pStrTitle = getTitle();
-		setTitleLabel(CCLabelTTF::create(pStrTitle->getCString(), "8bitoperator JVE.ttf", 45));		
+		setTitleLabel(CCLabelTTF::create(pStrTitle->getCString(), FONT_8BITOPERATOR_JVE, 45));		
 		m_pTitleLabel->setPosition(ccp(192, 285));
 		ccColor3B ccMyOrange={255, 104, 0};
 		m_pTitleLabel->setColor(ccMyOrange);

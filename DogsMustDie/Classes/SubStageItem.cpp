@@ -1,6 +1,7 @@
 #include "SubStageItem.h"
 #include "PermissionManager.h"
 #include "MiscTool.h"
+#include "Defines.h"
 
 SubStageItem::SubStageItem() :
 m_smallIndex(0),
@@ -19,7 +20,7 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 	CCSprite* normal = CCSprite::create("StageSelect_tinyblock.png");
 
 	CCString* pStr = CCString::createWithFormat("%d", smallIndex);
-	CCLabelTTF* pLabel = CCLabelTTF::create(pStr->getCString(), "8bitoperator JVE.ttf", 55);
+	CCLabelTTF* pLabel = CCLabelTTF::create(pStr->getCString(), FONT_8BITOPERATOR_JVE, 55);
 	pLabel->setColor(ccWHITE);
 	pLabel->setPosition(ccp(normal->boundingBox().size.width / 2 , 36));
 	normal->addChild(pLabel);
@@ -60,7 +61,7 @@ SubStageItem* SubStageItem::create(int bigIndex, int smallIndex, CCObject* targe
 		}
 	}
 
-	CCLabelTTF* pLabel2 = CCLabelTTF::create(pStr->getCString(), "8bitoperator JVE.ttf", 55);
+	CCLabelTTF* pLabel2 = CCLabelTTF::create(pStr->getCString(), FONT_8BITOPERATOR_JVE, 55);
 	pLabel2->setColor(ccWHITE);
 	pLabel2->setPosition(ccp(selected->boundingBox().size.width / 2 , 36));
 	selected->addChild(pLabel2);

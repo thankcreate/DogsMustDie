@@ -1,5 +1,5 @@
 #include "TopBannerLayer.h"
-
+#include "Defines.h"
 TopBannerLayer::TopBannerLayer() :
 	m_pContentLabel(NULL),
 	m_pFrame(NULL),
@@ -24,7 +24,7 @@ bool TopBannerLayer::init()
 		m_pFrame->setPosition(ccp(450, size.height + frameSize.height / 2));
 		this->addChild(m_pFrame);	
 
-		setContentLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));	
+		setContentLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 30));	
 		ccColor3B ccMyOrange={255, 104, 0};
 		m_pContentLabel->setPosition(ccp(frameSize.width / 2,  frameSize.height / 2 + 3));
 		m_pContentLabel->setDimensions(CCSizeMake(frameSize.width - 50, frameSize.height - 25));

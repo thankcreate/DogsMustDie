@@ -64,7 +64,7 @@ void Troops::initWithForceSide( int force )
 	this->addChild(m_pBubble);
 
 	CCString* pStr = CCString::createWithFormat("%d", 22);
-	setFightUnitLabel(CCLabelTTF::create(pStr->getCString(), "00 Starmap Truetype.ttf", 19));
+	setFightUnitLabel(CCLabelTTF::create(pStr->getCString(), FONT_00_STARMAP_TRUETYPE, 19));
 	ccColor3B ccMyOrange={255, 104, 0};
 	m_pFightUnitLabel->setColor(ccMyOrange);
 	m_pFightUnitLabel->setPosition(ccp(17, 15));

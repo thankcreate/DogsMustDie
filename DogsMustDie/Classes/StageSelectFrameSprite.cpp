@@ -19,7 +19,7 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 			pRet->initWithFile("StageSelect_frame_locked.png");
 			// Text
 			CCString* pStrText = CCString::create("^_^\nUpgrade to Pro version to unlock this stage.") ;
-			CCLabelTTF *pText = CCLabelTTF::create(pStrText->getCString(), "8bitoperator JVE.ttf", 30);		
+			CCLabelTTF *pText = CCLabelTTF::create(pStrText->getCString(), FONT_8BITOPERATOR_JVE, 30);		
 			pText->setPosition(ccp(226, 87));
 			pText->setDimensions(CCSizeMake(350, 97));
 			pText->setHorizontalAlignment(kCCTextAlignmentCenter);

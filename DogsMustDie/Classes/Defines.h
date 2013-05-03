@@ -67,14 +67,26 @@ enum eForceSide
 #define SET_TAG(p, tag)  p->setTag( ( (RAW_TAG(p) >> INT_BIT_LENTH_HALF) << INT_BIT_LENTH_HALF) | tag )
 
 
-// other
+// Other
 #define WIN_SIZE (CCDirector::sharedDirector()->getWinSize())
 #define HIT(prob) MiscTool::probabilityHit(prob)
 #define STAR_PRELOAD_LOCATION(x, y) m_vecPossibleStarLocations.push_back(ccp(x,y))
-// stage
+
+// Stage
 #define BIG_STAGE_COUNT 3
 #define SMALL_STAGE_COUNT 9
 #define ENDLESS_COUNT 99999
+
+// Font
+// 这是之所以要区分iOS是因为cocos2d 2.0之后
+// 貌似iOS上的CCLabelTTF使用font时不能带ttf后缀
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#define FONT_8BITOPERATOR_JVE "8bitoperator JVE"
+#define FONT_00_STARMAP_TRUETYPE "00 Starmap Truetype"
+#else 
+#define FONT_8BITOPERATOR_JVE "8bitoperator JVE.ttf"
+#define FONT_00_STARMAP_TRUETYPE "00 Starmap Truetype.ttf"
+#endif
 
 // IAP
 #define AppPurchaseProUpgradeProductId  "com.thankcreate.DogsMustDie.UpgradeToPro"

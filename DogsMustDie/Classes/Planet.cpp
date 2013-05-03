@@ -100,7 +100,7 @@ void Planet::initWithForceSide( int force )
 	CCString* pStr = CCString::createWithFormat("%d",  getFightUnitCount());
 	if(!m_pFightUnitLabel)
 	{
-		setFightUnitLabel(CCLabelTTF::create(" ", "00 Starmap Truetype.ttf", 19));		
+		setFightUnitLabel(CCLabelTTF::create(" ", FONT_00_STARMAP_TRUETYPE, 19));		
 		m_pFightUnitLabel->setPosition(ccp(planetSize.width - 16 , planetSize.height - 16));
 		this->addChild(m_pFightUnitLabel);
 	}

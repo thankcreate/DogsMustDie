@@ -2,6 +2,7 @@
 #include "MyMenu.h"
 #include "StageBaseScene.h"
 #include "PauseLayerDelegate.h"
+#include "Defines.h"
 
 PauseLayer::PauseLayer() :
 	m_pStageScene(NULL),
@@ -36,7 +37,7 @@ bool PauseLayer::init()
 		this->addChild(m_pFrame);
 
 		// БъЬт		
-		setTitleLabel(CCLabelTTF::create("Paused", "8bitoperator JVE.ttf", 45));		
+		setTitleLabel(CCLabelTTF::create("Paused", FONT_8BITOPERATOR_JVE, 45));		
 		m_pTitleLabel->setPosition(ccp(192, 285));
 		ccColor3B ccMyOrange={255, 104, 0};
 		m_pTitleLabel->setColor(ccMyOrange);

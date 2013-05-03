@@ -89,7 +89,7 @@ void Stage1_01Layer::initGuideLayer()
 	m_pGuideBorder->setPosition(ccp(winSize.width / 2 - 50, borderSize.height / 2));
 	this->addChild(m_pGuideBorder, kGuideLayerIndex);	
 
-	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", "00 Starmap Truetype.ttf", 30));	
+	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", FONT_00_STARMAP_TRUETYPE, 30));	
 	setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson.", "Arial", 26));		
 	m_pGuideLabel->setDimensions(CCSizeMake(420, 140));
 	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);

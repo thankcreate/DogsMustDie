@@ -60,7 +60,7 @@ bool BuyLayer::init()
 		this->addChild(m_pFrame, 1);
 
 		// title
-		CCLabelTTF* pTitle  = CCLabelTTF::create("Coin  Store", "8bitoperator JVE.ttf", 60);		
+		CCLabelTTF* pTitle  = CCLabelTTF::create("Coin  Store", FONT_8BITOPERATOR_JVE, 60);		
 		pTitle->setPosition(ccp(260, 207));
 		ccColor3B ccMyOrange={255, 104, 0};
 		pTitle->setColor(ccMyOrange);
@@ -80,7 +80,7 @@ bool BuyLayer::init()
 		m_pFrame->addChild(pCoin);
 
 		// coin label
-		setCoinCountLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 35));		
+		setCoinCountLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 35));		
 		m_pCoinCountLabel->setPosition(ccp(124,293));	
 		m_pCoinCountLabel->setDimensions(CCSizeMake(58, 30));
 		m_pCoinCountLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
@@ -128,7 +128,7 @@ void BuyLayer::initButtons()
 	pBtn10->setPosition(ccp(138,127));
 	pMenu->addChild(pBtn10);
 
-	CCLabelTTF* pPrice10  = CCLabelTTF::create("0.99$", "8bitoperator JVE.ttf", 30);		
+	CCLabelTTF* pPrice10  = CCLabelTTF::create("0.99$", FONT_8BITOPERATOR_JVE, 30);		
 	pPrice10->setPosition(ccp(138, 71));
 	ccColor3B ccMyOrange={255, 104, 0};
 	pPrice10->setColor(ccMyOrange);
@@ -144,7 +144,7 @@ void BuyLayer::initButtons()
 	pBtn20->setPosition(ccp(255,127));
 	pMenu->addChild(pBtn20);
 
-	CCLabelTTF* pPrice20  = CCLabelTTF::create("1.99$", "8bitoperator JVE.ttf", 30);		
+	CCLabelTTF* pPrice20  = CCLabelTTF::create("1.99$", FONT_8BITOPERATOR_JVE, 30);		
 	pPrice20->setPosition(ccp(255, 71));	
 	pPrice20->setColor(ccMyOrange);
 	m_pFrame->addChild(pPrice20);
@@ -159,7 +159,7 @@ void BuyLayer::initButtons()
 	pBtn50->setPosition(ccp(372,127));
 	pMenu->addChild(pBtn50);
 
-	CCLabelTTF* pPrice50  = CCLabelTTF::create("4.99$", "8bitoperator JVE.ttf", 30);		
+	CCLabelTTF* pPrice50  = CCLabelTTF::create("4.99$", FONT_8BITOPERATOR_JVE, 30);		
 	pPrice50->setPosition(ccp(372, 71));	
 	pPrice50->setColor(ccMyOrange);
 	m_pFrame->addChild(pPrice50);

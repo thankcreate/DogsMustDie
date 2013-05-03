@@ -74,7 +74,7 @@ void StageGameOverLayer::initStory()
 {
 	CCSize size = WIN_SIZE;
 	setStoryLabel(CCLabelTTF::create("Congratulations!\nWe finally defeated the invaders.\nDog sucks! God bless we cats.\nYou are the new hero of the cat planet!\nThe era of cats is coming.\nIf you feel unsatisfied, you can still go to endless mode to continue your noble career.\nDogs must die!", 
-		"8bitoperator JVE.ttf", 30));
+		FONT_8BITOPERATOR_JVE, 30));
 	m_pStoryLabel->setDimensions(CCSizeMake(566, -1));
 	m_pStoryLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pStoryLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);

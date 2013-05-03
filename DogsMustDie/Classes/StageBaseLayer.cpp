@@ -171,7 +171,7 @@ void StageBaseLayer::initLevelPannel()
 	m_pLevelBorder->setPosition(ccp(142, winSize.height - borderSize.height / 2));
 	this->addChild(m_pLevelBorder, kPannelLayerIndex);
 		
-	setLevelLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 24));
+	setLevelLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 24));
 	ccColor3B ccMyOrange={255, 104, 0};
 	m_pLevelLabel->setColor(ccMyOrange);	
 	m_pLevelLabel->setPosition(ccp(borderSize.width / 2 - 2 ,20));
@@ -1320,7 +1320,7 @@ void StageBaseLayer::initPannel()
 
 	int catStarCount = getStarCountForForceSide(kForceSideCat);
 	CCString* pStrCount = CCString::createWithFormat("%d", catStarCount);
-	setStarCountLabel(CCLabelTTF::create(pStrCount->getCString(), "8bitoperator JVE.ttf", 40));
+	setStarCountLabel(CCLabelTTF::create(pStrCount->getCString(), FONT_8BITOPERATOR_JVE, 40));
 	ccColor3B ccMyYellow={250, 203, 13};
 	m_pStarCountLabel->setColor(ccMyYellow);
 	m_pStarCountLabel->setPosition(ccp(56 , 160));

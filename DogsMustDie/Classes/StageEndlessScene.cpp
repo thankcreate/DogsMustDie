@@ -184,7 +184,7 @@ void StageEndlessScene::customizeTopBannerLayer()
 
 	CCSize frameSize = frame->boundingBox().size;
 
-	CCLabelTTF* pLabel = CCLabelTTF::create("+1.  Daily award. ^_^", "8bitoperator JVE.ttf", 30);	
+	CCLabelTTF* pLabel = CCLabelTTF::create("+1.  Daily award. ^_^", FONT_8BITOPERATOR_JVE, 30);	
 	ccColor3B ccMyOrange={255, 104, 0};
 	pLabel->setPosition(ccp(frameSize.width / 2 + 10,  frameSize.height / 2 + 3));
 	pLabel->setDimensions(CCSizeMake(frameSize.width - 50, frameSize.height - 25));

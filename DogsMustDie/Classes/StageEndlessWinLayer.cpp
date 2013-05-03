@@ -133,7 +133,7 @@ void StageEndlessWinLayer::setRound( int round )
 
 	if(!m_pRoundLabel)
 	{		
-		setRoundLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
+		setRoundLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 30));		
 		m_pRoundLabel->setDimensions(CCSizeMake(220, 25));
 		m_pRoundLabel->setPosition(ccp(255, 201));
 		ccColor3B ccMyOrange={255, 104, 0};
@@ -149,7 +149,7 @@ void StageEndlessWinLayer::setRound( int round )
 	int best = LoadIntegerFromXML(KEY_ENDLESS_BEST_ROUND, 0);
 	if(!m_pBestRoundLabel)
 	{		
-		setBestRoundLabel(CCLabelTTF::create(" ", "8bitoperator JVE.ttf", 30));		
+		setBestRoundLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 30));		
 		m_pBestRoundLabel->setDimensions(CCSizeMake(220, 25));
 		m_pBestRoundLabel->setPosition(ccp(255, 170));
 		m_pBestRoundLabel->getTexture()->setAliasTexParameters();

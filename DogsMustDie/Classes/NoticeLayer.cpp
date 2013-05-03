@@ -2,7 +2,7 @@
 #include "MyMenu.h"
 #include "StageBaseScene.h"
 #include "NoticeLayerDelegate.h"
-
+#include "Defines.h"
 #define MAX_INDEX 2
 
 NoticeLayer::NoticeLayer() :
@@ -40,13 +40,13 @@ bool NoticeLayer::init()
 		this->addChild(m_pFrame);
 
 		// БъЬт		
-		setTitleLabel(CCLabelTTF::create("Notice", "8bitoperator JVE.ttf", 45));		
+		setTitleLabel(CCLabelTTF::create("Notice", FONT_8BITOPERATOR_JVE, 45));		
 		m_pTitleLabel->setPosition(ccp(192, 285));
 		ccColor3B ccMyOrange={255, 104, 0};
 		m_pTitleLabel->setColor(ccMyOrange);
 		m_pFrame->addChild(m_pTitleLabel);
 
-		setContentLabel(CCLabelTTF::create("^_^\nWelcome to the endless mode.\nIt's a chance to prove you are the bravest cat.", "8bitoperator JVE.ttf", 28));		
+		setContentLabel(CCLabelTTF::create("^_^\nWelcome to the endless mode.\nIt's a chance to prove you are the bravest cat.", FONT_8BITOPERATOR_JVE, 28));		
 		m_pContentLabel->setPosition(ccp(200, 160));
 		m_pContentLabel->setDimensions(CCSizeMake(324, 160));
 		m_pContentLabel->setHorizontalAlignment(kCCTextAlignmentCenter);

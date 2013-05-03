@@ -74,7 +74,7 @@ void StageStartupCGLayer::initStory()
 {
 	CCSize size = WIN_SIZE;
 	setStoryLabel(CCLabelTTF::create("In 2045,  the intelligence of mankind had been baddly degenerationed because they spent too much time playing mobile games.\nWe cats finnally became the masters of the earth.\nNo longer treated as pets, No longer feeded by only one fish for lauch! \nIn order to get the earth back ,the humans sent dogs to the outter space and expected that one day dogs can make their own civilization and come back to save them.\n500 years later, dogs are back.\nTack up arms! \nIt's time to fight for the honor of we cats. \nStupid dogs must die!", 
-		"8bitoperator JVE.ttf", 30));
+		FONT_8BITOPERATOR_JVE, 30));
 	m_pStoryLabel->setDimensions(CCSizeMake(566, 450));
 	m_pStoryLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pStoryLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
