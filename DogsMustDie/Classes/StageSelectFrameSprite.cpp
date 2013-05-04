@@ -2,7 +2,7 @@
 #include "SubStageItem.h"
 #include "Defines.h"
 #include "MyUseDefaultDef.h"
-
+#include "LocalizeManager.h"
 
 
 StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject* target, SEL_MenuHandler handler, int mBigIndex, const char* title)
@@ -18,7 +18,7 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 		{			
 			pRet->initWithFile("StageSelect_frame_locked.png");
 			// Text
-			CCString* pStrText = CCString::create("^_^\nUpgrade to Pro version to unlock this stage.") ;
+			CCString* pStrText = CCString::create(I18N_STR("StageSelect_Update_To_Pro_Description")) ;
 			CCLabelTTF *pText = CCLabelTTF::create(pStrText->getCString(), FONT_8BITOPERATOR_JVE, 30);		
 			pText->setPosition(ccp(226, 87));
 			pText->setDimensions(CCSizeMake(350, 97));
@@ -33,7 +33,6 @@ StageSelectFrameSprite* StageSelectFrameSprite::create(CCNode* parent, CCObject*
 		{
 			pRet->initWithFile("StageSelect_frame.png");
 		}
-
 	}
 	else
 	{

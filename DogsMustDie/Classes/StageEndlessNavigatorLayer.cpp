@@ -47,8 +47,6 @@ bool StageEndlessNavigatorLayer::init()
 		m_pTitleLabel->setColor(ccMyOrange);
 		m_pFrame->addChild(m_pTitleLabel);
 
-
-
 		// ½ûÖ¹ºó²ãµÄ°´¼ü
 		this->setTouchEnabled(true);
 

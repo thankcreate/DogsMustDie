@@ -64,7 +64,7 @@ void StageEndlessLayer::initLoadedAction()
 	if(	lastYear != year
 		|| lastMonth != month
 		|| lastDay != day )
-	{		
+	{
 		// 走到这里说明是今日第一次登陆到无尽模式
 		int coin = LoadIntegerFromXML(KEY_COIN_COUNT, 0);
 		++coin;

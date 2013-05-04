@@ -79,7 +79,7 @@ void Stage1_01Layer::initPlanets()
 
 void Stage1_01Layer::initLoadedAction()
 {
-	this->schedule(schedule_selector(Stage1_01Layer::guideDragToOccupy), 2);
+	this->schedule(schedule_selector(Stage1_01Layer::guideDragToOccupy), 3);
 }
 
 void Stage1_01Layer::initGuideLayer()
@@ -91,9 +91,8 @@ void Stage1_01Layer::initGuideLayer()
 	this->addChild(m_pGuideBorder, kGuideLayerIndex);	
 
 	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", FONT_00_STARMAP_TRUETYPE, 30));	
-	setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson.", "Arial", 26));
-    const char* str = LocalizeManager::sharedInstance()->getStringByKey("Test");
-    m_pGuideLabel->setString(str);
+	setGuideLabel(CCLabelTTF::create(" ", "Arial", 26));
+    m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_1"));
 	m_pGuideLabel->setDimensions(CCSizeMake(420, 140));
 	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
@@ -108,7 +107,7 @@ void Stage1_01Layer::guideDragToOccupy(float dt)
 {
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Drag as above to occupy the dog planet.\n Each drag will send half the troops");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_2"));
 	}
 
 	if(!m_pFinger)
@@ -127,7 +126,7 @@ void Stage1_01Layer::guideDragToStar(float dt)
 {
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Well done! Now we need more stars to use skills.\nDrag as above to catch the star");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_3"));
 	}
 		
 
@@ -157,7 +156,7 @@ void Stage1_01Layer::guideFocusOnPlanet(float dt)
 {
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Tap on the planet to let it be focused, mew~");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_4"));
 	}
 
 	if(!m_pFinger)
@@ -186,7 +185,7 @@ void Stage1_01Layer::guideClickOnUpgrade()
 	}
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Click on the upgrade button. It will increase the proliferation speed and capacity of the selected planet");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_5"));
 	}
 
 	if(!m_pSkillPrompt)
@@ -212,7 +211,7 @@ void Stage1_01Layer::guideClickOnSpeedUp()
 	}
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Click on the second button to speed up the troops sent by the planet");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_6"));
 	}
 
 	if(!m_pSkillPrompt)
@@ -240,7 +239,7 @@ void Stage1_01Layer::guideClickOnDown(float dt)
 
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Click on the third button to decrease proliferation speed of all dog planets for 12 seconds.");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_7"));
 	}
 
 	if(!m_pSkillPrompt)
@@ -279,7 +278,7 @@ void Stage1_01Layer::guideFinalStrike(float dt)
 {
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Now let's give the stupid dogs the final strike!\nLong live the meow star!");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_8"));
 	}
 
 	if(!m_pFinger)
@@ -305,9 +304,9 @@ void Stage1_01Layer::guideWin()
 {
 	if(m_pGuideLabel)
 	{
-		m_pGuideLabel->setString("Good job. You see, dog sucks. But this is just the beginning of the holy war...");
+		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_9"));
 	}
-	this->scheduleOnce(schedule_selector(Stage1_01Layer::showWinInDelay), 2.5);
+	this->scheduleOnce(schedule_selector(Stage1_01Layer::showWinInDelay), 3.5);
 }
 
 void Stage1_01Layer::showWinInDelay(float dt)

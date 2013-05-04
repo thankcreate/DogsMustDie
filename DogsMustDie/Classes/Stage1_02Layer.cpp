@@ -3,6 +3,7 @@
 #include "Planet.h"
 #include "StageBaseScene.h"
 #include "MyUseDefaultDef.h"
+#include "LocalizeManager.h"
 
 Stage1_02Layer::Stage1_02Layer() :
 	m_pDog(NULL),
@@ -50,7 +51,7 @@ void Stage1_02Layer::initLoadedAction()
 	this->scheduleOnce(schedule_selector(Stage1_02Layer::initGuideLayer), 2.8);
 
 	bool first = LoadBooleanFromXML(KEY_Stage_1_02_FIRST_JUDGE_SHOW_SCORE_PROMPT, true);
-	if(first)
+    if(first)
 	{
 		SaveBooleanToXML(KEY_Stage_1_02_FIRST_JUDGE_SHOW_SCORE_PROMPT, false);
 		SaveUserDefault();
@@ -75,7 +76,7 @@ void Stage1_02Layer::initGuideLayer(float dt)
 	m_pGuideBorder->setPosition(ccp(550, 244));
 	this->addChild(m_pGuideBorder, kTroopsLayerIndex - 1);	
 		
-	CCLabelTTF* pGuideLabel = CCLabelTTF::create(">_<\nWe are under attack. Help! Help!", "Arial", 23);
+	CCLabelTTF* pGuideLabel = CCLabelTTF::create(I18N_STR("Stage1_2_Guide_1"), "Arial", 23);
 	pGuideLabel->setDimensions(CCSizeMake(196, 200));
 	pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
@@ -97,7 +98,7 @@ void Stage1_02Layer::showScorePrompt(float dt)
 	m_pScorePrompt->setPosition(ccp(173, 244));
 	this->addChild(m_pScorePrompt, kTroopsLayerIndex - 1);	
 		
-	setScorePromptLabel(CCLabelTTF::create("The less time costs, the better score mark you'll have", "Arial", 20));
+	setScorePromptLabel(CCLabelTTF::create(I18N_STR("Stage1_2_Guide_2"), "Arial", 20));
 	m_pScorePromptLabel->setDimensions(CCSizeMake(196, 200));
 	m_pScorePromptLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pScorePromptLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
@@ -112,7 +113,7 @@ void Stage1_02Layer::showScorePrompt(float dt)
 
 void Stage1_02Layer::showNextScorePrompt(float dt)
 {
-	m_pScorePromptLabel->setString("Try your best to win with 3 score marks! Meow~");
+	m_pScorePromptLabel->setString(I18N_STR("Stage1_2_Guide_3"));
 	this->scheduleOnce(schedule_selector(Stage1_02Layer::moveLeftScorePromptLayer),  3);	
 }
 

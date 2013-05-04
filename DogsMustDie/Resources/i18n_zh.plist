@@ -2,8 +2,80 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Test</key>
-	<string>123
-回车哈哈哈</string>
+    <key>Stage1_1_Guide_1</key>
+	<string>Hi,你就是新来的指挥喵么？
+前方一大波狗仔正在接近中，
+我们得给他们点颜色瞧瞧～</string>
+    <key>Stage1_1_Guide_2</key>
+	<string>如上所示拖拽以派遣一支喵星小分队
+每次拖拽将派遣出
+所在星球部队的一半</string>
+    <key>Stage1_1_Guide_3</key>
+	<string>干得漂亮喵！现在我们需要更多的星星来使用技能
+如上所示拖拽以捕获星星</string>
+    <key>Stage1_1_Guide_4</key>
+	<string>单击此星球以使它处于选中状态</string>
+    <key>Stage1_1_Guide_5</key>
+	<string>点击如右上箭头所示的升级按钮
+每次升级会增加选中星球的单位生产速率和最大单位上限</string>
+    <key>Stage1_1_Guide_6</key>
+	<string>点击第二个按钮
+此按钮可以提升选中星球所派遣的部队移动速度100%</string>
+    <key>Stage1_1_Guide_7</key>
+	<string>点击第三个按钮
+它能降低所有敌方星球20%的单位生产速率，持续12秒</string>
+    <key>Stage1_1_Guide_8</key>
+	<string>现在到了给这些不可救药的
+二狗子们最后一击的时候了
+喵星人万岁！</string>
+    <key>Stage1_1_Guide_9</key>
+	<string>干得好！～汪星人弱爆了！但这才仅仅是我们喵星圣战的开始...
+勇敢的少年啊，快去创造奇迹！</string>
+    
+    
+    <key>Stage1_2_Guide_1</key>
+	<string>&gt;_&lt;
+侦测到在途汪星人
+请求支援喵～</string>
+    <key>Stage1_2_Guide_2</key>
+	<string>通关时耗时越少
+评分越高</string>
+    <key>Stage1_2_Guide_3</key>
+	<string>最优秀的喵总是能在结束时全取3星 ^_^</string>
+    
+    <key>Stage3_1_Guide_1</key>
+	<string>这是一个中立星球
+它不会主动向别人发起攻击</string>
+    
+    <key>Time</key>
+    <string>耗时</string>
+    <key>Unit_Lost</key>
+    <string>损失单位</string>
+    <key>Second_For_Short</key>
+    <string>秒</string>
+    <key>Current_Round</key>
+    <string>当前轮数</string>
+    <key>Best_Round</key>
+    <string>最佳轮数</string>
+    
+    <key>Endless_Unlock_Description</key>
+    <string>您需要打通第一大关下的的所有小关
+以解锁无尽模式～</string>    
+    <key>Endless_Guide_1</key>
+    <string>^_^
+欢迎来到无尽模式
+这是一个证明您喵能力的舞台</string>    
+    <key>Endless_Guide_2</key>
+    <string>如果不幸失败，您可以使用一个喵币得到一次续命机会。每天首次登陆时你将得到一个免费喵币。</string>
+    <key>Endless_Guide_3</key>
+    <string>在进行无尽模式之前，我们推荐您首先打通所有故事模式关卡。祝您好运！喵星人万岁！</string>
+    <key>Endless_Daily_Award</key>
+    <string>+1.  每日登陆奖励 ^_^</string>
+    
+    <key>StageSelect_Update_To_Pro_Description</key>
+    <string>^_^
+升级到完整版
+以解锁更多关卡</string>
+    
 </dict>
 </plist>

@@ -3,6 +3,7 @@
 #include "Defines.h"
 #include "AudioManager.h"
 #include "NavigatorLayer.h"
+#include "LocalizeManager.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
@@ -195,7 +196,7 @@ void WinLayer::setTime(int nTime)
 		m_pFrame->addChild(m_pTimeLabel);
 	}
 
-	CCString* pFullTimeString = CCString::createWithFormat("Time:  %d s", m_nTime);
+	CCString* pFullTimeString = CCString::createWithFormat("%s:  %d %s",I18N_STR("Time"), m_nTime, I18N_STR("Second_For_Short"));
 	m_pTimeLabel->setString(pFullTimeString->getCString());
 }
 
@@ -215,6 +216,6 @@ void WinLayer::setLostUnit(int nLost)
 		m_pFrame->addChild(m_pLostUnitLabel);
 	}
 
-	CCString* pFullLostUnitString = CCString::createWithFormat("Unit lost:  %d cat", m_nLostUnit);
+	CCString* pFullLostUnitString = CCString::createWithFormat("%s:  %d", I18N_STR("Unit_Lost") , m_nLostUnit);
 	m_pLostUnitLabel->setString(pFullLostUnitString->getCString());
 }

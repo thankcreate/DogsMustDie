@@ -3,6 +3,7 @@
 #include "Defines.h"
 #include "AudioManager.h"
 #include "MyUseDefaultDef.h"
+#include "LocalizeManager.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
@@ -143,7 +144,7 @@ void StageEndlessWinLayer::setRound( int round )
 		m_pFrame->addChild(m_pRoundLabel);
 	}
 
-	CCString* pFullRoundString = CCString::createWithFormat("Current round:  %d", m_nRound);
+	CCString* pFullRoundString = CCString::createWithFormat("%s:  %d", I18N_STR("Current_Round") , m_nRound);
 	m_pRoundLabel->setString(pFullRoundString->getCString());
 
 	int best = LoadIntegerFromXML(KEY_ENDLESS_BEST_ROUND, 0);
@@ -160,6 +161,6 @@ void StageEndlessWinLayer::setRound( int round )
 		m_pFrame->addChild(m_pBestRoundLabel);
 	}
 
-	CCString* pFullBestRoundString = CCString::createWithFormat("Best round:  %d", best);
+	CCString* pFullBestRoundString = CCString::createWithFormat("%s:  %d", I18N_STR("Best_Round"), best);
 	m_pBestRoundLabel->setString(pFullBestRoundString->getCString());
 }

@@ -18,7 +18,7 @@ public:
 
 	void show();
 	void restore();
-	void setContent(char* input);
+	void setContent(const char* input);
 
 protected:
 	bool m_bInShow;

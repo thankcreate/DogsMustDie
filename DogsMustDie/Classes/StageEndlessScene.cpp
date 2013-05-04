@@ -9,6 +9,7 @@
 #include "MyUseDefaultDef.h"
 #include "NoticeLayer.h"
 #include "TopBannerLayer.h"
+#include "LocalizeManager.h"
 
 #include <time.h>
 
@@ -112,6 +113,7 @@ void StageEndlessScene::showNavigatorWin(int time, int unitLost)
 	if(m_nEndlessRound > best)
 	{
 		SaveIntegerToXML(KEY_ENDLESS_BEST_ROUND, m_nEndlessRound );
+        SaveUserDefault();
 	}
 
 
@@ -150,11 +152,11 @@ void StageEndlessScene::customizeTopBannerLayer()
 
 	CCSize frameSize = frame->boundingBox().size;
 
-	CCLabelTTF* pLabel = CCLabelTTF::create("+1.  Daily award. ^_^", FONT_8BITOPERATOR_JVE, 30);	
+	CCLabelTTF* pLabel = CCLabelTTF::create(I18N_STR("Endless_Daily_Award"), FONT_8BITOPERATOR_JVE, 30);
 	ccColor3B ccMyOrange={255, 104, 0};
-	pLabel->setPosition(ccp(frameSize.width / 2 + 10,  frameSize.height / 2 + 3));
+	pLabel->setPosition(ccp(300,  frameSize.height / 2 + 3));
 	pLabel->setDimensions(CCSizeMake(frameSize.width - 50, frameSize.height - 25));
-	pLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
+	pLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
 	pLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
 	pLabel->setColor(ccMyOrange);
 	frame->addChild(pLabel,10);

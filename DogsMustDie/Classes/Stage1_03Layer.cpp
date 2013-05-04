@@ -2,6 +2,7 @@
 #include "Defines.h"
 #include "Planet.h"
 #include "MyUseDefaultDef.h"
+#include "LocalizeManager.h"
 
 Stage1_03Layer::Stage1_03Layer() :
 	m_pGuideBorder(NULL),
@@ -41,7 +42,7 @@ void Stage1_03Layer::initGuideLayer()
 	this->addChild(m_pGuideBorder, kGuideLayerIndex);	
 
 	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", FONT_00_STARMAP_TRUETYPE, 30));	
-	setGuideLabel(CCLabelTTF::create("This is a neutral planet, it will not launch an attack on own initiative", "Arial", 23));		
+	setGuideLabel(CCLabelTTF::create(I18N_STR("Stage3_1_Guide_1"), "Arial", 23));
 	m_pGuideLabel->setDimensions(CCSizeMake(209, 200));
 	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);

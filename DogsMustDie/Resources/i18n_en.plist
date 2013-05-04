@@ -2,7 +2,71 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Test</key>
-	<string>Hello</string>
+	<key>Stage1_1_Guide_1</key>
+	<string>Good day, commander!
+Stupid dogs are comming.
+We should teach them a lesson.</string>
+    <key>Stage1_1_Guide_2</key>
+	<string>Drag as above to occupy the dog planet.
+Each drag will send half the troops</string>
+    <key>Stage1_1_Guide_3</key>
+	<string>Well done! Now we need more stars to use skills.
+Drag as above to catch the star</string>
+    <key>Stage1_1_Guide_4</key>
+	<string>Tap on the planet to let it be focused, mew~</string>
+    <key>Stage1_1_Guide_5</key>
+	<string>Click on the upgrade button. It will increase the proliferation speed and capacity of the selected planet</string>
+    <key>Stage1_1_Guide_6</key>
+	<string>Click on the second button to speed up the troops sent by the planet</string>
+    <key>Stage1_1_Guide_7</key>
+	<string>Click on the third button to decrease proliferation speed of all dog planets for 12 seconds.</string>
+    <key>Stage1_1_Guide_8</key>
+	<string>Now let's give the stupid dogs the final strike!
+Long live the meow star!</string>
+    <key>Stage1_1_Guide_9</key>
+	<string>Good job. You see, dog sucks. But this is just the beginning of the holy war...</string>
+    
+    <key>Stage1_2_Guide_1</key>
+	<string>&gt;_&lt;
+We are under attack. Help! Help!</string>
+    <key>Stage1_2_Guide_2</key>
+	<string>The less time costs, the better score mark you'll have</string>
+    <key>Stage1_2_Guide_3</key>
+	<string>The best cats always win with 3 score marks! ^_^</string>
+    
+    <key>Stage3_1_Guide_1</key>
+	<string>This is a neutral planet, it will not launch an attack on own initiative</string>
+
+    <key>Time</key>
+    <string>Time</string>    
+    <key>Unit_Lost</key>
+    <string>Unit lost</string>    
+    <key>Second_For_Short</key>
+    <string>s</string>
+    <key>Current_Round</key>
+    <string>Current round</string>
+    <key>Best_Round</key>
+    <string>Best round</string>
+    
+    
+    <key>Endless_Unlock_Description</key>
+    <string>You need to pass all levels in Stage 1 to unlock endless mode.</string>    
+    <key>Endless_Guide_1</key>
+    <string>^_^
+Welcome to the endless mode.
+It's a chance to prove you are the bravest cat.</string>    
+    <key>Endless_Guide_2</key>
+    <string>If you fail by accident. You can use 1 coin to continue for a second chance. You'll get 1 free coin every day</string>    
+    <key>Endless_Guide_3</key>
+    <string>We highly recommend that you play story mode first.
+Good luck ,sir!
+God bless cats..meow~</string>    
+    <key>Endless_Daily_Award</key>
+    <string>+1.  Daily award. ^_^</string>
+    
+    <key>StageSelect_Update_To_Pro_Description</key>
+    <string>^_^
+Upgrade to Pro version to unlock this stage.</string>
+    
 </dict>
 </plist>

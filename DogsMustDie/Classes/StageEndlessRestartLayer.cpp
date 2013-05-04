@@ -3,6 +3,7 @@
 #include "Defines.h"
 #include "MyUseDefaultDef.h"
 #include "BuyScene.h"
+#include "LocalizeManager.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
@@ -135,10 +136,11 @@ void StageEndlessRestartLayer::refreshContinueButtonEnableState()
 	else
 		m_pContinueItem->setEnabled(true);
 
-	if(m_bContinueAlreadyUsedInOneSession)
-		m_pContinueItem->setVisible(false);
-	else
-		m_pContinueItem->setVisible(true);
+    // 目前允许多次使用复活功能
+//	if(m_bContinueAlreadyUsedInOneSession)
+//		m_pContinueItem->setVisible(false);
+//	else
+//		m_pContinueItem->setVisible(true);
 }
 
 void StageEndlessRestartLayer::dogFunc1()
@@ -228,7 +230,7 @@ void StageEndlessRestartLayer::setRound( int round )
 	int before = m_nRound - 1;
 	if(before < 0)
 		before = 0;
-	CCString* pFullRoundString = CCString::createWithFormat("Current round:  %d", before);
+	CCString* pFullRoundString = CCString::createWithFormat("%s:  %d", I18N_STR("Current_Round") ,before);
 	m_pRoundLabel->setString(pFullRoundString->getCString());
 
 	int best = LoadIntegerFromXML(KEY_ENDLESS_BEST_ROUND, 0);
@@ -245,7 +247,7 @@ void StageEndlessRestartLayer::setRound( int round )
 		m_pFrame->addChild(m_pBestRoundLabel);
 	}
 
-	CCString* pFullBestRoundString = CCString::createWithFormat("Best round:  %d", best);
+	CCString* pFullBestRoundString = CCString::createWithFormat("%s:  %d", I18N_STR("Best_Round"), best);
 	m_pBestRoundLabel->setString(pFullBestRoundString->getCString());
 }
 

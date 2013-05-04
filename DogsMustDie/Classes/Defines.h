@@ -80,6 +80,7 @@ enum eForceSide
 // i18n
 #define CUR_LANG CCApplication::sharedApplication()->getCurrentLanguage()
 #define I18N_FILE(name) LocalizeManager::makeResourceFileName(name)
+#define I18N_STR(key) LocalizeManager::sharedInstance()->getStringByKey(key)
 
 // Font
 // 这是之所以要区分iOS是因为cocos2d 2.0之后

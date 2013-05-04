@@ -38,7 +38,7 @@ bool TopBannerLayer::init()
 	return bRet;
 }
 
-void TopBannerLayer::setContent(char* input)
+void TopBannerLayer::setContent(const char* input)
 {
 	m_pContentLabel->setString(input);
 }

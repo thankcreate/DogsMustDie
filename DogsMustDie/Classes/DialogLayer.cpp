@@ -126,7 +126,7 @@ void DialogLayer::restore()
 }
 
 
-void DialogLayer::setContent(char* input)
+void DialogLayer::setContent(const char* input)
 {
 	m_pContentLabel->setString(input);
 }

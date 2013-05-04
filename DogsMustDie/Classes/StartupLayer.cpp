@@ -41,8 +41,6 @@ bool StartupLayer::init()
 		CC_BREAK_IF(! CCLayer::init());	
 
 		CCSize size = WIN_SIZE;
-        
-        const char* test = LocalizeManager::makeResourceFileName("Startup_bkg.png");
 
 		// 背景
 		CCSprite* pBackground = CCSprite::create("Startup_bkg.png");
@@ -205,7 +203,7 @@ void StartupLayer::showEndlessNotAllowedDialog()
 	{
 		setDialogLayer(DialogLayer::create());
 		this->addChild(m_pDialogLayer, 100);
-		m_pDialogLayer->setContent("You need to pass all levels in Stage 1 to unlock endless mode.");
+		m_pDialogLayer->setContent(I18N_STR("Endless_Unlock_Description"));
 	}	
 	m_pDialogLayer->show();
 }

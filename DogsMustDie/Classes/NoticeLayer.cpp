@@ -3,6 +3,7 @@
 #include "StageBaseScene.h"
 #include "NoticeLayerDelegate.h"
 #include "Defines.h"
+#include "LocalizeManager.h"
 #define MAX_INDEX 2
 
 NoticeLayer::NoticeLayer() :
@@ -46,7 +47,7 @@ bool NoticeLayer::init()
 		m_pTitleLabel->setColor(ccMyOrange);
 		m_pFrame->addChild(m_pTitleLabel);
 
-		setContentLabel(CCLabelTTF::create("^_^\nWelcome to the endless mode.\nIt's a chance to prove you are the bravest cat.", FONT_8BITOPERATOR_JVE, 28));		
+		setContentLabel(CCLabelTTF::create(I18N_STR("Endless_Guide_1"), FONT_8BITOPERATOR_JVE, 28));
 		m_pContentLabel->setPosition(ccp(200, 160));
 		m_pContentLabel->setDimensions(CCSizeMake(324, 160));
 		m_pContentLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
@@ -85,11 +86,11 @@ void NoticeLayer::nextCallback( CCObject* object )
 	++m_nProcessIndex;
 	if(m_nProcessIndex == 1)
 	{
-		m_pContentLabel->setString("If you fail by accident. You can use 1 coin to continue for a second chance. You'll get 1 free coin every day");
+		m_pContentLabel->setString(I18N_STR("Endless_Guide_2"));
 	}
 	else if(m_nProcessIndex == 2)
 	{
-		m_pContentLabel->setString("We highly recommend that you play story mode first.\nGood luck ,sir!\nGod bless cats..meow~");
+		m_pContentLabel->setString(I18N_STR("Endless_Guide_3"));
 	}
 	else if(m_nProcessIndex > MAX_INDEX)
 	{

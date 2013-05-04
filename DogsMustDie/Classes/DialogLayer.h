@@ -27,7 +27,7 @@ public:
 
 	void onEnterTransitionDidFinish();
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-	void setContent(char* input);
+	void setContent(const char* input);
 	bool m_bInShow; // 主要是为了防止用户连续点击	
 };
 

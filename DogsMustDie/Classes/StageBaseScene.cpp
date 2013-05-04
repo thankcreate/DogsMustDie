@@ -232,7 +232,7 @@ void StageBaseScene::showNavigatorLose(int time, int unitLost)
 int StageBaseScene::getScoreStartCount(int time , int unitLost)
 {
 	int judgeTime = getJudgeScoreTime();
-	if(time > judgeTime  + 20)
+	if(time > judgeTime  + 30)
 		return 1;
 	else if(time > judgeTime + 10)
 		return 2;
