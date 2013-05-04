@@ -77,6 +77,9 @@ enum eForceSide
 #define SMALL_STAGE_COUNT 9
 #define ENDLESS_COUNT 99999
 
+// i18n
+#define CUR_LANG CCApplication::sharedApplication()->getCurrentLanguage()
+
 // Font
 // 这是之所以要区分iOS是因为cocos2d 2.0之后
 // 貌似iOS上的CCLabelTTF使用font时不能带ttf后缀

@@ -100,9 +100,16 @@ void Planet::initWithForceSide( int force )
 	CCString* pStr = CCString::createWithFormat("%d",  getFightUnitCount());
 	if(!m_pFightUnitLabel)
 	{
-		setFightUnitLabel(CCLabelTTF::create(" ", FONT_00_STARMAP_TRUETYPE, 19));		
-		m_pFightUnitLabel->setPosition(ccp(planetSize.width - 16 , planetSize.height - 16));
-		this->addChild(m_pFightUnitLabel);
+		setFightUnitLabel(CCLabelTTF::create(" ", FONT_00_STARMAP_TRUETYPE, 19));
+        int x = planetSize.width - 16;
+        int y = planetSize.height - 16;
+        // 对于ios再微调一下
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        x -= 1;
+        y -= 2;
+#endif
+		m_pFightUnitLabel->setPosition(ccp(x, y));
+		this->addChild(m_pFightUnitLabel);        
 	}
 
 	if(m_nForceSide != kForceSideMiddle)

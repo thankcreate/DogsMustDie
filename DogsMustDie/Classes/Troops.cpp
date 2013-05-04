@@ -62,12 +62,20 @@ void Troops::initWithForceSide( int force )
 	setBubble(CCSprite::create("Bubble.png"));
 	m_pBubble->setPosition(ccp(27, -22));
 	this->addChild(m_pBubble);
+    
 
-	CCString* pStr = CCString::createWithFormat("%d", 22);
+
+	CCString* pStr = CCString::createWithFormat("%d", 0);
 	setFightUnitLabel(CCLabelTTF::create(pStr->getCString(), FONT_00_STARMAP_TRUETYPE, 19));
 	ccColor3B ccMyOrange={255, 104, 0};
 	m_pFightUnitLabel->setColor(ccMyOrange);
-	m_pFightUnitLabel->setPosition(ccp(17, 15));
+    
+    int x = 17;
+    int y = 15;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    x += 2;
+#endif
+	m_pFightUnitLabel->setPosition(ccp(x, y));
 	m_pBubble->addChild(m_pFightUnitLabel);
 }
 

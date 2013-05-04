@@ -3,6 +3,7 @@
 #include "StarObject.h"
 #include "StageBaseLayer.h"
 #include "Planet.h"
+#include "LocalizeManager.h"
 
 Stage1_01Layer::Stage1_01Layer() :
 	m_pGuideBorder(NULL),
@@ -90,7 +91,9 @@ void Stage1_01Layer::initGuideLayer()
 	this->addChild(m_pGuideBorder, kGuideLayerIndex);	
 
 	//setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson, mew~", FONT_00_STARMAP_TRUETYPE, 30));	
-	setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson.", "Arial", 26));		
+	setGuideLabel(CCLabelTTF::create("Good day, commander! \nStupid dogs are comming.\nWe should teach them a lesson.", "Arial", 26));
+    const char* str = LocalizeManager::sharedInstance()->getStringByKey("Test");
+    m_pGuideLabel->setString(str);
 	m_pGuideLabel->setDimensions(CCSizeMake(420, 140));
 	m_pGuideLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pGuideLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);

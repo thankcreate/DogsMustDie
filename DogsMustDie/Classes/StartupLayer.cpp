@@ -15,6 +15,7 @@
 #include "AudioManager.h"
 #include "StageStartupCGScene.h"
 #include "StageEndlessScene.h"
+#include "LocalizeManager.h"
 using namespace cocos2d;
 
 StartupLayer::StartupLayer(void) :
@@ -39,6 +40,8 @@ bool StartupLayer::init()
 		CC_BREAK_IF(! CCLayer::init());	
 
 		CCSize size = WIN_SIZE;
+        
+        const char* test = LocalizeManager::makeResourceFileName("Startup_bkg.png");
 
 		// 背景
 		CCSprite* pBackground = CCSprite::create("Startup_bkg.png");

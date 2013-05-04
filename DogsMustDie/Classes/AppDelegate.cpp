@@ -14,6 +14,7 @@
 #include "Defines.h"
 #include "MyUseDefaultDef.h"
 #include "StageStartupCGScene.h"
+#include "LocalizeManager.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -41,6 +42,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     
 	// Base on 800x480
 	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(800, 480, kResolutionExactFit);
+    
+    // 国际化init
+    // 目前的逻辑为图简单，只在启动时做load
+    // 也就是说如果中途切换环境语言，游戏内语言不变
+    LocalizeManager::sharedInstance()->initLoad();
 
 	// 第一次时，启动cg页
 	bool bFirstLauch = LoadBooleanFromXML(KEY_FIRST_LAUNCH, true);
