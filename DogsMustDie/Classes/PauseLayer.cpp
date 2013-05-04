@@ -3,6 +3,7 @@
 #include "StageBaseScene.h"
 #include "PauseLayerDelegate.h"
 #include "Defines.h"
+#include "LocalizeManager.h"
 
 PauseLayer::PauseLayer() :
 	m_pStageScene(NULL),
@@ -50,9 +51,9 @@ bool PauseLayer::init()
 
 		CCMenuItemImage *pResume = new CCMenuItemImage();		
 		pResume->initWithNormalImage(
-			"Pause_btn_resume_normal.png",
-			"Pause_btn_resume_pressed.png",
-			"Pause_btn_resume_pressed.png",
+			I18N_FILE("Pause_btn_resume_normal.png"),
+			I18N_FILE("Pause_btn_resume_pressed.png"),
+			I18N_FILE("Pause_btn_resume_pressed.png"),
 			this,
 			menu_selector(PauseLayer::resumeCallback));	
 
@@ -61,24 +62,24 @@ bool PauseLayer::init()
 
 		CCMenuItemImage *pBack = new CCMenuItemImage();		
 		pBack->initWithNormalImage(
-			"Pause_btn_menu_normal.png",
-			"Pause_btn_menu_pressed.png",
-			"Pause_btn_menu_pressed.png",
+			I18N_FILE("Pause_btn_menu_normal.png"),
+			I18N_FILE("Pause_btn_menu_pressed.png"),
+			I18N_FILE("Pause_btn_menu_pressed.png"),
 			this,
 			menu_selector(PauseLayer::backCallback));	
 
-		pBack->setPosition(ccp(90, 72));	
+		pBack->setPosition(ccp(94, 72));	
 		pMenu->addChild(pBack);
 
 		CCMenuItemImage *pRestart = new CCMenuItemImage();		
 		pRestart->initWithNormalImage(
-			"Pause_btn_restart_normal.png",
-			"Pause_btn_restart_pressed.png",
-			"Pause_btn_restart_pressed.png",
+			I18N_FILE("Pause_btn_restart_normal.png"),
+			I18N_FILE("Pause_btn_restart_pressed.png"),
+			I18N_FILE("Pause_btn_restart_pressed.png"),
 			this,
 			menu_selector(PauseLayer::restartCallback));	
 
-		pRestart->setPosition(ccp(288, 72));	
+		pRestart->setPosition(ccp(293, 72));	
 		pMenu->addChild(pRestart);
 
 		// 禁止后层的按键,不写的话得手动remove from dispatcher,否则本类不会被析构
@@ -118,8 +119,8 @@ void PauseLayer::show()
 
 	m_bInShow = true;
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	CCMoveTo* pMoveDown = CCMoveTo::create(0.3, ccp(size.width / 2, size.height / 2));
-	CCMoveTo* pMoveShakeBack = CCMoveTo::create(0.1, ccp(size.width / 2, size.height / 2 + SHAKE_DISTANCE));
+	CCMoveTo* pMoveDown = CCMoveTo::create(0.3, ccp(size.width / 2, size.height / 2 + 30));
+	CCMoveTo* pMoveShakeBack = CCMoveTo::create(0.1, ccp(size.width / 2, size.height / 2 + 30 + SHAKE_DISTANCE));
 	CCFiniteTimeAction* pSeq = CCSequence::create(pMoveDown, pMoveShakeBack,NULL);
 	m_pColorLayer->setVisible(true);
 	m_pFrame->runAction(pSeq);

@@ -35,8 +35,7 @@ public:
 	void showNavigatorWin(int time, int unitLost);
 	void opReStart();
 	void showNoticeLayer();	
-	void continueRestartWithThisRound();
-	void checkIfNeedToAddDailyCoin();
+	void continueRestartWithThisRound();	
 protected:
 	int m_nEndlessRound;
 };

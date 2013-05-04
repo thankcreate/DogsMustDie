@@ -5,6 +5,7 @@
 #include "MyUseDefaultDef.h"
 #include "AudioManager.h"
 #include "AdViewManager.h"
+#include "LocalizeManager.h"
 
 using namespace cocos2d;
 
@@ -33,7 +34,12 @@ bool AboutLayer::init()
 		// 1. ±³¾°Í¼
 		CCSprite* pBKG = CCSprite::create("About_bkg.png");
 		pBKG->setPosition(ccp(size.width / 2, size.height / 2));
-		this->addChild(pBKG,1);		
+		this->addChild(pBKG,1);	
+
+
+		CCSprite* pTitle = CCSprite::create(I18N_FILE("About_title.png"));
+		pTitle->setPosition(ccp(size.width / 2, 420));
+		this->addChild(pTitle, 1);
 		
 		// goback		
 		CCMenu* pMenu = CCMenu::create(NULL);

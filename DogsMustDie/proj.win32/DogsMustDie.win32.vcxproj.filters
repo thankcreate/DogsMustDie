@@ -451,6 +451,12 @@
     <ClInclude Include="..\Classes\StageGameOverLayer.h">
       <Filter>include\Stage\Others</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\LocalizeManager.h">
+      <Filter>include\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DialogLayer.h">
+      <Filter>include\Stage\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -764,6 +770,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\StageGameOverScene.cpp">
       <Filter>source\Stage\Others</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LocalizeManager.cpp">
+      <Filter>source\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\DialogLayer.cpp">
+      <Filter>source\Stage\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

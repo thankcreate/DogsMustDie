@@ -47,7 +47,7 @@ const char* LocalizeManager::makeResourceFileName(const char* rawFileName)
     if(!rawFileName)
         return "";
     
-    ccLanguageType nType = CUR_LANG;
+    ccLanguageType nType = CUR_LANG;	
     std::string str;
     bool bIsDefault = false;
     if(nType == kLanguageChinese)
@@ -85,7 +85,8 @@ const char* LocalizeManager::makeResourceFileName(const char* rawFileName)
         }
     }
     
-    return str.c_str();
+	CCString* res = CCString::create(str);
+    return res->getCString();
 }
 
 const char* LocalizeManager::getStringByKey(const char* key)
@@ -97,6 +98,6 @@ const char* LocalizeManager::getStringByKey(const char* key)
     if(pRes)
         return pRes->getCString();
     else
-        return "";   
+        return "";
 
 }

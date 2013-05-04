@@ -123,7 +123,7 @@ void StageBaseLayer::initDoor()
 	pDoorRight->setPosition(ccp(size.width - pDoorRight->boundingBox().size.width / 2, size.height / 2));
 	this->addChild(pDoorRight, kDoorLayerIndex);
 	CCActionInterval* pDelayRight = CCActionInterval::create(0.3);
-	CCMoveBy* pMoveRight = CCMoveBy::create(1.5, ccp(pDoorRight->boundingBox().size.width  + 2, 0));		
+	CCMoveBy* pMoveRight = CCMoveBy::create(1.76, ccp(pDoorRight->boundingBox().size.width  + 2, 0));		
 	CCFiniteTimeAction* pSeqRight = CCSequence::create(pDelayRight, pMoveRight, NULL);
 	
 	pDoorRight->runAction(pSeqRight);

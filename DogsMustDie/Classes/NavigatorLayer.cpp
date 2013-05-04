@@ -84,8 +84,8 @@ void NavigatorLayer::show()
 		return;
 	m_bInShow = true;
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	CCMoveTo* pMoveDown = CCMoveTo::create(0.3, ccp(size.width / 2, size.height / 2));
-	CCMoveTo* pMoveShakeBack = CCMoveTo::create(0.1, ccp(size.width / 2, size.height / 2 + SHAKE_DISTANCE));
+	CCMoveTo* pMoveDown = CCMoveTo::create(0.3, ccp(size.width / 2, size.height / 2 + 30));
+	CCMoveTo* pMoveShakeBack = CCMoveTo::create(0.1, ccp(size.width / 2, size.height / 2 + 30 + SHAKE_DISTANCE));
 	CCFiniteTimeAction* pSeq = CCSequence::create(pMoveDown, pMoveShakeBack,NULL);
 	m_pColorLayer->setVisible(true);
 	m_pFrame->runAction(pSeq);

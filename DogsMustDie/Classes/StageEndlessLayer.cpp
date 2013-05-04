@@ -45,6 +45,37 @@ void StageEndlessLayer::initLoadedAction()
 		StageEndlessScene* scene = (StageEndlessScene*)getParentScene();
 		scene->showNoticeLayer();
 	}
+
+
+	// check if need show daily award
+	time_t rawtime;
+	struct tm * tmInfo;
+	time (&rawtime);
+
+	tmInfo = localtime(&rawtime);
+	int year = tmInfo->tm_year + 1900;
+	int month = tmInfo->tm_mon + 1;
+	int day = tmInfo->tm_mday;
+
+	int lastYear = LoadIntegerFromXML(KEY_LAST_ENDLESS_DATE_YEAR , -1);
+	int lastMonth = LoadIntegerFromXML(KEY_LAST_ENDLESS_DATE_MONTH , -1);
+	int lastDay = LoadIntegerFromXML(KEY_LAST_ENDLESS_DATE_DAY , -1);
+
+	if(	lastYear != year
+		|| lastMonth != month
+		|| lastDay != day )
+	{		
+		// 走到这里说明是今日第一次登陆到无尽模式
+		int coin = LoadIntegerFromXML(KEY_COIN_COUNT, 0);
+		++coin;
+		SaveIntegerToXML(KEY_COIN_COUNT, coin);
+		SaveIntegerToXML(KEY_LAST_ENDLESS_DATE_YEAR, year);
+		SaveIntegerToXML(KEY_LAST_ENDLESS_DATE_MONTH, month);
+		SaveIntegerToXML(KEY_LAST_ENDLESS_DATE_DAY, day);
+		SaveUserDefault();
+		StageEndlessScene* scene = (StageEndlessScene*)getParentScene();
+		scene->showTopBannerLayerWithCustomizedContent(3);		
+	}	
 }
 
 

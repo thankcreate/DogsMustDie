@@ -1,6 +1,7 @@
 #include "RestartLayer.h"
 #include "MyMenu.h"
 #include "Defines.h"
+#include "LocalizeManager.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2

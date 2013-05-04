@@ -12,12 +12,17 @@
 #include "cocos2d.h"
 
 using namespace cocos2d;
+
+class DialogLayer;
+
 class StartupLayer : public CCLayer
 {
 public:
 	StartupLayer(void);
 	~StartupLayer(void);
 	CREATE_FUNC(StartupLayer);
+
+	CC_SYNTHESIZE(DialogLayer*, m_pDialogLayer, DialogLayer);
     
 	bool init();
     
@@ -36,6 +41,7 @@ public:
 	CC_SYNTHESIZE(CCSprite*, m_pDogPlanet, DogPlanet);
 
 	void shakePlanets();
+	void showEndlessNotAllowedDialog();
 };
 
 

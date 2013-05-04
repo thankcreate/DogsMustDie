@@ -5,6 +5,8 @@
 #include "MyUseDefaultDef.h"
 #include "AudioManager.h"
 #include "AdViewManager.h"
+#include "LocalizeManager.h"
+
 using namespace cocos2d;
 
 SettingLayer::SettingLayer(void) :
@@ -32,6 +34,18 @@ bool SettingLayer::init()
 		CCSprite* pBKG = CCSprite::create("Option_bkg.png");
 		pBKG->setPosition(ccp(size.width / 2, size.height / 2));
 		this->addChild(pBKG,1);	
+
+		CCSprite* pTitle = CCSprite::create(I18N_FILE("Option_title.png"));
+		pTitle->setPosition(ccp(size.width / 2, 420));
+		this->addChild(pTitle, 1);
+
+		CCSprite* pLblSound = CCSprite::create(I18N_FILE("Option_lbl_sound.png"));
+		pLblSound->setPosition(ccp(289, 173));
+		this->addChild(pLblSound, 1);
+
+		CCSprite* pLblMusic = CCSprite::create(I18N_FILE("Option_lbl_music.png"));
+		pLblMusic->setPosition(ccp(289, 97));
+		this->addChild(pLblMusic, 1);
 
 		// Menu
 		CCMenu* pMenu = CCMenu::create(NULL);

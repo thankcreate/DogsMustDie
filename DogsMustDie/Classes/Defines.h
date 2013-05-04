@@ -79,6 +79,7 @@ enum eForceSide
 
 // i18n
 #define CUR_LANG CCApplication::sharedApplication()->getCurrentLanguage()
+#define I18N_FILE(name) LocalizeManager::makeResourceFileName(name)
 
 // Font
 // 这是之所以要区分iOS是因为cocos2d 2.0之后
@@ -94,5 +95,6 @@ enum eForceSide
 // IAP
 #define AppPurchaseProUpgradeProductId  "com.thankcreate.DogsMustDie.UpgradeToPro"
 #define LOCK_BEGIN_INDEX 2
+
 
 #endif

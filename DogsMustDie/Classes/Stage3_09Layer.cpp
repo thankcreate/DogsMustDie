@@ -49,6 +49,11 @@ void Stage3_09Layer::initPlanets()
 	setStarCountForForceSide(kForceSideCat, 2);
 }
 
+void Stage3_09Layer::initLoadedAction(float dt)
+{
+	initLoadedAction();
+	m_bIsAIStopped = true;
+}
 
 void Stage3_09Layer::initLoadedAction()
 {

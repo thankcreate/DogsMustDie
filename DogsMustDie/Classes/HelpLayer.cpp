@@ -3,6 +3,7 @@
 #include "HelpLayerDelegate.h"
 #include "AudioManager.h"
 #include "Defines.h"
+#include "LocalizeManager.h"
 
 HelpLayer::HelpLayer() :
 	m_bInShow(false),
@@ -38,7 +39,7 @@ bool HelpLayer::init()
 
 		// 2.Ö÷¿ò¼Ü
 		setFrame(CCSprite::create());
-		m_pFrame->initWithFile("StageBase_help_frame.png");
+		m_pFrame->initWithFile(I18N_FILE("StageBase_help_frame.png"));
 		m_pFrame->setPosition(ccp(size.width / 2, m_pFrame->boundingBox().size.height / 2 + size.height));
 		this->addChild(m_pFrame, 2);
 
@@ -50,9 +51,9 @@ bool HelpLayer::init()
 
 		CCMenuItemImage *pBack = new CCMenuItemImage();		
 		pBack->initWithNormalImage(
-			"StageBase_help_back_normal.png",
-			"StageBase_help_back_pressed.png",
-			"StageBase_help_back_normal.png",
+			I18N_FILE("StageBase_help_back_normal.png"),
+			I18N_FILE("StageBase_help_back_pressed.png"),
+			I18N_FILE("StageBase_help_back_normal.png"),
 			this,
 			menu_selector(HelpLayer::backCallback));	
 

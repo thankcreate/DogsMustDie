@@ -43,9 +43,9 @@ bool Stage1_01Layer::init()
 				
 		CCMenuItemImage *pSkipBtn = CCMenuItemImage::create();
 		pSkipBtn->initWithNormalImage(
-			"StageBase_btn_skip_normal.png",
-			"StageBase_btn_skip_pressed.png",
-			"StageBase_btn_skip_pressed.png",
+			I18N_FILE("StageBase_btn_skip_normal.png"),
+			I18N_FILE("StageBase_btn_skip_pressed.png"),
+			I18N_FILE("StageBase_btn_skip_pressed.png"),
 			this,
 			menu_selector(Stage1_01Layer::skipCallback));	
 

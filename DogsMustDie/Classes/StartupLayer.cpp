@@ -5,8 +5,6 @@
 //  Created by Tron Skywalker on 13-4-16.
 //
 //
-
-
 #include "StartupLayer.h"
 #include "Defines.h"
 #include "StageSelectScene.h"
@@ -16,11 +14,14 @@
 #include "StageStartupCGScene.h"
 #include "StageEndlessScene.h"
 #include "LocalizeManager.h"
+#include "DialogLayer.h"
+#include "MyUseDefaultDef.h"
 using namespace cocos2d;
 
 StartupLayer::StartupLayer(void) :
 m_pDogPlanet(NULL),
-m_pCatPlanet(NULL)
+m_pCatPlanet(NULL),
+m_pDialogLayer(NULL)
 {
 }
 
@@ -47,6 +48,11 @@ bool StartupLayer::init()
 		CCSprite* pBackground = CCSprite::create("Startup_bkg.png");
 		pBackground->setPosition(ccp(size.width / 2, size.height / 2));
 		this->addChild(pBackground, 0);
+
+		CCSprite* pTitle = CCSprite::create(I18N_FILE("Startup_title.png"));
+		pTitle->setPosition(ccp(size.width / 2, 420));
+		this->addChild(pTitle, 0);
+
 		
 		// 两侧的星球
 		setCatPlanet(CCSprite::create("Startup_cat.png"));
@@ -65,8 +71,8 @@ bool StartupLayer::init()
 
 		// start
 		CCMenuItemImage *pStartItem = CCMenuItemImage::create(
-			"Startup_btn_start_normal.png",
-			"Startup_btn_start_pressed.png",
+			I18N_FILE("Startup_btn_start_normal.png"),
+			I18N_FILE("Startup_btn_start_pressed.png"),
 			this,
 			menu_selector(StartupLayer::startCallback));
 		CC_BREAK_IF(! pStartItem);		
@@ -76,8 +82,8 @@ bool StartupLayer::init()
 
 		// endless
 		CCMenuItemImage *pEndlessItem = CCMenuItemImage::create(
-			"Startup_btn_endless_normal.png",
-			"Startup_btn_endless_pressed.png",
+			I18N_FILE("Startup_btn_endless_normal.png"),
+			I18N_FILE("Startup_btn_endless_pressed.png"),
 			this,
 			menu_selector(StartupLayer::endlessCallback));
 		CC_BREAK_IF(! pEndlessItem);		
@@ -87,8 +93,8 @@ bool StartupLayer::init()
 
 		// option
 		CCMenuItemImage *pOptionItem = CCMenuItemImage::create(
-			"Startup_btn_option_normal.png",
-			"Startup_btn_option_pressed.png",
+			I18N_FILE("Startup_btn_option_normal.png"),
+			I18N_FILE("Startup_btn_option_pressed.png"),
 			this,
 			menu_selector(StartupLayer::optionCallback));
 		CC_BREAK_IF(! pOptionItem);		
@@ -99,8 +105,8 @@ bool StartupLayer::init()
 
 		// about
 		CCMenuItemImage *pAboutItem = CCMenuItemImage::create(
-			"Startup_btn_about_normal.png",
-			"Startup_btn_about_pressed.png",
+			I18N_FILE("Startup_btn_about_normal.png"),
+			I18N_FILE("Startup_btn_about_pressed.png"),
 			this,
 			menu_selector(StartupLayer::aboutCallback));
 		CC_BREAK_IF(! pAboutItem);		
@@ -175,8 +181,31 @@ void StartupLayer::keyBackClicked()
 }
 
 void StartupLayer::endlessCallback( CCObject* pSender )
-{
+{	
 	PlayEffect("Audio_button.mp3");
-	CCScene* stage = StageEndlessScene::create();
-	CCDirector::sharedDirector()->replaceScene(stage);
+
+	int toBig = LoadIntegerFromXML(KEY_PLAYED_TO_BIG, 1);	
+	if(toBig > 1)
+	{
+		CCScene* stage = StageEndlessScene::create();
+		CCDirector::sharedDirector()->replaceScene(stage);	
+	}
+	else
+	{
+		showEndlessNotAllowedDialog();
+	}
+
+	
+}
+
+
+void StartupLayer::showEndlessNotAllowedDialog()
+{
+	if(!m_pDialogLayer)
+	{
+		setDialogLayer(DialogLayer::create());
+		this->addChild(m_pDialogLayer, 100);
+		m_pDialogLayer->setContent("You need to pass all levels in Stage 1 to unlock endless mode.");
+	}	
+	m_pDialogLayer->show();
 }

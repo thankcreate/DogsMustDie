@@ -140,6 +140,7 @@
     <ClInclude Include="..\Classes\BuyScene.h" />
     <ClInclude Include="..\Classes\CatTroops.h" />
     <ClInclude Include="..\Classes\Defines.h" />
+    <ClInclude Include="..\Classes\DialogLayer.h" />
     <ClInclude Include="..\Classes\Face.h" />
     <ClInclude Include="..\Classes\FightObject.h" />
     <ClInclude Include="..\Classes\ForceSideInfo.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="..\Classes\HelpLayer.h" />
     <ClInclude Include="..\Classes\HelpLayerDelegate.h" />
     <ClInclude Include="..\Classes\LineLayer.h" />
+    <ClInclude Include="..\Classes\LocalizeManager.h" />
     <ClInclude Include="..\Classes\MiscTool.h" />
     <ClInclude Include="..\Classes\MyMenu.h" />
     <ClInclude Include="..\Classes\MyUseDefaultDef.h" />
@@ -252,12 +254,14 @@
     <ClCompile Include="..\Classes\BuyLayer.cpp" />
     <ClCompile Include="..\Classes\BuyScene.cpp" />
     <ClCompile Include="..\Classes\CatTroops.cpp" />
+    <ClCompile Include="..\Classes\DialogLayer.cpp" />
     <ClCompile Include="..\Classes\Face.cpp" />
     <ClCompile Include="..\Classes\FightObject.cpp" />
     <ClCompile Include="..\Classes\ForceSideInfo.cpp" />
     <ClCompile Include="..\Classes\GameObject.cpp" />
     <ClCompile Include="..\Classes\HelpLayer.cpp" />
     <ClCompile Include="..\Classes\LineLayer.cpp" />
+    <ClCompile Include="..\Classes\LocalizeManager.cpp" />
     <ClCompile Include="..\Classes\MiscTool.cpp" />
     <ClCompile Include="..\Classes\MyMenu.cpp" />
     <ClCompile Include="..\Classes\NavigatorLayer.cpp" />
