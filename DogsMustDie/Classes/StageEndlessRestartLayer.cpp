@@ -87,9 +87,9 @@ bool StageEndlessRestartLayer::init()
 
 		setContinueItem(new CCMenuItemImage());		
 		m_pContinueItem->initWithNormalImage(
-			"Endless_btn_continue_normal.png",
-			"Endless_btn_continue_pressed.png",
-			"Endless_btn_continue_disable.png",
+			I18N_FILE("Endless_btn_continue_normal.png"),
+			I18N_FILE("Endless_btn_continue_pressed.png"),
+			I18N_FILE("Endless_btn_continue_disable.png"),
 			this,
 			menu_selector(StageEndlessRestartLayer::continueCallback));	
 
