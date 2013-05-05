@@ -1333,7 +1333,7 @@ void StageBaseLayer::initPannel()
 	bool soundEnable = LoadBooleanFromXML(KEY_SWITCH_SOUNDS, true);
 	char* fileName = "Thumb_speaker.png";
 	m_bIsSpeakerEnabled = true;
-	if(!musicEnable && !soundEnable)	
+	if(!musicEnable || !soundEnable)	
 		m_bIsSpeakerEnabled = false;
 	else
 		m_bIsSpeakerEnabled = true;

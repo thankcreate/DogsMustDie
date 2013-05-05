@@ -48,6 +48,7 @@ bool StartupLayer::init()
 		this->addChild(pBackground, 0);
 
 		CCSprite* pTitle = CCSprite::create(I18N_FILE("Startup_title.png"));
+		//CCSprite* pTitle = CCSprite::create("Startup_title_zh.png");
 		pTitle->setPosition(ccp(size.width / 2, 420));
 		this->addChild(pTitle, 0);
 

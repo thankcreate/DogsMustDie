@@ -19,6 +19,8 @@ class LocalizeManager
 public:
 	static LocalizeManager* sharedInstance();
     static const char* makeResourceFileName(const char* rawFileName);
+	static const char* getAndroidFullPathFromRelativePath(const char* path);
+	static bool exists(const char* fileName);
     void initLoad();
     const char* getStringByKey(const char* key);
 
@@ -29,6 +31,8 @@ public:
 private:
     LocalizeManager();
     ~LocalizeManager();
+	
+
 	static LocalizeManager* m_pInstance;
 };
 

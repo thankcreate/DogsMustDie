@@ -37,7 +37,7 @@ bool DialogLayer::init()
 
 		// Ö÷¿ò¼Ü
 		setFrame(CCSprite::create());
-		m_pFrame->initWithFile(I18N_FILE("Dialog_frame.png"));
+		m_pFrame->initWithFile("Dialog_frame.png");
 		m_pFrame->setPosition(ccp(size.width / 2, size.height / 2));
 		this->addChild(m_pFrame, 2);
 
@@ -49,9 +49,9 @@ bool DialogLayer::init()
 
 		CCMenuItemImage *pBack = new CCMenuItemImage();		
 		pBack->initWithNormalImage(
-			I18N_FILE("Dialog_ok_normal.png"),
-			I18N_FILE("Dialog_ok_pressed.png"),
-			I18N_FILE("Dialog_ok_pressed.png"),
+			"Dialog_ok_normal.png",
+			"Dialog_ok_pressed.png",
+			"Dialog_ok_pressed.png",
 			this,
 			menu_selector(DialogLayer::okCallback));	
 

@@ -133,8 +133,12 @@ void RestartLayer::setTime(int nTime)
 {
 	m_nTime = nTime;
 	if(!m_pTimeLabel)
-	{		
-		setTimeLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 30));		
+	{	
+		int font = 30;
+		if(CUR_LANG == kLanguageChinese)
+			font = 25;	
+		
+		setTimeLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, font));		
 		m_pTimeLabel->setDimensions(CCSizeMake(220, 25));
 		m_pTimeLabel->setPosition(ccp(255, 201));
 		ccColor3B ccMyOrange={255, 104, 0};
@@ -153,7 +157,11 @@ void RestartLayer::setLostUnit(int nLost)
 	m_nLostUnit = nLost;
 	if(!m_pLostUnitLabel)
 	{		
-		setLostUnitLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 30));		
+		int font = 30;
+		if(CUR_LANG == kLanguageChinese)
+			font = 25;
+
+		setLostUnitLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, font));		
 		m_pLostUnitLabel->setDimensions(CCSizeMake(220, 25));
 		m_pLostUnitLabel->setPosition(ccp(255, 170));
 		m_pLostUnitLabel->getTexture()->setAliasTexParameters();

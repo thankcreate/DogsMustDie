@@ -7,6 +7,7 @@
 #include "StageSelectFrameSprite.h"
 #include "MyUseDefaultDef.h"
 #include "AudioManager.h"
+#include "LocalizeManager.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "IAPWrapper.h"
@@ -86,8 +87,8 @@ bool StageSelectLayer::init()
 			for(int i = LOCK_BEGIN_INDEX; i <= BIG_STAGE_COUNT ; i  ++)
 			{
 				CCMenuItemImage* item = CCMenuItemImage::create(
-					"StageSelect_btn_buy_normal.png",
-					"StageSelect_btn_buy_pressed.png",
+					I18N_FILE("StageSelect_btn_buy_normal.png"),
+					I18N_FILE("StageSelect_btn_buy_pressed.png",
 					this,
 					menu_selector(StageSelectLayer::buyCallback));
 				item->setPosition(ccp(size.width * (i - 1)  + size.width / 2 - 110, 35));
@@ -95,8 +96,8 @@ bool StageSelectLayer::init()
 				m_pBuyBtnArray->addObject(item);
 
 				item = CCMenuItemImage::create(
-					"StageSelect_btn_restore_normal.png",
-					"StageSelect_btn_restore_pressed.png",
+					I18N_FILE("StageSelect_btn_restore_normal.png"),
+					I18N_FILE("StageSelect_btn_restore_pressed.png"),
 					this,
 					menu_selector(StageSelectLayer::restoreCallback));
 				item->setPosition(ccp(size.width * (i - 1)  + size.width / 2 + 110, 35));
