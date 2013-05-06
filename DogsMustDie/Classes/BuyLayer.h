@@ -3,7 +3,8 @@
 #include "cocos2d.h"
 
 using namespace cocos2d;
-class BuyLayer : public CCLayer
+#include "IAPCallback.h"
+class BuyLayer : public CCLayer, public iOSBridge::Callbacks::IAPCallback
 {
 public:
 	BuyLayer(void);
@@ -21,6 +22,10 @@ public:
 
 	void buyCallback(CCObject* pSender);
 	void refreshCoinCountLabel();
+    
+    // IAPCallback
+    virtual void purchased(bool isSuccessful);
+    
 	enum
 	{
 		TAG_10 = 1,

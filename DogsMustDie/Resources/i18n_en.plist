@@ -68,5 +68,45 @@ God bless cats..meow~</string>
     <string>^_^
 Upgrade to Pro version to unlock this stage.</string>
     
+    <key>CG_Startup_Text</key>
+    <string>In 2045,  the intelligence of mankind had been baddly degenerationed because they spent too much time playing mobile games.
+We cats finnally became the masters of the earth.
+No longer treated as pets, No longer feeded by only one fish for lauch!
+In order to get the earth back ,the humans sent dogs to the outter space and expected that one day dogs can make their own civilization and come back to save them.
+500 years later, dogs are back.
+Tack up arms!
+It's time to fight for the honor of we cats.
+Stupid dogs must die!</string>
+    
+    <key>CG_GameOver_Text</key>
+    <string>Congratulations!
+We finally defeated the invaders.
+Dog sucks! God bless we cats.
+You are the new hero of the cat planet!
+The era of cats is coming.
+If you feel unsatisfied, you can still go to endless mode to continue your noble career.
+Dogs must die!</string>
+    
+    
+    <key>IAP_Upgrade_Description</key>
+    <string>Upgrade to pro version to unlock stage 2 ~ 3. That's a lot of help for us to improve this game.</string>    
+    <key>IAP_Restore_Description</key>
+    <string>If you have purchased before, use this to restore to purchased state.</string>
+    <key>IAP_Buy_Coin_Description</key>
+    <string>Buy more coins。Dogs must die!</string>
+    
+    <key>IAP_Purchase_Success_Description</key>
+    <string>Purchase completed.Thanks for your support!</string>
+    <key>IAP_Purchase_Fail_Description</key>
+    <string>Some thing went wrong in the purchase process</string>
+    
+    <key>IOS_Rate_Us_Description</key>
+    <string>Do you want to rate this game ? It will motivate us a lot! Thank you!</string>
+    <key>IOS_Rate_Us_Yes</key>
+    <string>Rate Now</string>
+    <key>IOS_Rate_Us_No</key>
+    <string>Don't Ask Me Again</string>
+
+    
 </dict>
 </plist>

@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>00 Starmap Truetype.ttf</string>
-		<string>8bitoperator JVE.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
@@ -17,12 +12,12 @@
 	<string></string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>Icon.png</string>
-		<string>Icon@2x.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon-Small-50.png</string>
-		<string>Icon-Small.png</string>
-		<string>Icon-Small@2x.png</string>
+		<string>Lite-Icon-57.png</string>
+		<string>Lite-Icon-114.png</string>
+		<string>Lite-Icon-72.png</string>
+		<string>Lite-Icon-Small-50.png</string>
+		<string>Lite-Icon-Small.png</string>
+		<string>Lite-Icon-Small@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.thankcreate.${PRODUCT_NAME:rfc1034identifier}</string>
@@ -40,6 +35,11 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>00 Starmap Truetype.ttf</string>
+		<string>8bitoperator JVE.ttf</string>
+	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,5 +51,9 @@
 	</dict>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+	</array>
 </dict>
 </plist>

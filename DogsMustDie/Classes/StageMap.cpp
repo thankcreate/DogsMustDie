@@ -39,6 +39,9 @@
 #include "Stage3_09Scene.h"
 
 #include "StageGameOverScene.h"
+#include "StageSelectScene.h"
+#include "LocalizeManager.h"
+#include "IAPWrapper.h"
 
 
 StageMap* StageMap::m_pInstance = NULL;
@@ -54,7 +57,18 @@ StageMap* StageMap::sharedInstance()
 void StageMap::gotoStage( int bigIndex, int smallIndex )
 {
 	// 检查是不是要到付费2-1 这是付费关卡的第一关
-
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    if(bigIndex == LOCK_BEGIN_INDEX && smallIndex == 1)
+    {
+        bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED, false);
+        if(!bPurchased)
+        {
+            IAPWrapper::sharedInstance()->buyProductIdentifierWithPromptDialog(AppPurchaseProUpgradeProductId, I18N_STR("IAP_Upgrade_Description"), this);
+            return;
+        }
+    }
+#endif
+    
 	int toBig = LoadIntegerFromXML(KEY_PLAYED_TO_BIG, 1);
 	int toSmall =  LoadIntegerFromXML(KEY_PLAYED_TO_SMALL, 1);
 
@@ -77,13 +91,26 @@ void StageMap::gotoStage( int bigIndex, int smallIndex )
 		stage->setLevel(bigIndex, smallIndex);
 }
 
-
-
 void StageMap::gotoStageGameOver()
 {
 	CCDirector::sharedDirector()->replaceScene(StageGameOverScene::create());		
 }
 
+void StageMap::purchased(bool isSuccessful)
+{
+    if(isSuccessful)
+    {
+        SaveBooleanToXML(KEY_PRO_UPGRADE_PURCHASED, true);
+        SaveUserDefault();
+        gotoStage(LOCK_BEGIN_INDEX, 1);
+    }
+}
+
+void StageMap::promptCanceled()
+{
+    CCScene* stage1 = StageSelectScene::create();
+	CCDirector::sharedDirector()->replaceScene(stage1);
+}
 
 // 目测这个函数有270行
 // 好爽！

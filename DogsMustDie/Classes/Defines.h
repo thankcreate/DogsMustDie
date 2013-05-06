@@ -41,13 +41,13 @@ enum eForceSide
 };
 
 // CCUserDefault
-#define SaveStringToXML CCUserDefault::sharedUserDefault()->setStringForKey
-#define SaveIntegerToXML CCUserDefault::sharedUserDefault()->setIntegerForKey
-#define SaveUserDefault CCUserDefault::sharedUserDefault()->flush
-#define SaveBooleanToXML CCUserDefault::sharedUserDefault()->setBoolForKey
-#define LoadStringFromXML CCUserDefault::sharedUserDefault()->getStringForKey
-#define LoadIntegerFromXML CCUserDefault::sharedUserDefault()->getIntegerForKey
-#define LoadBooleanFromXML CCUserDefault::sharedUserDefault()->getBoolForKey
+#define SaveStringToXML cocos2d::CCUserDefault::sharedUserDefault()->setStringForKey
+#define SaveIntegerToXML cocos2d::CCUserDefault::sharedUserDefault()->setIntegerForKey
+#define SaveUserDefault cocos2d::CCUserDefault::sharedUserDefault()->flush
+#define SaveBooleanToXML cocos2d::CCUserDefault::sharedUserDefault()->setBoolForKey
+#define LoadStringFromXML cocos2d::CCUserDefault::sharedUserDefault()->getStringForKey
+#define LoadIntegerFromXML cocos2d::CCUserDefault::sharedUserDefault()->getIntegerForKey
+#define LoadBooleanFromXML cocos2d::CCUserDefault::sharedUserDefault()->getBoolForKey
 
 // Audio
 #define PreloadEffect(param) AudioManager::getSharedInstance()->preloadEffect(param)
@@ -95,7 +95,13 @@ enum eForceSide
 
 // IAP
 #define AppPurchaseProUpgradeProductId  "com.thankcreate.DogsMustDie.UpgradeToPro"
-#define LOCK_BEGIN_INDEX 2
+#define AppPurchaseCoin10_Pro "com.thankcreate.DogsMustDie.10Coins"
+#define AppPurchaseCoin10_Lite "com.thankcreate.DogsMustDie.10CoinsLite"
+#define AppPurchaseCoin20_Pro "com.thankcreate.DogsMustDie.20Coins"
+#define AppPurchaseCoin20_Lite "com.thankcreate.DogsMustDie.20CoinsLite"
+#define AppPurchaseCoin50_Pro "com.thankcreate.DogsMustDie.50Coins"
+#define AppPurchaseCoin50_Lite "com.thankcreate.DogsMustDie.50CoinsLite"
 
+#define LOCK_BEGIN_INDEX 2
 
 #endif

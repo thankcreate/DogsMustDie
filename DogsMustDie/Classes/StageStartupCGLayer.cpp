@@ -2,6 +2,7 @@
 #include "AudioManager.h"
 #include "Defines.h"
 #include "StartupScene.h"
+#include "LocalizeManager.h"
 StageStartupCGLayer::StageStartupCGLayer( void ) :
 	m_pStoryLabel(NULL)
 {
@@ -73,7 +74,7 @@ bool StageStartupCGLayer::init()
 void StageStartupCGLayer::initStory()
 {
 	CCSize size = WIN_SIZE;
-	setStoryLabel(CCLabelTTF::create("In 2045,  the intelligence of mankind had been baddly degenerationed because they spent too much time playing mobile games.\nWe cats finnally became the masters of the earth.\nNo longer treated as pets, No longer feeded by only one fish for lauch! \nIn order to get the earth back ,the humans sent dogs to the outter space and expected that one day dogs can make their own civilization and come back to save them.\n500 years later, dogs are back.\nTack up arms! \nIt's time to fight for the honor of we cats. \nStupid dogs must die!", 
+	setStoryLabel(CCLabelTTF::create(I18N_STR("CG_Startup_Text"),
 		FONT_8BITOPERATOR_JVE, 30));
 	m_pStoryLabel->setDimensions(CCSizeMake(566, 450));
 	m_pStoryLabel->setHorizontalAlignment(kCCTextAlignmentCenter);

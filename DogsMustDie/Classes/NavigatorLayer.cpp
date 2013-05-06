@@ -2,7 +2,9 @@
 #include "StageBaseScene.h"
 #include "AudioManager.h"
 #include "Defines.h"
-
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#include "IOSWrapper.h"
+#endif
 NavigatorLayer::NavigatorLayer() :
 	m_pStageScene(NULL),
 	m_bInShow(false),
@@ -72,7 +74,26 @@ bool NavigatorLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 void NavigatorLayer::onEnterTransitionDidFinish()
 {
 	CCLayer::onEnterTransitionDidFinish();
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 5, true);	
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 5, true);
+    
+   
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    if(m_bInShow)
+    {
+        IOSWrapper::sharedInstance()->showAd();
+    }
+#endif
+}
+
+void NavigatorLayer::onExit()
+{
+    CCLayer::onExit();
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    if(m_bInShow)
+    {
+        IOSWrapper::sharedInstance()->hideAd();
+    }
+#endif
 }
 
 
@@ -89,6 +110,10 @@ void NavigatorLayer::show()
 	CCFiniteTimeAction* pSeq = CCSequence::create(pMoveDown, pMoveShakeBack,NULL);
 	m_pColorLayer->setVisible(true);
 	m_pFrame->runAction(pSeq);
+    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    IOSWrapper::sharedInstance()->showAd();
+#endif
 }
 
 void NavigatorLayer::restore()
@@ -99,6 +124,10 @@ void NavigatorLayer::restore()
 	CCMoveTo* pMoveUp = CCMoveTo::create(0.4, ccp(size.width / 2, m_pFrame->boundingBox().size.height / 2 + size.height));
 	m_pColorLayer->setVisible(false);
 	m_pFrame->runAction(pMoveUp);
+    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    IOSWrapper::sharedInstance()->hideAd();
+#endif
 }
 
 

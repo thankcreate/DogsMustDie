@@ -34,6 +34,7 @@ public:
 
 	bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	void onEnterTransitionDidFinish();
+    void onExit();
 	enum
 	{
 		SHAKE_DISTANCE = 30

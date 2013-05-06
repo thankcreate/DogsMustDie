@@ -5,6 +5,12 @@
 #include "MyUseDefaultDef.h"
 #include "AudioManager.h"
 #include "AdViewManager.h"
+#include "LocalizeManager.h"
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#include "IOSWrapper.h"
+#include "IAPWrapper.h"
+#endif
 
 using namespace cocos2d;
 
@@ -16,7 +22,10 @@ BuyLayer::BuyLayer(void) :
 
 BuyLayer::~BuyLayer(void)
 {
-
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+	// 清除掉iap的delegate不然回调过来必然会崩溃
+	IAPWrapper::sharedInstance()->clearDelegate();
+#endif
 }
 
 
@@ -81,7 +90,7 @@ bool BuyLayer::init()
 
 		// coin label
 		setCoinCountLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 35));		
-		m_pCoinCountLabel->setPosition(ccp(124,293));	
+		m_pCoinCountLabel->setPosition(ccp(124,290));
 		m_pCoinCountLabel->setDimensions(CCSizeMake(58, 30));
 		m_pCoinCountLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
 		m_pCoinCountLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);		
@@ -181,6 +190,29 @@ void BuyLayer::keyBackClicked()
 
 void BuyLayer::buyCallback( CCObject* pSender )
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    int tag = ((CCNode*)pSender)->getTag();
+    bool bIsLite = IOSWrapper::isLiteVersion();
+    std::string productID = "";
+    if(tag == TAG_10)
+    {
+        productID = bIsLite ? AppPurchaseCoin10_Lite : AppPurchaseCoin10_Pro;
+    }
+    else if(tag == TAG_20)
+    {
+        productID = bIsLite? AppPurchaseCoin20_Lite : AppPurchaseCoin20_Pro;
+    }
+    else if(tag == TAG_50)
+    {
+        productID = bIsLite ? AppPurchaseCoin50_Lite : AppPurchaseCoin50_Pro;
+    }
+    IAPWrapper::sharedInstance()->buyProductIdentifierWithPromptDialog(productID, I18N_STR("IAP_Buy_Coin_Description"), this);    
+#endif
+}
 
+void BuyLayer::purchased(bool isSuccessful)
+{
+    if(isSuccessful)
+        refreshCoinCountLabel();
 }
 

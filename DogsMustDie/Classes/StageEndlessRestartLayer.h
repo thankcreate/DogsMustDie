@@ -15,7 +15,9 @@ public:
 	~StageEndlessRestartLayer();
 
 	CREATE_FUNC(StageEndlessRestartLayer);
-	bool init();	
+	bool init();
+
+    void onEnterTransitionDidFinish();
 
 
 	CC_SYNTHESIZE(CCSprite* , m_pHappyDog, HappyDog);		

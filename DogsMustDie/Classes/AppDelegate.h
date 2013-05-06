@@ -3,7 +3,7 @@
 //  DogsMustDie
 //
 //  Created by Tron Skywalker on 13-4-15.
-//  Copyright __MyCompanyName__ 2013年. All rights reserved.
+//  Copyright __MyCompanyName__ 2013年� All rights reserved.
 //
 
 #ifndef  _APP_DELEGATE_H_
@@ -22,7 +22,7 @@ public:
     AppDelegate();
     virtual ~AppDelegate();
 
-
+    void checkIfNeedShowRateUSDialog();
     /**
     @brief    Implement CCDirector and CCScene init code here.
     @return true    Initialize success, app continue.

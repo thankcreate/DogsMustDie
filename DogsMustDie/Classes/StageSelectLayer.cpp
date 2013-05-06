@@ -88,7 +88,7 @@ bool StageSelectLayer::init()
 			{
 				CCMenuItemImage* item = CCMenuItemImage::create(
 					I18N_FILE("StageSelect_btn_buy_normal.png"),
-					I18N_FILE("StageSelect_btn_buy_pressed.png",
+					I18N_FILE("StageSelect_btn_buy_pressed.png"),
 					this,
 					menu_selector(StageSelectLayer::buyCallback));
 				item->setPosition(ccp(size.width * (i - 1)  + size.width / 2 - 110, 35));
@@ -175,14 +175,14 @@ bool StageSelectLayer::init()
 void StageSelectLayer::buyCallback(CCObject* pSender)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-	IAPWrapper::sharedInstance()->buyProductIdentifierWithPromptDialog(AppPurchaseProUpgradeProductId,"Upgrade to PRO version to unlock stage 2 ~ 3. That's a lot of help for us to improve this game.", this);
+	IAPWrapper::sharedInstance()->buyProductIdentifierWithPromptDialog(AppPurchaseProUpgradeProductId, I18N_STR("IAP_Upgrade_Description"), this);
 #endif
 }
 
 void StageSelectLayer::restoreCallback(CCObject* pSender)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-	IAPWrapper::sharedInstance()->restorePurchase(this);
+	IAPWrapper::sharedInstance()->restorePurchase(I18N_STR("IAP_Restore_Description"), this);
 #endif    
 }
 
@@ -273,7 +273,7 @@ void StageSelectLayer::productsDownloaded(const std::vector<std::string>& produc
 
 void StageSelectLayer::purchased(bool isSuccessful)
 {
-	/*if(isSuccessful)
+    if(isSuccessful)
 	{
 		SaveBooleanToXML(KEY_PRO_UPGRADE_PURCHASED, true);
 		SaveUserDefault();
@@ -289,33 +289,33 @@ void StageSelectLayer::purchased(bool isSuccessful)
 		}
 
 		reloadScrollLayer();
-	}*/
+	}
 }
 
 void StageSelectLayer::reloadScrollLayer()
 {
 	this->removeChild(m_pScrollLayer, true);
-
-	CCSize size = WIN_SIZE;
-	setScrollLayer(CCLayer::create());
-	CCSize frameLayerSize = CCSizeMake(size.width * BIG_STAGE_COUNT, size.height);
-	m_pScrollLayer->setContentSize(frameLayerSize);
-	m_pScrollLayer->setPosition(0,0);
-	this->addChild(m_pScrollLayer, 1);
-
-
-	this->setContentSize(CCSizeMake(size.width * BIG_STAGE_COUNT, size.height));
-	float frameX1 = size.width / 2;
-	float frameY1 = size.height / 2;
-	char *titleArray[2] = {"StageSelect_title1.png", "StageSelect_title2.png"};	
-	for(int i = 0; i < BIG_STAGE_COUNT; i++)
-	{
-		StageSelectFrameSprite* pMainFrame =
-			StageSelectFrameSprite::create(this, this, menu_selector(StageSelectLayer::gotoStageCallback),
-			i + 1, titleArray[i]);
-		pMainFrame->setPosition(ccp(frameX1 + size.width * i, frameY1));
-		m_pScrollLayer->addChild(pMainFrame, 1);			
-	}
+   	setScrollLayer(CCLayer::create());
+    
+    CCSize size = WIN_SIZE;
+    CCSize frameLayerSize = CCSizeMake(size.width * BIG_STAGE_COUNT, size.height);
+    m_pScrollLayer->setContentSize(frameLayerSize);
+    m_pScrollLayer->setPosition(0,0);
+    this->addChild(m_pScrollLayer, 1);
+    
+    this->setContentSize(CCSizeMake(size.width * BIG_STAGE_COUNT, size.height));
+    float frameX1 = size.width / 2;
+    float frameY1 = size.height / 2 + 5;
+    char *titleArray[3] = {"StageSelect_title1.png", "StageSelect_title2.png", "StageSelect_title3.png"};
+    
+    for(int i = 0; i < BIG_STAGE_COUNT; i++)
+    {
+        StageSelectFrameSprite* pMainFrame =
+        StageSelectFrameSprite::create(this, this, menu_selector(StageSelectLayer::gotoStageCallback),
+                                       i + 1, titleArray[i]);
+        pMainFrame->setPosition(ccp(frameX1 + size.width * i, frameY1));
+        m_pScrollLayer->addChild(pMainFrame, 1);			
+    }
 
 	// 移m_pScrollLayer到指定位子
 	m_pScrollLayer->setPositionX(- sCurrentIndex * size.width);

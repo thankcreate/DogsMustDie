@@ -83,7 +83,7 @@ bool StageEndlessRestartLayer::init()
 		pMenu->addChild(pRestart);
 
 		// 本类中第一次加载m_nCoinCount
-		m_nCoinCount = LoadIntegerFromXML(KEY_COIN_COUNT , 2);
+		m_nCoinCount = LoadIntegerFromXML(KEY_COIN_COUNT , 0);
 
 		setContinueItem(new CCMenuItemImage());		
 		m_pContinueItem->initWithNormalImage(
@@ -104,7 +104,7 @@ bool StageEndlessRestartLayer::init()
 		m_pFrame->addChild(pCoin);
 		
 		setCoinCountLabel(CCLabelTTF::create(" ", FONT_8BITOPERATOR_JVE, 28));		
-		m_pCoinCountLabel->setPosition(ccp(194, 68));	
+		m_pCoinCountLabel->setPosition(ccp(194, 65));
 		m_pCoinCountLabel->setDimensions(CCSizeMake(58, 30));
 		m_pCoinCountLabel->setHorizontalAlignment(kCCTextAlignmentLeft);
 		m_pCoinCountLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
@@ -122,6 +122,8 @@ bool StageEndlessRestartLayer::init()
 
 void StageEndlessRestartLayer::refreshCoinCountLabel()
 {
+    if(!m_pCoinCountLabel)
+        return;
 	m_nCoinCount = LoadIntegerFromXML(KEY_COIN_COUNT , 0);
 	CCString* pStrCoinCount = CCString::createWithFormat(": %d", m_nCoinCount);
 	m_pCoinCountLabel->setString((pStrCoinCount->getCString()));
@@ -130,6 +132,8 @@ void StageEndlessRestartLayer::refreshCoinCountLabel()
 
 void StageEndlessRestartLayer::refreshContinueButtonEnableState()
 {
+    if(!m_pContinueItem)
+        return;
 	m_nCoinCount =  LoadIntegerFromXML(KEY_COIN_COUNT , 0);
 	if(m_nCoinCount <= 0)
 		m_pContinueItem->setEnabled(false);
@@ -202,6 +206,7 @@ void StageEndlessRestartLayer::restore()
 void StageEndlessRestartLayer::show()
 {
 	NavigatorLayer::show();
+    refreshCoinCountLabel();
 	refreshContinueButtonEnableState();
 	m_pHappyDog->stopAllActions();
 	if(m_pFlickerAction)
@@ -261,4 +266,11 @@ void StageEndlessRestartLayer::getCoinCallback( CCObject* pOb )
 {
 	BuyScene* pBuyScene = BuyScene::create();
 	CCDirector::sharedDirector()->pushScene(pBuyScene);
+}
+
+void StageEndlessRestartLayer::onEnterTransitionDidFinish()
+{
+    StageEndlessNavigatorLayer::onEnterTransitionDidFinish();
+    refreshCoinCountLabel();
+	refreshContinueButtonEnableState();
 }

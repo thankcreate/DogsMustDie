@@ -77,5 +77,44 @@
 升级到完整版
 以解锁更多关卡</string>
     
+    <key>CG_Startup_Text</key>
+    <string>在遥远的2045年，人类由于过于沉溺手机游戏而导致智商严重退化
+我们伟大的喵星人终于接管了地球，愚蠢的地球人已经被我们踩在脚下
+为了夺回地球，人类把他们的忠实走狗-汪星人派遣到外太空，希望有朝一日这些汪星人能建立自己的文明，重返地球以解救他们可怜的主人
+500年后，愚蠢的汪星人终于回来了
+拿起武器！
+是时侯证明我们喵星人的勇气和智慧了
+汪星人必须死！</string>
+    
+    <key>CG_GameOver_Text</key>
+    <string>恭喜大王，贺喜大王
+我们终于挫败了汪星人的反扑
+二狗子们弱爆了
+实事证明上帝是与我们同在的
+我们尊奉您为新一代喵王
+属于喵星人的崭新时代正在来临
+如果您觉得意犹未尽，可以进入无尽模式来继续我们伟大的事业
+汪星人必须死！</string>
+    
+    <key>IAP_Upgrade_Description</key>
+    <string>升级到完整版以解锁其它关卡并去除广告，这将是对我们极大的支持和鼓励～</string>
+    <key>IAP_Restore_Description</key>
+    <string>如果您之前已经升级过完整版，请通过此处恢复之前的购买</string>    
+    <key>IAP_Buy_Coin_Description</key>
+    <string>点此购买喵币，汪星人必须死！</string>
+    
+    <key>IAP_Purchase_Success_Description</key>
+    <string>支付成功！感谢您的支持</string>    
+    <key>IAP_Purchase_Fail_Description</key>
+    <string>支付失败，过程中出现未知问题</string>
+    
+    <key>IOS_Rate_Us_Description</key>
+    <string>喜欢本游戏的话,
+希望亲能给个好评喵～</string>
+    <key>IOS_Rate_Us_Yes</key>
+    <string>去评分</string>
+    <key>IOS_Rate_Us_No</key>
+    <string>不再询问</string>
+    
 </dict>
 </plist>

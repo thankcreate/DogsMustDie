@@ -15,6 +15,8 @@
 #include "MyUseDefaultDef.h"
 #include "StageStartupCGScene.h"
 #include "LocalizeManager.h"
+#include "StageGameOverScene.h"
+#include "IOSWrapper.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -55,7 +57,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 	{
 		SaveBooleanToXML(KEY_FIRST_LAUNCH, false);
 		SaveUserDefault();
-		pScene = StageStartupCGScene::create();    
+		pScene = StageStartupCGScene::create();
+// 		pScene = StageGameOverScene::create();
 	}
 	else
 	{
@@ -64,11 +67,41 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // run
     pDirector->runWithScene(pScene);
+    
+    // 增加启动次数
+    int nLaunchCount = LoadIntegerFromXML(KEY_LAUNCH_COUNT, 0);
+    ++nLaunchCount;
+    SaveIntegerToXML(KEY_LAUNCH_COUNT, nLaunchCount);
+    SaveUserDefault();
+    checkIfNeedShowRateUSDialog();
 
 	// 调试参数开关
 	pDirector->setDisplayStats(false);
+    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    if (IOSWrapper::isProVersion()) {
+        // 如果本身就是收费版
+        SaveBooleanToXML(KEY_PRO_UPGRADE_PURCHASED, true);
+        SaveUserDefault();
+    }
+#endif
+    
+    
+
 
     return true;
+}
+
+void AppDelegate::checkIfNeedShowRateUSDialog()
+{
+    int nLaunchCount = LoadIntegerFromXML(KEY_LAUNCH_COUNT, 0);
+    
+    if(nLaunchCount == 3)
+    {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        IOSWrapper::sharedInstance()->showRateUSDialog();
+#endif
+    }
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too

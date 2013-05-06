@@ -12,7 +12,9 @@
 #include "AudioManager.h"
 #include "MiscTool.h"
 #include "ForceSideInfo.h"
-
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#include "IOSWrapper.h"
+#endif
 
 StageBaseLayer::StageBaseLayer()  :
 	m_pParentScene(NULL),
@@ -1195,7 +1197,10 @@ Troops* StageBaseLayer::makeTroops(int forceSide, int fightUnitCount, Planet* pH
 void StageBaseLayer::onEnterTransitionDidFinish()
 {
 	CCLayer::onEnterTransitionDidFinish();
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);	
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    IOSWrapper::sharedInstance()->hideAd();
+#endif
 }
 
 

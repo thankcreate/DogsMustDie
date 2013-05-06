@@ -2,6 +2,8 @@
 #include "AudioManager.h"
 #include "Defines.h"
 #include "StartupScene.h"
+#include "LocalizeManager.h"
+
 StageGameOverLayer::StageGameOverLayer( void ) :
 m_pStoryLabel(NULL)
 {
@@ -73,9 +75,9 @@ bool StageGameOverLayer::init()
 void StageGameOverLayer::initStory()
 {
 	CCSize size = WIN_SIZE;
-	setStoryLabel(CCLabelTTF::create("Congratulations!\nWe finally defeated the invaders.\nDog sucks! God bless we cats.\nYou are the new hero of the cat planet!\nThe era of cats is coming.\nIf you feel unsatisfied, you can still go to endless mode to continue your noble career.\nDogs must die!", 
+	setStoryLabel(CCLabelTTF::create(I18N_STR("CG_GameOver_Text"),
 		FONT_8BITOPERATOR_JVE, 30));
-	m_pStoryLabel->setDimensions(CCSizeMake(566, -1));
+	m_pStoryLabel->setDimensions(CCSizeMake(566, 400));
 	m_pStoryLabel->setHorizontalAlignment(kCCTextAlignmentCenter);
 	m_pStoryLabel->setVerticalAlignment(kCCVerticalTextAlignmentCenter);
 	m_pStoryLabel->setPosition(ccp(size.width / 2, 0 - m_pStoryLabel->boundingBox().size.height / 2 + 60));
