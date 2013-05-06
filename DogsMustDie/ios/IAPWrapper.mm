@@ -30,7 +30,7 @@ void IAPWrapper::requestProducts(iOSBridge::Callbacks::IAPCallback* callback)
 void IAPWrapper::buyProductIdentifier(const std::string& productID,  iOSBridge::Callbacks::IAPCallback* callback)
 {
     NSString *nsID = [NSString stringWithCString:productID.c_str()
-                                        encoding:[NSString defaultCStringEncoding]];
+                                        encoding:NSUTF8StringEncoding];
     
     [[IAPHelper_objc sharedHelper] buyProduct:nsID callBack:callback];
 }
@@ -38,9 +38,9 @@ void IAPWrapper::buyProductIdentifier(const std::string& productID,  iOSBridge::
 void IAPWrapper::buyProductIdentifierWithPromptDialog(const std::string& productID, const std::string& msg, iOSBridge::Callbacks::IAPCallback* callback)
 {
     NSString *nsID = [NSString stringWithCString:productID.c_str()
-                                        encoding:[NSString defaultCStringEncoding]];
+                                        encoding:NSUTF8StringEncoding];
     NSString *nsMsg = [NSString stringWithCString:msg.c_str()
-                                        encoding:[NSString defaultCStringEncoding]];
+                                        encoding:NSUTF8StringEncoding];
 
     [[IAPHelper_objc sharedHelper] buyProductWithPromptDialog:nsID message:nsMsg callBack:callback];
 
@@ -51,7 +51,9 @@ void IAPWrapper::clearDelegate()
     [[IAPHelper_objc sharedHelper] clearDelegate];
 }
 
-void IAPWrapper::restorePurchase(iOSBridge::Callbacks::IAPCallback* callback)
+void IAPWrapper::restorePurchase( const std::string& msg, iOSBridge::Callbacks::IAPCallback* callback)
 {
-    [[IAPHelper_objc sharedHelper] restorePurchase:callback];
+    NSString *nsMsg = [NSString stringWithCString:msg.c_str()
+                                         encoding:NSUTF8StringEncoding];
+    [[IAPHelper_objc sharedHelper] restorePurchase:nsMsg callBack:callback];
 }

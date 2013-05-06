@@ -14,12 +14,38 @@
 #define kProductsLoadedNotification @"ProductsLoaded"
 #define kProductPurchasedNotification       @"ProductPurchased"
 #define kProductPurchaseFailedNotification  @"ProductPurchaseFailed"
-
 #define kUserDefaultProData  @"PRO_VER_DATA"
-#define kInAppPurchaseProUpgradeProductId  @"com.thankcreate.RageAdventure.UpgradeToPro"
 
-#define kInAppPurchasePromptProductId_Pro @"com.thankcreate.RageAdventure.Prompt_Pro"
-#define kInAppPurchasePromptProductId_Lite @"com.thankcreate.RageAdventure.Prompt_Lite"
+#define kInAppPurchaseProUpgradeProductId  @"com.thankcreate.DogsMustDie.UpgradeToPro"
+
+#define kInAppPurchaseCoin10_Pro @"com.thankcreate.DogsMustDie.10Coins"
+#define kInAppPurchaseCoin10_Lite @"com.thankcreate.DogsMustDie.10CoinsLite"
+
+#define kInAppPurchaseCoin20_Pro @"com.thankcreate.DogsMustDie.20Coins"
+#define kInAppPurchaseCoin20_Lite @"com.thankcreate.DogsMustDie.20CoinsLite"
+
+#define kInAppPurchaseCoin50_Pro @"com.thankcreate.DogsMustDie.50Coins"
+#define kInAppPurchaseCoin50_Lite @"com.thankcreate.DogsMustDie.50CoinsLite"
+
+#if VERSION == VERSION_LITE
+#define kInAppPurchaseCoin10_Auto kInAppPurchaseCoin10_Lite
+#else
+#define kInAppPurchaseCoin10_Auto kInAppPurchaseCoin10_Pro
+#endif
+
+#if VERSION == VERSION_LITE
+#define kInAppPurchaseCoin20_Auto kInAppPurchaseCoin20_Lite
+#else
+#define kInAppPurchaseCoin20_Auto kInAppPurchaseCoin20_Pro
+#endif
+
+
+#if VERSION == VERSION_LITE
+#define kInAppPurchaseCoin50_Auto kInAppPurchaseCoin50_Lite
+#else
+#define kInAppPurchaseCoin50_Auto kInAppPurchaseCoin50_Pro
+#endif
+
 
 
 
@@ -48,7 +74,7 @@
 - (void)buyProduct:(NSString*) product callBack:(iOSBridge::Callbacks::IAPCallback*)cb;
 - (void)buyProductWithPromptDialog:(NSString*) product message:(NSString*)msg callBack:(iOSBridge::Callbacks::IAPCallback*)cb;
 - (void)clearDelegate;
-- (void)restorePurchase:(iOSBridge::Callbacks::IAPCallback*)callback;
+- (void)restorePurchase:(NSString*)msg callBack:(iOSBridge::Callbacks::IAPCallback*)callback;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 

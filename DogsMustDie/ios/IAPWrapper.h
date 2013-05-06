@@ -27,7 +27,7 @@ public:
     
     void clearDelegate();
     
-    void restorePurchase(iOSBridge::Callbacks::IAPCallback* callback);
+    void restorePurchase( const std::string& msg, iOSBridge::Callbacks::IAPCallback* callback);
 
 private:
     static IAPWrapper* m_pInstance;

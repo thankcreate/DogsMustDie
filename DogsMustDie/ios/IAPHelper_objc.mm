@@ -8,6 +8,7 @@
 #import "IAPHelper_objc.h"
 
 #include "Defines.h"
+#include "LocalizeManager.h"
 
 static IAPHelper_objc * sharedHelper = nil;
 
@@ -115,14 +116,14 @@ static IAPHelper_objc * sharedHelper = nil;
     
 }
 
-- (void)restorePurchase:(iOSBridge::Callbacks::IAPCallback*)callback
+- (void)restorePurchase:(NSString*)msg callBack:(iOSBridge::Callbacks::IAPCallback*)callback
 {
     latestIAPCallback = callback;    
     UIAlertView * messageBox = [[UIAlertView alloc] initWithTitle: @"^_^"
-                                                          message: @"If you have purchased before, use this to restore to purchased state."
+                                                          message: msg
                                                          delegate: self
                                                 cancelButtonTitle: @"Cancel"
-                                                otherButtonTitles: @"Restore", nil];
+                                                otherButtonTitles: @"OK", nil];
     [messageBox setTag:kRestoreAlertTag];
     [messageBox autorelease];
     [messageBox show];
@@ -182,8 +183,11 @@ static IAPHelper_objc * sharedHelper = nil;
 
 - (void) alertSuccessDialog
 {
+    NSString *nsMsg = [NSString stringWithCString:I18N_STR("IAP_Purchase_Success_Description")
+                                         encoding:NSUTF8StringEncoding];
+
     UIAlertView * messageBox = [[UIAlertView alloc] initWithTitle: @"^_^"
-                                                          message: @"Purchase completed.Thanks for your support!"
+                                                          message: nsMsg
                                                          delegate: self
                                                 cancelButtonTitle: @"OK"
                                                 otherButtonTitles: nil];
@@ -193,8 +197,10 @@ static IAPHelper_objc * sharedHelper = nil;
 
 - (void) alertErrorDialog
 {
+    NSString *nsMsg = [NSString stringWithCString:I18N_STR("IAP_Purchase_Fail_Description")
+                                         encoding:NSUTF8StringEncoding];
     UIAlertView * messageBox = [[UIAlertView alloc] initWithTitle: @">_<"
-                                                          message: @"Some thing went wrong in the purchase process"
+                                                          message: nsMsg
                                                          delegate: self
                                                 cancelButtonTitle: @"OK"
                                                 otherButtonTitles: nil];
@@ -211,7 +217,7 @@ static IAPHelper_objc * sharedHelper = nil;
                                                           message: msg
                                                          delegate: self
                                                 cancelButtonTitle: @"Cancel"
-                                                otherButtonTitles: @"Continue", nil];
+                                                otherButtonTitles: @"OK", nil];
     [messageBox setTag:kBuyAlertTag];
     [messageBox autorelease];
     [messageBox show];
@@ -275,13 +281,13 @@ static IAPHelper_objc * sharedHelper = nil;
     // remove the transaction from the payment queue.
     [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
     
+    
+    // 升级到完整版
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:transaction, @"transaction" , nil];
     if ([transaction.payment.productIdentifier isEqualToString:kInAppPurchaseProUpgradeProductId])
     {
         if (wasSuccessful)
         {
-            // send out a notification that we’ve finished the transaction
-//            [[NSNotificationCenter defaultCenter] postNotificationName:kProductPurchasedNotification object:self userInfo:userInfo];
             SaveBooleanToXML(KEY_PRO_UPGRADE_PURCHASED, true);
             SaveUserDefault();
             if(latestIAPCallback != nil)
@@ -292,8 +298,78 @@ static IAPHelper_objc * sharedHelper = nil;
         }
         else
         {
-            // send out a notification for the failed transaction
-            //[[NSNotificationCenter defaultCenter] postNotificationName:kProductPurchaseFailedNotification object:self userInfo:userInfo];
+            if(latestIAPCallback != nil)
+            {
+                [self alertErrorDialog];
+                latestIAPCallback->purchased(false);
+            }
+        }
+    }
+    // 10 coin
+    else if ([transaction.payment.productIdentifier isEqualToString:kInAppPurchaseCoin10_Auto])
+    {
+        if (wasSuccessful)
+        {
+            int coin = LoadIntegerFromXML(KEY_COIN_COUNT, 0);
+            coin += 10;
+            SaveIntegerToXML(KEY_COIN_COUNT, coin);
+            SaveUserDefault();
+            if(latestIAPCallback != nil)
+            {
+                [self alertSuccessDialog];
+                latestIAPCallback->purchased(true);
+            }
+        }
+        else
+        {
+            if(latestIAPCallback != nil)
+            {
+                [self alertErrorDialog];
+                latestIAPCallback->purchased(false);
+            }
+        }
+    }
+    // 20 coin
+    else if ([transaction.payment.productIdentifier isEqualToString:kInAppPurchaseCoin20_Auto])
+    {
+        if (wasSuccessful)
+        {
+            int coin = LoadIntegerFromXML(KEY_COIN_COUNT, 0);
+            coin += 20;
+            SaveIntegerToXML(KEY_COIN_COUNT, coin);
+            SaveUserDefault();
+            if(latestIAPCallback != nil)
+            {
+                [self alertSuccessDialog];
+                latestIAPCallback->purchased(true);
+            }
+        }
+        else
+        {
+            if(latestIAPCallback != nil)
+            {
+                [self alertErrorDialog];
+                latestIAPCallback->purchased(false);
+            }
+        }
+    }
+    // 50 coin
+    else if ([transaction.payment.productIdentifier isEqualToString:kInAppPurchaseCoin50_Auto])
+    {
+        if (wasSuccessful)
+        {
+            int coin = LoadIntegerFromXML(KEY_COIN_COUNT, 0);
+            coin += 50;
+            SaveIntegerToXML(KEY_COIN_COUNT, coin);
+            SaveUserDefault();
+            if(latestIAPCallback != nil)
+            {
+                [self alertSuccessDialog];
+                latestIAPCallback->purchased(true);
+            }
+        }
+        else
+        {
             if(latestIAPCallback != nil)
             {
                 [self alertErrorDialog];

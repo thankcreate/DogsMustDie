@@ -8,6 +8,9 @@
 
 #import "IOSWrapper_objc.h"
 #import "Defines.h"
+#import "AppController.h"
+#include "LocalizeManager.h"
+
 static IOSWrapper_objc * sharedInstance = nil;
 
 @implementation IOSWrapper_objc
@@ -24,11 +27,18 @@ static IOSWrapper_objc * sharedInstance = nil;
 
 -(void)showRateusDialog
 {
+    NSString *nsMsg = [NSString stringWithCString:I18N_STR("IOS_Rate_Us_Description")
+                                         encoding:NSUTF8StringEncoding];
+    NSString *nsRateNow = [NSString stringWithCString:I18N_STR("IOS_Rate_Us_Yes")
+                                         encoding:NSUTF8StringEncoding];
+    NSString *nsNo = [NSString stringWithCString:I18N_STR("IOS_Rate_Us_No")
+                                         encoding:NSUTF8StringEncoding];
+
     UIAlertView * messageBox = [[UIAlertView alloc] initWithTitle: @"^_^"
-                                                          message: @"Do you want to rate this game ? It motivates us a lot! Thank you!"
+                                                          message: nsMsg
                                                          delegate: self
-                                                cancelButtonTitle: @"Rate Now"
-                                                otherButtonTitles: @"Don't Ask Me Again", nil];
+                                                cancelButtonTitle: nsNo
+                                                otherButtonTitles: nsRateNow, nil];
     [messageBox autorelease];
     [messageBox show];
 }
@@ -37,9 +47,9 @@ static IOSWrapper_objc * sharedInstance = nil;
 {
     NSString* appID = @"";
 #if VERSION == VERSION_LITE
-    appID = @"626699502";
+    appID = @"645248568";
 #else
-    appID = @"629895579";
+    appID = @"645246774";
     
 #endif
     NSString* navStr = [NSString stringWithFormat:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", appID];
@@ -48,7 +58,7 @@ static IOSWrapper_objc * sharedInstance = nil;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex == 0)
+    if(buttonIndex == 1)
     {
         [self gotoRateView];
     }
@@ -56,6 +66,18 @@ static IOSWrapper_objc * sharedInstance = nil;
     {
       //  alertView
     }
+}
+
+-(void)showAd
+{
+    AppController* appController = (AppController*)[[UIApplication sharedApplication] delegate];
+    [appController.viewController showAd];
+}
+
+-(void)hideAd
+{
+    AppController* appController = (AppController*)[[UIApplication sharedApplication] delegate];
+    [appController.viewController hideAd];
 }
 
 @end

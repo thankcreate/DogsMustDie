@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AdMoGoDelegateProtocol.h"
+#import "AdMoGoView.h"
+#import "AdMoGoWebBrowserControllerUserDelegate.h"
 
-
-@interface RootViewController : UIViewController {
-
+@interface RootViewController : UIViewController <AdMoGoDelegate, AdMoGoWebBrowserControllerUserDelegate>
+{
+    AdMoGoView *adView;
 }
 
+
+@property (nonatomic, retain) AdMoGoView *adView;
+-(void)initAd;
+-(void)showAd;
+-(void)hideAd;
 @end

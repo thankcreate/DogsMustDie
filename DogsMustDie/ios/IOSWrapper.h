@@ -17,6 +17,9 @@ public:
     void showRateUSDialog();
     void recordLevel(int big, int small);
     
+    void showAd();
+    void hideAd();
+    
     static bool isLiteVersion();
     static bool isProVersion();
     

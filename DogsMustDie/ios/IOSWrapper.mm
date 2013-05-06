@@ -38,7 +38,15 @@ void IOSWrapper::recordLevel(int big, int small)
     [MobClick event:label];
 }
 
+void IOSWrapper::showAd()
+{
+    [[IOSWrapper_objc sharedInstance] showAd];
+}
 
+void IOSWrapper::hideAd()
+{
+    [[IOSWrapper_objc sharedInstance] hideAd];
+}
 
 bool IOSWrapper::isLiteVersion()
 {

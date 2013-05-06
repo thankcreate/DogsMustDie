@@ -13,5 +13,7 @@
 
 -(void)showRateusDialog;
 -(void)gotoRateView;
+-(void)showAd;
+-(void)hideAd;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 @end
