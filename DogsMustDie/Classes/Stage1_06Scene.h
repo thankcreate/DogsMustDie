@@ -19,7 +19,7 @@ public:
 
 	int getTimeJudgeLine() { return 30 ;}
 	int getUnitLostJudgeLine() { return 30; }
-	int getJudgeScoreTime() { return 68; }
+	int getJudgeScoreTime() { return 30; }
 };
 
 #endif // Stage1_06Scene_h__

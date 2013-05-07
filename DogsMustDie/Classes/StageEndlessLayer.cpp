@@ -135,13 +135,13 @@ void StageEndlessLayer::initCatPlanetsWithRound(int round)
 		CCPoint posi = getRandomPlanetPosition();
 		if(posi.x > 0 && posi.y > 0)
 		{
-            // TODO
 			Planet* cat = makePlanet(kForceSideCat, posi, fightUnit, 0);
 			m_pCatPlanetArray->addObject(cat);
 		}
 	}
 		
-	int levelSum = round * 1.5;
+    // 以9为一个循环数
+	int levelSum = (round % 9)* 1.5;
 	levelSum -=2;
 	if(levelSum < 0)
 		levelSum = 0;
@@ -193,9 +193,9 @@ void StageEndlessLayer::initDogPlanetsWithRound(int round)
 	}
 
 	
-	int levelSum = round * 1.5;
-	if(levelSum > 9)
-		levelSum = 9;
+	int levelSum = (round % 9)* 1.5;
+	if(levelSum > 8)
+		levelSum = 8;
 
 	while(levelSum > 0)
 	{
@@ -214,9 +214,9 @@ void StageEndlessLayer::initDogPlanetsWithRound(int round)
 		}
 	}
 
-	int fightUnitAddedSum = round * 1;
-	if(fightUnitAddedSum > 9)
-		fightUnitAddedSum = 9;
+	int fightUnitAddedSum = (round % 9)* 1;
+	if(fightUnitAddedSum > 8)
+		fightUnitAddedSum = 8;
 
 	while(fightUnitAddedSum > 0)
 	{

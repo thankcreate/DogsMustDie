@@ -213,8 +213,7 @@ void StartupLayer::endlessCallback( CCObject* pSender )
 	PlayEffect("Audio_button.mp3");
 
 	int toBig = LoadIntegerFromXML(KEY_PLAYED_TO_BIG, 1);
-    // TODO
-    toBig = 2;
+    
 	if(toBig > 1)
 	{
 		CCScene* stage = StageEndlessScene::create();
