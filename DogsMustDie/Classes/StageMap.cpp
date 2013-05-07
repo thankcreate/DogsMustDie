@@ -41,8 +41,10 @@
 #include "StageGameOverScene.h"
 #include "StageSelectScene.h"
 #include "LocalizeManager.h"
-#include "IAPWrapper.h"
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#include "IAPWrapper.h"
+#endif
 
 StageMap* StageMap::m_pInstance = NULL;
 

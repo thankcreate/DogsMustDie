@@ -16,7 +16,10 @@
 #include "StageStartupCGScene.h"
 #include "LocalizeManager.h"
 #include "StageGameOverScene.h"
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "IOSWrapper.h"
+#endif
 
 USING_NS_CC;
 using namespace CocosDenshion;

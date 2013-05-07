@@ -55,11 +55,11 @@ bool StartupLayer::init()
 		
 		// 两侧的星球
 		setCatPlanet(CCSprite::create("Startup_cat.png"));
-		m_pCatPlanet->setPosition(ccp(120,133));
+		m_pCatPlanet->setPosition(ccp(120,145));
 		this->addChild(m_pCatPlanet, 1);
 
 		setDogPlanet(CCSprite::create("Startup_dog.png"));
-		m_pDogPlanet->setPosition(ccp(680,133));
+		m_pDogPlanet->setPosition(ccp(680,145));
 		this->addChild(m_pDogPlanet, 1);
 
 		// 菜单
@@ -110,10 +110,33 @@ bool StartupLayer::init()
 			menu_selector(StartupLayer::aboutCallback));
 		CC_BREAK_IF(! pAboutItem);		
 
-
-
 		pAboutItem->setPosition(ccp(400, 43));
 		pMenu->addChild(pAboutItem);		
+
+		// for ios only
+		//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+		CCMenuItemImage *pGameCenterItem = CCMenuItemImage::create(
+			"Startup_btn_gamecenter_normal.png",
+			"Startup_btn_gamecenter_pressed.png",
+			this,
+			menu_selector(StartupLayer::gameCenterCallback));
+		CC_BREAK_IF(! pGameCenterItem);	
+
+		CCSize gameCenterSize = pGameCenterItem->boundingBox().size;
+		pGameCenterItem->setPosition(ccp(gameCenterSize.width / 2 - 2, gameCenterSize.height / 2 - 2));
+		pMenu->addChild(pGameCenterItem);
+
+		CCMenuItemImage *pRateUsItem = CCMenuItemImage::create(
+			I18N_FILE("Startup_btn_rateus_normal.png"),
+			I18N_FILE("Startup_btn_rateus_pressed.png"),
+			this,
+			menu_selector(StartupLayer::rateUsCallback));
+		CC_BREAK_IF(! pRateUsItem);	
+
+		CCSize rateUsSize = pRateUsItem->boundingBox().size;
+		pRateUsItem->setPosition(ccp(size.width - rateUsSize.width / 2 + 2, rateUsSize.height / 2 - 2));
+		pMenu->addChild(pRateUsItem);
+		//#endif
 
 		shakePlanets();
 
@@ -207,4 +230,16 @@ void StartupLayer::showEndlessNotAllowedDialog()
 		m_pDialogLayer->setContent(I18N_STR("Endless_Unlock_Description"));
 	}	
 	m_pDialogLayer->show();
+}
+
+void StartupLayer::gameCenterCallback( CCObject* pSender )
+{
+
+}
+
+
+
+void StartupLayer::rateUsCallback( CCObject* pSender )
+{
+
 }

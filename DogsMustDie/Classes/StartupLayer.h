@@ -30,6 +30,9 @@ public:
 	void optionCallback(CCObject* pSender);
 	void aboutCallback(CCObject* pSender);
 	void endlessCallback(CCObject* pSender);
+
+	void gameCenterCallback(CCObject* pSender);
+	void rateUsCallback(CCObject* pSender);
     
     // 目前仅对iOS版有效，评分
     void rateusCallback(CCObject* pSender);
