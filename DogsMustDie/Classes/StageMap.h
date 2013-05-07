@@ -11,7 +11,7 @@ class StageMap : public iOSBridge::Callbacks::IAPCallback
 {
 public:
 	static StageMap* sharedInstance();
-	void gotoStage(int bigIndex, int smallIndex);
+	bool gotoStage(int bigIndex, int smallIndex);
 	void gotoStageGameOver();
 
     virtual void purchased(bool isSuccessful);

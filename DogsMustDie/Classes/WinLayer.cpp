@@ -113,8 +113,9 @@ void WinLayer::backCallback(CCObject* pOb)
 
 void WinLayer::nextCallback(CCObject* pOb)
 {
-	restore();
-	getStageScene()->gotoNext();
+	bool res = getStageScene()->gotoNext();
+    if(res)
+        restore();
 }
 
 

@@ -54,8 +54,6 @@ bool StageEndlessScene::init()
 	return bRet;
 }
 
-
-
 void StageEndlessScene::opReStart()
 {	
 	m_nEndlessRound = 0;
@@ -70,7 +68,7 @@ void StageEndlessScene::continueRestartWithThisRound()
 	init();
 }
 
-void StageEndlessScene::gotoNext()
+bool StageEndlessScene::gotoNext()
 {
 	m_nEndlessRound ++;
 	this->removeChild(m_pStageLayer,true);
@@ -78,6 +76,7 @@ void StageEndlessScene::gotoNext()
 	// Caution: 此处并不remove掉小电视那一层
 	// 因为小电视自己需要一个退出动画，不能在restart时立即销毁	
 	init();
+    return true;
 }
 
 void StageEndlessScene::opGoBack()

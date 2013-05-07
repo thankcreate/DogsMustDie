@@ -245,14 +245,15 @@ int StageBaseScene::getScoreStartCount(int time , int unitLost)
 
 // gotoNext现在统一由BigLevel和SmallLevel来推断
 // 一般不由子类重写
-void StageBaseScene::gotoNext()
+bool StageBaseScene::gotoNext()
 {
 	if(m_nBigLevel <=0 || m_nSmallLevel <= 0)
-		return;
+		return false;
 
 	if(m_nBigLevel == BIG_STAGE_COUNT && m_nSmallLevel == SMALL_STAGE_COUNT)
 	{
 		StageMap::sharedInstance()->gotoStageGameOver();
+        return true;
 	}
 	else
 	{
@@ -262,6 +263,6 @@ void StageBaseScene::gotoNext()
 		int bigIndex = zeroBasedIndex / SMALL_STAGE_COUNT + 1;
 		int smallIndex = zeroBasedIndex % SMALL_STAGE_COUNT + 1;
 
-		StageMap::sharedInstance()->gotoStage(bigIndex, smallIndex);
+		return StageMap::sharedInstance()->gotoStage(bigIndex, smallIndex);
 	}	
 }

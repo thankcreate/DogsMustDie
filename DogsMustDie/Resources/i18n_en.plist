@@ -87,9 +87,13 @@ The era of cats is coming.
 If you feel unsatisfied, you can still go to endless mode to continue your noble career.
 Dogs must die!</string>
     
+    <key>IAP_Dialog_Buy</key>
+    <string>Buy</string>
+    <key>IAP_Dialog_Cancel</key>
+    <string>Cancel</string>
     
     <key>IAP_Upgrade_Description</key>
-    <string>Upgrade to pro version to unlock stage 2 ~ 3. That's a lot of help for us to improve this game.</string>    
+    <string>You need buy pro version to unlock stage 2 ~ 3. That's a lot of help for us to improve this game.</string>
     <key>IAP_Restore_Description</key>
     <string>If you have purchased before, use this to restore to purchased state.</string>
     <key>IAP_Buy_Coin_Description</key>

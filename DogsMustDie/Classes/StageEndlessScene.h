@@ -28,7 +28,7 @@ public:
 	int getTimeJudgeLine() { return 30 ;}
 	int getUnitLostJudgeLine() { return 30; }
 	int getScoreStartCount(int time , int unitLost) {return 3;}
-	void gotoNext();
+	bool gotoNext();
 	void opGoBack();
 
 	void showNavigatorLose(int time, int unitLost);

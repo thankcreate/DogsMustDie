@@ -56,7 +56,7 @@ StageMap* StageMap::sharedInstance()
 }
 
 
-void StageMap::gotoStage( int bigIndex, int smallIndex )
+bool StageMap::gotoStage( int bigIndex, int smallIndex )
 {
 	// 检查是不是要到付费2-1 这是付费关卡的第一关
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -66,7 +66,7 @@ void StageMap::gotoStage( int bigIndex, int smallIndex )
         if(!bPurchased)
         {
             IAPWrapper::sharedInstance()->buyProductIdentifierWithPromptDialog(AppPurchaseProUpgradeProductId, I18N_STR("IAP_Upgrade_Description"), this);
-            return;
+            return false;
         }
     }
 #endif
@@ -91,6 +91,7 @@ void StageMap::gotoStage( int bigIndex, int smallIndex )
 
 	if(stage)
 		stage->setLevel(bigIndex, smallIndex);
+    return true;
 }
 
 void StageMap::gotoStageGameOver()

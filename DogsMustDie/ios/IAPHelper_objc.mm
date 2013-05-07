@@ -213,11 +213,17 @@ static IAPHelper_objc * sharedHelper = nil;
 {
     [self setLastProductID:product];
     latestIAPCallback = cb;
+    
+    NSString *nsContinue = [NSString stringWithCString:I18N_STR("IAP_Dialog_Buy")
+                                         encoding:NSUTF8StringEncoding];
+    
+    NSString *nsCancel = [NSString stringWithCString:I18N_STR("IAP_Dialog_Cancel")
+                                         encoding:NSUTF8StringEncoding];
     UIAlertView * messageBox = [[UIAlertView alloc] initWithTitle: @"^_^"
                                                           message: msg
                                                          delegate: self
-                                                cancelButtonTitle: @"Cancel"
-                                                otherButtonTitles: @"OK", nil];
+                                                cancelButtonTitle: nsCancel
+                                                otherButtonTitles: nsContinue, nil];
     [messageBox setTag:kBuyAlertTag];
     [messageBox autorelease];
     [messageBox show];

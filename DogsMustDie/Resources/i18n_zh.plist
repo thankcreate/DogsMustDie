@@ -96,8 +96,13 @@
 如果您觉得意犹未尽，可以进入无尽模式来继续我们伟大的事业
 汪星人必须死！</string>
     
+    <key>IAP_Dialog_Buy</key>
+    <string>购买</string>
+    <key>IAP_Dialog_Cancel</key>
+    <string>取消</string>
+    
     <key>IAP_Upgrade_Description</key>
-    <string>升级到完整版以解锁其它关卡并去除广告，这将是对我们极大的支持和鼓励～</string>
+    <string>您需要购买完整版以解锁剩余关卡并去除广告，这将是对我们极大的支持和鼓励～</string>
     <key>IAP_Restore_Description</key>
     <string>如果您之前已经升级过完整版，请通过此处恢复之前的购买</string>    
     <key>IAP_Buy_Coin_Description</key>

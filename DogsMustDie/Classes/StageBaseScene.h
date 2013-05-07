@@ -33,7 +33,7 @@ public:
 	virtual void opGoBack();
 	virtual void opReStart();
 	virtual void opSound(bool isOn);
-	virtual void gotoNext();
+	virtual bool gotoNext();
 	void showHelpLayer();
 		
 	virtual void showNavigatorLose(int time, int unitLost);
