@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 
 #import "RootViewController.h"
+#import "MobClick.h"
 #import "GameCenterWrapper_objc.h"
 
 @implementation AppController
@@ -63,7 +64,11 @@ static AppDelegate s_sharedApplication;
 
     cocos2d::CCApplication::sharedApplication()->run();
     
+    // GameCenter
     [[GameCenterWrapper_objc sharedGameCenterHelper] authenticateLocalUser];
+    
+    // Umeng
+    [MobClick startWithAppkey:@"5188a07256240b7e12015db7"]; 
     return YES;
 }
 

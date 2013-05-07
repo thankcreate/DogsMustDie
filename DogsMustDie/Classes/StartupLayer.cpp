@@ -16,6 +16,12 @@
 #include "LocalizeManager.h"
 #include "DialogLayer.h"
 #include "MyUseDefaultDef.h"
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#include "IOSWrapper.h"
+#include "GameCenterWrapper.h"
+#endif
+
 using namespace cocos2d;
 
 StartupLayer::StartupLayer(void) :
@@ -114,7 +120,7 @@ bool StartupLayer::init()
 		pMenu->addChild(pAboutItem);		
 
 		// for ios only
-		//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 		CCMenuItemImage *pGameCenterItem = CCMenuItemImage::create(
 			"Startup_btn_gamecenter_normal.png",
 			"Startup_btn_gamecenter_pressed.png",
@@ -136,7 +142,7 @@ bool StartupLayer::init()
 		CCSize rateUsSize = pRateUsItem->boundingBox().size;
 		pRateUsItem->setPosition(ccp(size.width - rateUsSize.width / 2 + 2, rateUsSize.height / 2 - 2));
 		pMenu->addChild(pRateUsItem);
-		//#endif
+#endif
 
 		shakePlanets();
 
@@ -234,12 +240,10 @@ void StartupLayer::showEndlessNotAllowedDialog()
 
 void StartupLayer::gameCenterCallback( CCObject* pSender )
 {
-
+    GameCenterWrapper::sharedInstance()->showLeaderboard();
 }
-
-
 
 void StartupLayer::rateUsCallback( CCObject* pSender )
 {
-
+    IOSWrapper::sharedInstance()->rateUs();
 }

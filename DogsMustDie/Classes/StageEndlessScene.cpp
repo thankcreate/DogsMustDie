@@ -13,6 +13,11 @@
 
 #include <time.h>
 
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#include "GameCenterWrapper.h"
+#endif
+
 StageEndlessScene::StageEndlessScene() :
 	m_nEndlessRound(0),
 	m_pNoticeLayer(NULL)
@@ -114,6 +119,10 @@ void StageEndlessScene::showNavigatorWin(int time, int unitLost)
 	{
 		SaveIntegerToXML(KEY_ENDLESS_BEST_ROUND, m_nEndlessRound );
         SaveUserDefault();
+        
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        GameCenterWrapper::sharedInstance()->reportScore(m_nEndlessRound);
+#endif
 	}
 
 
