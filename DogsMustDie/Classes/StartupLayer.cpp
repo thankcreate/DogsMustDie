@@ -122,8 +122,8 @@ bool StartupLayer::init()
 		// for ios only
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 		CCMenuItemImage *pGameCenterItem = CCMenuItemImage::create(
-			"Startup_btn_gamecenter_normal.png",
-			"Startup_btn_gamecenter_pressed.png",
+			I18N_FILE("Startup_btn_gamecenter_normal.png"),
+			I18N_FILE("Startup_btn_gamecenter_pressed.png"),
 			this,
 			menu_selector(StartupLayer::gameCenterCallback));
 		CC_BREAK_IF(! pGameCenterItem);	

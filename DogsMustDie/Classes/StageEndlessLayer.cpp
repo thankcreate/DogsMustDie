@@ -215,8 +215,8 @@ void StageEndlessLayer::initDogPlanetsWithRound(int round)
 	}
 
 	int fightUnitAddedSum = round * 1;
-	if(fightUnitAddedSum > 11)
-		fightUnitAddedSum = 11;
+	if(fightUnitAddedSum > 9)
+		fightUnitAddedSum = 9;
 
 	while(fightUnitAddedSum > 0)
 	{

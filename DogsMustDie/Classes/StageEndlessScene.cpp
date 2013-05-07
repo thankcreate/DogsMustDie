@@ -19,7 +19,7 @@
 #endif
 
 StageEndlessScene::StageEndlessScene() :
-	m_nEndlessRound(0),
+	m_nEndlessRound(10),
 	m_pNoticeLayer(NULL)
 {
 }
