@@ -26,7 +26,7 @@ bool Stage1_06Layer::init()
 void Stage1_06Layer::initPlanets()
 {
 	makePlanet(kForceSideCat, ccp(97,81),  25, 1);
-	m_pDog = makePlanet(kForceSideDog, ccp(612,409), 50, 3);
+	m_pDog = makePlanet(kForceSideDog, ccp(612,409), 40, 3);
 	
 	m_pMiddle1 = makePlanet(kForceSideMiddle, ccp(236,371), 7, 1);
 	m_pMiddle1->stopIncrease();
@@ -45,6 +45,6 @@ void Stage1_06Layer::initLoadedAction()
 {
 	sendTroopsToPlanet(m_pDog, m_pMiddle1, 9);
 	sendTroopsToPlanet(m_pDog, m_pMiddle2, 9);
-	sendTroopsToPlanet(m_pDog, m_pMiddle3, 15);
+	sendTroopsToPlanet(m_pDog, m_pMiddle3, 9);
 }
 

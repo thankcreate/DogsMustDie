@@ -24,8 +24,8 @@ bool Stage1_04Layer::init()
 
 void Stage1_04Layer::initPlanets()
 {
-	makePlanet(kForceSideCat, ccp(532,323), 15, 0);
-	m_pDog = makePlanet(kForceSideDog, ccp(143,112), 22, 1);
+	makePlanet(kForceSideCat, ccp(532,323), 16, 0);
+	m_pDog = makePlanet(kForceSideDog, ccp(143,112), 20, 1);
 
 	m_pMiddle1 = makePlanet(kForceSideMiddle, ccp(250,323), 5, 0);
 	m_pMiddle1->stopIncrease();

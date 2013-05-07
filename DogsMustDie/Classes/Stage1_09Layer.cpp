@@ -21,9 +21,9 @@ bool Stage1_09Layer::init()
 
 void Stage1_09Layer::initPlanets()
 {
-	makePlanet(kForceSideCat, ccp(264, 210), 2, 1);  // 中间
-	makePlanet(kForceSideCat, ccp(160, 368), 2, 0);
-	makePlanet(kForceSideCat, ccp(118, 67), 2, 0); 
+	makePlanet(kForceSideCat, ccp(264, 210), 3, 1);  // 中间
+	makePlanet(kForceSideCat, ccp(160, 368), 3, 0);
+	makePlanet(kForceSideCat, ccp(118, 67), 3, 0);
 	
 	
 	makePlanet(kForceSideDog, ccp(480, 210), 4, 2); // 中间

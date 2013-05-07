@@ -4,6 +4,7 @@
 #include "MyUseDefaultDef.h"
 #include "BuyScene.h"
 #include "LocalizeManager.h"
+#include "StageEndlessScene.h"
 
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
@@ -173,7 +174,8 @@ void StageEndlessRestartLayer::continueCallback(CCObject* pOb)
 
 	refreshCoinCountLabel();	
 	restore();
-	getStageScene()->opReStart();
+    StageEndlessScene* scene = (StageEndlessScene*)getStageScene();
+	scene->continueRestartWithThisRound();
 }
 
 void StageEndlessRestartLayer::backCallback(CCObject* pOb)

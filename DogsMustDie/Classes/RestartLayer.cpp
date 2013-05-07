@@ -172,6 +172,6 @@ void RestartLayer::setLostUnit(int nLost)
 		m_pFrame->addChild(m_pLostUnitLabel);
 	}
 
-	CCString* pFullLostUnitString = CCString::createWithFormat("%s:  %d cat", I18N_STR("Unit_Lost") , m_nLostUnit);
+	CCString* pFullLostUnitString = CCString::createWithFormat("%s:  %d", I18N_STR("Unit_Lost") , m_nLostUnit);
 	m_pLostUnitLabel->setString(pFullLostUnitString->getCString());
 }
