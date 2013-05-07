@@ -177,7 +177,7 @@ using namespace cocos2d;
     SaveIntegerToXML(KEY_HIGHEST_ENDLESS_ROUND, nScore);
     SaveUserDefault();
     
-    GKScore* score = [[GKScore alloc] initWithCategory:@"grp.com.thankcreate.IQLeaderboard"];
+    GKScore* score = [[GKScore alloc] initWithCategory:@"grp.com.thankcreate.DogsMustDie.EndlessModeLeaderboard"];
     score.value = nScore;
     [score reportScoreWithCompletionHandler:nil];
 }

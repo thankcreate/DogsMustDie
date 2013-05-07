@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 
 #import "RootViewController.h"
+#import "GameCenterWrapper_objc.h"
 
 @implementation AppController
 
@@ -61,6 +62,8 @@ static AppDelegate s_sharedApplication;
     [[UIApplication sharedApplication] setStatusBarHidden: YES];
 
     cocos2d::CCApplication::sharedApplication()->run();
+    
+    [[GameCenterWrapper_objc sharedGameCenterHelper] authenticateLocalUser];
     return YES;
 }
 
