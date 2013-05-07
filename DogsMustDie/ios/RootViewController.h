@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#define USE_AD
+
+#ifdef USE_AD
 #import "AdMoGoDelegateProtocol.h"
 #import "AdMoGoView.h"
 #import "AdMoGoWebBrowserControllerUserDelegate.h"
+#endif
 
+#ifdef USE_AD
 @interface RootViewController : UIViewController <AdMoGoDelegate, AdMoGoWebBrowserControllerUserDelegate>
 {
     AdMoGoView *adView;
@@ -21,4 +26,13 @@
 -(void)initAd;
 -(void)showAd;
 -(void)hideAd;
+#else
+@interface RootViewController : UIViewController
+{
+
+}
+-(void)initAd;
+-(void)showAd;
+-(void)hideAd;
+#endif
 @end

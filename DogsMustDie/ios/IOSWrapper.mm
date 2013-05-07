@@ -9,7 +9,7 @@
 #include "IOSWrapper.h"
 #import <Foundation/Foundation.h>
 #import "IOSWrapper_objc.h"
-#import "MobClick.h"
+
 
 IOSWrapper* IOSWrapper::m_pInstance = NULL;
 
@@ -35,7 +35,6 @@ void IOSWrapper::showRateUSDialog()
 void IOSWrapper::recordLevel(int big, int small)
 {
     NSString* label = [NSString stringWithFormat:@"level:%d-%d", big, small];
-    [MobClick event:label];
 }
 
 void IOSWrapper::showAd()

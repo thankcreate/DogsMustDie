@@ -68,7 +68,8 @@ static AppDelegate s_sharedApplication;
     [[GameCenterWrapper_objc sharedGameCenterHelper] authenticateLocalUser];
     
     // Umeng
-    [MobClick startWithAppkey:@"5188a07256240b7e12015db7"]; 
+    [MobClick startWithAppkey:@"5188a07256240b7e12015db7"];
+    [MobClick setLogEnabled:YES];
     return YES;
 }
 

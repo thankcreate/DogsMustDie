@@ -10,13 +10,19 @@
 #include "Defines.h"
 #include "MyUseDefaultDef.h"
 
+
+
 @implementation RootViewController
+#ifdef USE_AD
 @synthesize adView;
+#endif
 
 - (void)dealloc
 {
+#ifdef USE_AD
     adView.delegate = nil;
     adView.adWebBrowswerDelegate = nil;
+#endif
     [super dealloc];
 }
 
@@ -46,6 +52,8 @@
 
 -(void)initAd
 {
+    
+#ifdef USE_AD
     bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED, false);
     if(bPurchased)
         return;
@@ -53,12 +61,7 @@
     adView = [[AdMoGoView alloc] initWithAppKey:@"7e6e18012516460d94ee6068f0325869"
                                              adType:AdViewTypeNormalBanner
                                         expressMode:NO
-                                 adMoGoViewDelegate:self];
-    
-    adView = [[AdMoGoView alloc] initWithAppKey:@"7e6e18012516460d94ee6068f0325869"
-                                             adType:AdViewTypeNormalBanner
-                                        expressMode:NO
-                                 adMoGoViewDelegate:self];
+                                 adMoGoViewDelegate:self];    
     
     adView.adWebBrowswerDelegate = self;
     
@@ -82,26 +85,34 @@
     [self.view addSubview:adView];
     self.adView.hidden = true;
     [adView release];
+#endif
 }
 
 -(void)showAd
 {
+#ifdef USE_AD
     bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED, false);
     if(bPurchased)
         return;
     
     adView.hidden = false;
+#endif
 }
 
 -(void)hideAd
 {
+#ifdef USE_AD
     bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED, false);
     if(bPurchased)
         return;
     
     adView.hidden = true;
+#endif
 }
 
+
+
+#ifdef USE_AD
 /**
  * 广告开始请求回调
  */
@@ -116,11 +127,13 @@
 }
 
 
+
+
 - (UIViewController *)viewControllerForPresentingModalView
 {
     return self;
 }
- 
+#endif 
 
 // Override to allow orientations other than the default portrait orientation.
 // This method is deprecated on ios6
