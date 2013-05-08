@@ -9,6 +9,10 @@
 #include "IOSWrapper.h"
 #endif
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "AdViewManager.h"
+#endif
+
 PauseLayer::PauseLayer() :
 	m_pStageScene(NULL),
 	m_pFrame(NULL),
@@ -132,7 +136,9 @@ void PauseLayer::show()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     IOSWrapper::sharedInstance()->showAd();
 #endif
-    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+	AdViewManager::sharedInstance()->show();	
+#endif
 }
 
 void PauseLayer::restore()
@@ -146,6 +152,9 @@ void PauseLayer::restore()
     
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     IOSWrapper::sharedInstance()->hideAd();
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+	AdViewManager::sharedInstance()->hide();	
 #endif
 }
 
@@ -161,23 +170,29 @@ void PauseLayer::onEnterTransitionDidFinish()
 {
 	CCLayer::onEnterTransitionDidFinish();
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 5, true);
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    if(m_bInShow)
-    {
-        IOSWrapper::sharedInstance()->showAd();
-    }
+	if(m_bInShow)
+	{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS   
+        IOSWrapper::sharedInstance()->showAd();   
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+		AdViewManager::sharedInstance()->show();	
+#endif
+	 }
 }
 
 void PauseLayer::onExit()
 {
     CCLayer::onExit();
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    if(m_bInShow)
-    {
-        IOSWrapper::sharedInstance()->hideAd();
-    }
+	if(m_bInShow)
+	{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS    
+        IOSWrapper::sharedInstance()->hideAd();   
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+		AdViewManager::sharedInstance()->hide();	
+#endif
+	}
 }
 
 PauseLayer::~PauseLayer()

@@ -6,6 +6,11 @@
 #include "LocalizeManager.h"
 #include "StageEndlessScene.h"
 
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "AppOfferManager.h"
+#endif
+
 #define SHAKE_ANGLE 12
 #define SCALE 1.2
 StageEndlessRestartLayer::StageEndlessRestartLayer() :	
@@ -21,6 +26,10 @@ StageEndlessRestartLayer::StageEndlessRestartLayer() :
 StageEndlessRestartLayer::~StageEndlessRestartLayer()
 {
 	CC_SAFE_RELEASE(m_pFlickerAction);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	AppOfferManager::sharedInstance()->setDelegate(NULL);
+#endif
+
 }
 
 bool StageEndlessRestartLayer::init()
@@ -266,13 +275,39 @@ void StageEndlessRestartLayer::setRound( int round )
 
 void StageEndlessRestartLayer::getCoinCallback( CCObject* pOb )
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	BuyScene* pBuyScene = BuyScene::create();
 	CCDirector::sharedDirector()->pushScene(pBuyScene);
+#endif
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	AppOfferManager::sharedInstance()->setDelegate(this);
+	AppOfferManager::sharedInstance()->show();
+#endif
 }
 
 void StageEndlessRestartLayer::onEnterTransitionDidFinish()
 {
     StageEndlessNavigatorLayer::onEnterTransitionDidFinish();
     refreshCoinCountLabel();
+	refreshContinueButtonEnableState();
+}
+
+void StageEndlessRestartLayer::pointAdded( int n )
+{
+	// 1
+	// 实际上这里不会用到n，早在AppOfferManager中已经把增加值更新到UserDefault中去了
+	// 这是因为很有可能此函数调用前，本类就已经析构了置delegate为NULL
+	// 也就可能不会调用到这里
+	
+	// 2
+	// 这里已经是在UI线程了，但是不知为何此处直接操作label会导致其黑掉
+	// 所以还是schedule一下
+	this->scheduleOnce(schedule_selector(StageEndlessRestartLayer::pointAddedInternal), 0.1);
+}
+
+void StageEndlessRestartLayer::pointAddedInternal(float dt)
+{
+	refreshCoinCountLabel();
 	refreshContinueButtonEnableState();
 }
