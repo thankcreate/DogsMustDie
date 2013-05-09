@@ -75,10 +75,8 @@ const char* LocalizeManager::makeResourceFileName(const char* rawFileName)
 
 const char* LocalizeManager::getAndroidFullPathFromRelativePath(const char* path)
 {
-	CCString* pRet = CCString::create( CCFileUtils::sharedFileUtils()->getResourceDirectory());
-	pRet->m_sString += "assets/";
-	pRet->m_sString += path;	
-	return pRet->getCString();
+	// very complexed
+	return "";
 }
 
 
