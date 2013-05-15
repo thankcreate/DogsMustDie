@@ -4,10 +4,17 @@
 #include "cocos2d.h"
 #include "StageBaseScene.h"
 #include "StageEndlessNavigatorLayer.h"
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "AppOfferDelegate.h"
+#endif
+
 using namespace cocos2d;
 
-class StageEndlessRestartLayer : public StageEndlessNavigatorLayer, public AppOfferDelegate
+class StageEndlessRestartLayer : public StageEndlessNavigatorLayer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    , public AppOfferDelegate
+#endif
 {
 public:
 	StageEndlessRestartLayer();
