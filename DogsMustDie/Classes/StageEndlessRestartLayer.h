@@ -4,11 +4,10 @@
 #include "cocos2d.h"
 #include "StageBaseScene.h"
 #include "StageEndlessNavigatorLayer.h"
-
-
+#include "AppOfferDelegate.h"
 using namespace cocos2d;
 
-class StageEndlessRestartLayer : public StageEndlessNavigatorLayer
+class StageEndlessRestartLayer : public StageEndlessNavigatorLayer, public AppOfferDelegate
 {
 public:
 	StageEndlessRestartLayer();
@@ -41,6 +40,10 @@ public:
 	void refreshCoinCountLabel();
 	void continueCallback(CCObject* pOb);
 	void refreshContinueButtonEnableState();
+
+	// AppOfferDelegate
+	virtual void pointAdded(int n);
+	void pointAddedInternal(float dt);
 protected:
 	int m_nCoinCount;
 	bool m_bContinueAlreadyUsedInOneSession;

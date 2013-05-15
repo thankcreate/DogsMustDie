@@ -330,7 +330,6 @@ void StageSelectLayer::reloadScrollLayer()
 }
 
 
-
 void StageSelectLayer::onExit()
 {
 	CCLayer::onExit();

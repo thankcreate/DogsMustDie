@@ -457,6 +457,12 @@
     <ClInclude Include="..\Classes\DialogLayer.h">
       <Filter>include\Stage\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\AppOfferManager.h">
+      <Filter>include\Ad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppOfferDelegate.h">
+      <Filter>include\Ad</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -776,6 +782,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\DialogLayer.cpp">
       <Filter>source\Stage\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppOfferManager.cpp">
+      <Filter>source\Ad</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

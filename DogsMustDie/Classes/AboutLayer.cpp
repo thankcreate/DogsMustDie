@@ -61,9 +61,7 @@ bool AboutLayer::init()
 		setKeypadEnabled(true);
 		PreloadEffect("Audio_button.mp3");
 
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//		AdViewManager::sharedInstance()->show();	
-//#endif
+
 
 		bRet = true;
 	} while (0);
@@ -88,7 +86,4 @@ void AboutLayer::keyBackClicked()
 void AboutLayer::onExit()
 {
 	CCLayer::onExit();
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//	AdViewManager::sharedInstance()->hide();
-//#endif
 }

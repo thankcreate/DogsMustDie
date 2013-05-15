@@ -16,6 +16,9 @@
 #include "IOSWrapper.h"
 #endif
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "AdViewManager.h"
+#endif
 StageBaseLayer::StageBaseLayer()  :
 	m_pParentScene(NULL),
 	m_bIsSpeakerEnabled(false),
@@ -1200,6 +1203,9 @@ void StageBaseLayer::onEnterTransitionDidFinish()
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     IOSWrapper::sharedInstance()->hideAd();
+#endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+	AdViewManager::sharedInstance()->hide();	
 #endif
 }
 

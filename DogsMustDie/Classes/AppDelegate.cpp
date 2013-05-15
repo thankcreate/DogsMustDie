@@ -21,6 +21,10 @@
 #include "IOSWrapper.h"
 #endif
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "AdViewManager.h"
+#endif
+
 USING_NS_CC;
 using namespace CocosDenshion;
 
@@ -70,6 +74,13 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // run
     pDirector->runWithScene(pScene);
+
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	// 安卓广告预加载
+	AdViewManager::sharedInstance()->show();
+	AdViewManager::sharedInstance()->hide();
+#endif
     
     // 增加启动次数
     int nLaunchCount = LoadIntegerFromXML(KEY_LAUNCH_COUNT, 0);

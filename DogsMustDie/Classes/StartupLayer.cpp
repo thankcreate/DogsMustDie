@@ -247,10 +247,14 @@ void StartupLayer::showEndlessNotAllowedDialog()
 
 void StartupLayer::gameCenterCallback( CCObject* pSender )
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     GameCenterWrapper::sharedInstance()->showLeaderboard();
+#endif
 }
 
 void StartupLayer::rateUsCallback( CCObject* pSender )
 {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     IOSWrapper::sharedInstance()->rateUs();
+#endif
 }

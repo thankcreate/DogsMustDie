@@ -5,6 +5,10 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 #include "IOSWrapper.h"
 #endif
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "AdViewManager.h"
+#endif
 NavigatorLayer::NavigatorLayer() :
 	m_pStageScene(NULL),
 	m_bInShow(false),
@@ -76,24 +80,29 @@ void NavigatorLayer::onEnterTransitionDidFinish()
 	CCLayer::onEnterTransitionDidFinish();
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, kCCMenuHandlerPriority - 5, true);
     
-   
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    if(m_bInShow)
-    {
-        IOSWrapper::sharedInstance()->showAd();
-    }
+	if(m_bInShow)
+	{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS    
+        IOSWrapper::sharedInstance()->showAd();   
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+		AdViewManager::sharedInstance()->show();	
+#endif
+	 }
 }
 
 void NavigatorLayer::onExit()
 {
     CCLayer::onExit();
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    if(m_bInShow)
-    {
-        IOSWrapper::sharedInstance()->hideAd();
-    }
+	if(m_bInShow)
+	{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS    
+        IOSWrapper::sharedInstance()->hideAd();   
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+		AdViewManager::sharedInstance()->hide();	
+#endif
+	}
 }
 
 
@@ -114,6 +123,10 @@ void NavigatorLayer::show()
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     IOSWrapper::sharedInstance()->showAd();
 #endif
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+	AdViewManager::sharedInstance()->show();	
+#endif
 }
 
 void NavigatorLayer::restore()
@@ -127,6 +140,10 @@ void NavigatorLayer::restore()
     
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     IOSWrapper::sharedInstance()->hideAd();
+#endif
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID	
+	AdViewManager::sharedInstance()->hide();	
 #endif
 }
 

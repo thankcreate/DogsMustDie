@@ -135,6 +135,8 @@
     <ClInclude Include="..\Classes\AboutScene.h" />
     <ClInclude Include="..\Classes\AdViewManager.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\AppOfferDelegate.h" />
+    <ClInclude Include="..\Classes\AppOfferManager.h" />
     <ClInclude Include="..\Classes\AudioManager.h" />
     <ClInclude Include="..\Classes\BuyLayer.h" />
     <ClInclude Include="..\Classes\BuyScene.h" />
@@ -250,6 +252,7 @@
     <ClCompile Include="..\Classes\AboutScene.cpp" />
     <ClCompile Include="..\Classes\AdViewManager.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\AppOfferManager.cpp" />
     <ClCompile Include="..\Classes\AudioManager.cpp" />
     <ClCompile Include="..\Classes\BuyLayer.cpp" />
     <ClCompile Include="..\Classes\BuyScene.cpp" />
