@@ -56,3 +56,18 @@ bool IOSWrapper::isProVersion()
 {
     return VERSION == VERSION_PRO;
 }
+
+bool IOSWrapper::isEndlessModeTest()
+{
+    NSString* strKey = [[NSString alloc] initWithString:@"Endless_Mode_Test"];
+    NSString* strTest = [[IOSWrapper_objc sharedInstance] getUmengParam:strKey];
+    
+    if(strTest == nil || [strTest compare:@"1"] != NSOrderedSame)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}

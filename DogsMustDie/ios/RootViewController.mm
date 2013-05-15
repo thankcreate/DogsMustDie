@@ -51,8 +51,7 @@
 }
 
 -(void)initAd
-{
-    
+{    
 #ifdef USE_AD
     bool bPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED, false);
     if(bPurchased)
@@ -60,7 +59,7 @@
     
     adView = [[AdMoGoView alloc] initWithAppKey:@"7e6e18012516460d94ee6068f0325869"
                                              adType:AdViewTypeNormalBanner
-                                        expressMode:NO
+                                        expressMode:YES
                                  adMoGoViewDelegate:self];    
     
     adView.adWebBrowswerDelegate = self;

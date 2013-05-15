@@ -23,6 +23,8 @@ public:
     static bool isLiteVersion();
     static bool isProVersion();
     
+    static bool isEndlessModeTest();
+    
 private:
     static IOSWrapper* m_pInstance;
     

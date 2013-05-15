@@ -214,7 +214,15 @@ void StartupLayer::endlessCallback( CCObject* pSender )
 
 	int toBig = LoadIntegerFromXML(KEY_PLAYED_TO_BIG, 1);
     
-	if(toBig > 1)
+    // 由于蛋疼的IOS审核人员找不到IAP点，发回重审，所以这里加了一个一友盟的在线参数
+    // 测试模式下直接是把Endless Mode一直打开，不用玩完所有Stage1来解锁 ^_^
+    // American sucks!
+    bool isInTestMode = false;
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    isInTestMode = IOSWrapper::isEndlessModeTest();
+#endif
+    
+	if(isInTestMode || toBig > 1)
 	{
 		CCScene* stage = StageEndlessScene::create();
 		CCDirector::sharedDirector()->replaceScene(stage);	

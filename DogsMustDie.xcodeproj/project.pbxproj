@@ -993,6 +993,8 @@
 		31EA3CA41737F57100E4FD27 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 31EA3BAF1737AB7300E4FD27 /* libsqlite3.dylib */; };
 		31EA3CA51737F58700E4FD27 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31EA3C871737B2A900E4FD27 /* MessageUI.framework */; };
 		31EA3CA61737F5AE00E4FD27 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31EA3C891737B2ED00E4FD27 /* AdSupport.framework */; };
+		31F49E461739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config in Resources */ = {isa = PBXBuildFile; fileRef = 31F49E451739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config */; };
+		31F49E471739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config in Resources */ = {isa = PBXBuildFile; fileRef = 31F49E451739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config */; };
 		31FB8C171738E8A000091C67 /* 00 Starmap Truetype.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31FB8B4F1738E8A000091C67 /* 00 Starmap Truetype.ttf */; };
 		31FB8C181738E8A000091C67 /* 00 Starmap Truetype.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31FB8B4F1738E8A000091C67 /* 00 Starmap Truetype.ttf */; };
 		31FB8C191738E8A000091C67 /* 8bitoperator JVE.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 31FB8B501738E8A000091C67 /* 8bitoperator JVE.ttf */; };
@@ -2358,6 +2360,7 @@
 		31EA3C871737B2A900E4FD27 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		31EA3C891737B2ED00E4FD27 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		31EA3CA71737FE2D00E4FD27 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		31F49E451739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 7e6e18012516460d94ee6068f0325869.config; sourceTree = "<group>"; };
 		31FB8B4F1738E8A000091C67 /* 00 Starmap Truetype.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "00 Starmap Truetype.ttf"; path = "Resources/00 Starmap Truetype.ttf"; sourceTree = "<group>"; };
 		31FB8B501738E8A000091C67 /* 8bitoperator JVE.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "8bitoperator JVE.ttf"; path = "Resources/8bitoperator JVE.ttf"; sourceTree = "<group>"; };
 		31FB8B511738E8A000091C67 /* About_bkg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = About_bkg.png; path = Resources/About_bkg.png; sourceTree = "<group>"; };
@@ -3401,6 +3404,7 @@
 		31E2FB21171C4B8E00D40241 = {
 			isa = PBXGroup;
 			children = (
+				31F49E451739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config */,
 				31EA3CA71737FE2D00E4FD27 /* iAd.framework */,
 				3103BB7C1737552300805F89 /* Default-Landscape@2x~ipad.png */,
 				3103BB7A1737551D00805F89 /* Default-Landscape~ipad.png */,
@@ -5148,6 +5152,7 @@
 				31001BF217394D3900B722C2 /* mobiSage_iOS_SDK.pdf in Resources */,
 				31001BFA17394D3900B722C2 /* MobiSageRecommendBundle.bundle in Resources */,
 				31001C3A17394D3900B722C2 /* MobisageSDK_Sample.zip in Resources */,
+				31F49E461739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5460,6 +5465,7 @@
 				31001BF317394D3900B722C2 /* mobiSage_iOS_SDK.pdf in Resources */,
 				31001BFB17394D3900B722C2 /* MobiSageRecommendBundle.bundle in Resources */,
 				31001C3B17394D3900B722C2 /* MobisageSDK_Sample.zip in Resources */,
+				31F49E471739F7E40022FD94 /* 7e6e18012516460d94ee6068f0325869.config in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6253,8 +6259,8 @@
 					"\"$(PROJECT_NAME)/libs/cocos2dx/platform/ios\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				PROVISIONING_PROFILE = "74C52A33-2D63-43A4-ADE4-324A862A9F75";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "74C52A33-2D63-43A4-ADE4-324A862A9F75";
+				PROVISIONING_PROFILE = "ADA8C8F8-25FB-4B7A-8353-A36EDBCD90DF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADA8C8F8-25FB-4B7A-8353-A36EDBCD90DF";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -6285,8 +6291,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "74C52A33-2D63-43A4-ADE4-324A862A9F75";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "74C52A33-2D63-43A4-ADE4-324A862A9F75";
+				PROVISIONING_PROFILE = "ADA8C8F8-25FB-4B7A-8353-A36EDBCD90DF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADA8C8F8-25FB-4B7A-8353-A36EDBCD90DF";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
