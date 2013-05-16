@@ -27,7 +27,7 @@ bool Stage1_08Layer::init()
 
 void Stage1_08Layer::initPlanets()
 {
-	m_pCat = makePlanet(kForceSideCat, ccp(368, 207), 94, 3);
+	m_pCat = makePlanet(kForceSideCat, ccp(368, 207), 97, 3);
 
 	m_pDog1 = makePlanet(kForceSideDog, ccp(144, 208), 23, 1);
 	m_pDog2 = makePlanet(kForceSideDog, ccp(595, 208), 23, 1);

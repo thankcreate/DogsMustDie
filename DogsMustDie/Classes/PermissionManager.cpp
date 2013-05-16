@@ -15,7 +15,7 @@ PermissionManager* PermissionManager::getSharedInstance()
 	return m_pInstance;
 }
 
-// 大小关卡的索引号都是从1开始的
+// ???????????1???
 bool PermissionManager::isStageAllowed(int bigIndex, int smallIndex)
 {
 	bool res = false;
@@ -25,7 +25,7 @@ bool PermissionManager::isStageAllowed(int bigIndex, int smallIndex)
 	int toSmall =  LoadIntegerFromXML(KEY_PLAYED_TO_SMALL, 1);
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    // 先检查是不是付费的
+    // ?????????
     bool bIsPurchased = LoadBooleanFromXML(KEY_PRO_UPGRADE_PURCHASED ,false);
     if(bigIndex >= LOCK_BEGIN_INDEX && !bIsPurchased)
     {

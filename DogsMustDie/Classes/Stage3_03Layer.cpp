@@ -59,3 +59,10 @@ void Stage3_03Layer::initLoadedAction()
 {
 	this->scheduleOnce(schedule_selector(Stage3_03Layer::attack1), 10);
 }
+
+
+void Stage3_03Layer::initLoadedAction(float dt)
+{	
+	initLoadedAction();
+	m_bIsAIStopped = true;
+}

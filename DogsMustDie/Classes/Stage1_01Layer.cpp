@@ -17,7 +17,8 @@ Stage1_01Layer::Stage1_01Layer() :
 	m_bAskedToClickSkillSpeedUp(false),
 	m_bAskedToClickSkillDown(false),
 	m_pDogPlanet2(NULL),
-	m_bAskedToFinalStrike(false)
+	m_bAskedToFinalStrike(false),
+	m_bAreadyDragToOccupy(false)
 {
 
 }
@@ -110,16 +111,23 @@ void Stage1_01Layer::guideDragToOccupy(float dt)
 		m_pGuideLabel->setString(I18N_STR("Stage1_1_Guide_2"));
 	}
 
-	if(!m_pFinger)
+	if(!m_bAreadyDragToOccupy)
 	{
-		setFinger(CCSprite::create("Finger.png"));
-		this->addChild(m_pFinger, kPannelLayerIndex);
+		if(!m_pFinger)
+		{
+			setFinger(CCSprite::create("Finger.png"));
+			this->addChild(m_pFinger, kPannelLayerIndex);
+		}
+		m_pFinger->setVisible(true);
+		m_pFinger->setPosition(ccp(215, 295));	
+		float xDistance = 540 - 190;
+		CCMoveBy* pMove = CCMoveBy::create(1.5, ccp(xDistance, 0));
+		m_pFinger->runAction(pMove);
 	}
-	m_pFinger->setVisible(true);
-	m_pFinger->setPosition(ccp(215, 295));	
-	float xDistance = 540 - 190;
-	CCMoveBy* pMove = CCMoveBy::create(1.5, ccp(xDistance, 0));
-	m_pFinger->runAction(pMove);
+	else
+	{
+		this->unschedule(schedule_selector(Stage1_01Layer::guideDragToOccupy));
+	}
 }
 
 void Stage1_01Layer::guideDragToStar(float dt)
@@ -198,6 +206,7 @@ void Stage1_01Layer::guideClickOnUpgrade()
 	CCMoveTo* pTo1 = CCMoveTo::create(0.4, ccp(651, 434));
 	CCMoveTo* pTo2 = CCMoveTo::create(0.4, ccp(666, 434));
 	CCSequence* pSeq = CCSequence::createWithTwoActions(pTo2, pTo1);
+	m_pSkillPrompt->stopAllActions();
 	m_pSkillPrompt->runAction(CCRepeatForever::create(pSeq));	
 
 	m_bAskedToClickSkillUpgrade = true;
@@ -224,6 +233,7 @@ void Stage1_01Layer::guideClickOnSpeedUp()
 	CCMoveTo* pTo1 = CCMoveTo::create(0.4, ccp(651, 349));
 	CCMoveTo* pTo2 = CCMoveTo::create(0.4, ccp(666, 349));
 	CCSequence* pSeq = CCSequence::createWithTwoActions(pTo2, pTo1);
+	m_pSkillPrompt->stopAllActions();
 	m_pSkillPrompt->runAction(CCRepeatForever::create(pSeq));	
 
 	m_bAskedToClickSkillSpeedUp = true;
@@ -253,6 +263,7 @@ void Stage1_01Layer::guideClickOnDown(float dt)
 	CCMoveTo* pTo1 = CCMoveTo::create(0.4, ccp(651, 264));
 	CCMoveTo* pTo2 = CCMoveTo::create(0.4, ccp(666, 264));
 	CCSequence* pSeq = CCSequence::createWithTwoActions(pTo2, pTo1);
+	m_pSkillPrompt->stopAllActions();
 	m_pSkillPrompt->runAction(CCRepeatForever::create(pSeq));	
 
 	m_bAskedToClickSkillDown = true;
@@ -328,6 +339,7 @@ void Stage1_01Layer::sendTroopsToPlanet(Planet* fromPlanet, Planet* toPlanet,  i
 	{
 		// 说明已经完成了drag动作
 		this->unschedule(schedule_selector(Stage1_01Layer::guideDragToOccupy));
+		m_bAreadyDragToOccupy = true;
 		if(m_pFinger)
 		{
 			m_pFinger->setVisible(false);			

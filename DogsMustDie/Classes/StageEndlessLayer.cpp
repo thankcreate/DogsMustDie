@@ -134,7 +134,7 @@ void StageEndlessLayer::initCatPlanetsWithRound(int round)
 		int fightUnit = 10;
 		CCPoint posi = getRandomPlanetPosition();
 		if(posi.x > 0 && posi.y > 0)
-		{
+		{			
 			Planet* cat = makePlanet(kForceSideCat, posi, fightUnit, 0);
 			m_pCatPlanetArray->addObject(cat);
 		}

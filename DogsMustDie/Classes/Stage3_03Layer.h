@@ -25,6 +25,7 @@ public:
 	void attack1(float dt);
 	void restoreAIUpdate(float dt);
 	void initLoadedAction();
+	void initLoadedAction(float dt);
 };
 
 #endif // Stage3_03Layer_h__

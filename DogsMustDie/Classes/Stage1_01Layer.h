@@ -62,6 +62,7 @@ private:
 	bool m_bAskedToClickSkillDown;
 	bool m_bAskedToFinalStrike;
 
+	bool m_bAreadyDragToOccupy;
 };
 
 #endif // Stage1_01Layer_h__

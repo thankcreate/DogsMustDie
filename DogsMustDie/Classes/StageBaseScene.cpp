@@ -240,9 +240,6 @@ int StageBaseScene::getScoreStartCount(int time , int unitLost)
 		return 3;
 }
 
-
-
-
 // gotoNext现在统一由BigLevel和SmallLevel来推断
 // 一般不由子类重写
 bool StageBaseScene::gotoNext()
