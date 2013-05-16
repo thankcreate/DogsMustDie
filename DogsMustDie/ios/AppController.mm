@@ -69,7 +69,8 @@ static AppDelegate s_sharedApplication;
     
     // Umeng
     [MobClick startWithAppkey:@"5188a07256240b7e12015db7"];
-    [MobClick setLogEnabled:YES];
+    //[MobClick setLogEnabled:YES];
+    [MobClick updateOnlineConfig];
     return YES;
 }
 

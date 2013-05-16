@@ -10,6 +10,7 @@
 #import "Defines.h"
 #import "AppController.h"
 #include "LocalizeManager.h"
+#import "MobClick.h"
 
 static IOSWrapper_objc * sharedInstance = nil;
 
@@ -78,6 +79,14 @@ static IOSWrapper_objc * sharedInstance = nil;
 {
     AppController* appController = (AppController*)[[UIApplication sharedApplication] delegate];
     [appController.viewController hideAd];
+}
+
+-(NSString*)getUmengParam:(NSString*)key
+{
+    NSString *nsRet = [MobClick getConfigParams:key];
+
+
+    return nsRet;
 }
 
 @end

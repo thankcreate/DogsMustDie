@@ -16,4 +16,6 @@
 -(void)showAd;
 -(void)hideAd;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+
+-(NSString*)getUmengParam:(NSString*)key;
 @end
